@@ -39,8 +39,12 @@ async function downloadImage(context) {
   if (fs.existsSync(context.tmpPath)) {
     fs.unlinkSync(context.tmpPath)
   }
-  console.log('downloadImage start')
-  let pipe = got.stream(context.item.ImgUrl).pipe(fs.createWriteStream(context.tmpPath))
+  console.log('downloadImage start: ' + context.item.ImgUrl)
+  let url = context.item.ImgUrl;
+  if (url.indexOf('http') < 0) {
+    url = 'http:' + url;
+  }
+  let pipe = got.stream(url).pipe(fs.createWriteStream(context.tmpPath))
   return new Promise((res, rej) => {
     pipe.on('finish', () => {
       console.log('downloadImage end')
@@ -272,11 +276,19 @@ async function fillText(context) {
   pix = ctx.measureText(lastPriceTxt);
   //券后价格
   ctx.font = '38px pingfang'
-  ctx.fillStyle = '#FE5406'
+  if (mallType == 2) {
+    ctx.fillStyle = '#FF5000'
+  } else if (mallType == 1) {
+    ctx.fillStyle = '#FF0036'
+  }
   ctx.fillText(lastPriceMoneyTxt, 170 + pix.width - 5, 1082)
 
   //券(图标)
-  drawRoundRect(ctx, 25, 1055, 35, 40, 5, '#FE5406', '#FE5406');
+  if (mallType == 2) {
+    drawRoundRect(ctx, 25, 1055, 35, 40, 5, '#FF5000', '#FF5000');
+  } else if (mallType == 1) {
+    drawRoundRect(ctx, 25, 1055, 35, 40, 5, '#FF0036', '#FF0036');
+  }
   ctx.font = '30px pingfang'
   ctx.fillStyle = '#fff'
   ctx.fillText('券', 28, 1082)
@@ -285,11 +297,15 @@ async function fillText(context) {
   pix = ctx.measureText(quan)
   drawRoundRect(ctx, 25, 1055, 35 + pix.width + 10, 40, 5);
   ctx.font = '30px pingfang'
-  ctx.fillStyle = '#FE5406'
+  if (mallType == 2) {
+    ctx.fillStyle = '#FF5000'
+  } else if (mallType == 1) {
+    ctx.fillStyle = '#FF0036'
+  }
   ctx.fillText(quan, 65, 1082)
 
   //25,850
-  if (mallType == 0) {
+  if (mallType == 2) {
     const strokeStyle = '#FF5000'
     const filleStyle = '#FF5000'
     //taobao FE5406
@@ -301,7 +317,7 @@ async function fillText(context) {
     drawRoundRect2(ctx, 490, 835, 750 - 490, 1085 - 825, 5, null, strokeStyle)
     ctx.font = 'bold 24px msyh'
     ctx.fillStyle = strokeStyle
-    ctx.fillText('长按识别二维码', 32, 874)
+    ctx.fillText('长按识别二维码', 535, 1095)
   } else if (mallType == 1) {
     const strokeStyle = '#FF0036'
     const filleStyle = '#FF0036'
@@ -343,9 +359,9 @@ async function draw(context) {
   //font.addFace('msyh', path.join(__dirname, 'msyh.ttf'))
   const canvas = new Canvas(800, 1144)
   const ctx = canvas.getContext('2d')
-  const tmpPath = context.tmpPath || path.join(__dirname, 'tmp.jpg')
+  const tmpPath = context.tmpPath || (context.item.hashid && path.join(__dirname + '/tmp/', context.item.hashid + ".jpg")) || path.join(__dirname, 'tmp.jpg')
   const templatePath = context.templatePath || path.join(__dirname, 'template.png')
-  const outputPath = context.outputPath || path.join(__dirname, 'output.jpg')
+  const outputPath = context.outputPath || (context.item.hashid && path.join(__dirname + '/output/', context.item.hashid + ".jpg")) || path.join(__dirname, 'output.jpg')
   //set ctx
   context.canvas = canvas
   context.ctx = ctx
@@ -359,8 +375,8 @@ async function draw(context) {
   await fillText(context)
   let filePath = await output(context)
   console.log('output png file : ' + filePath)
+  return filePath
 }
-
 (
   async () => {
     const context = {
@@ -392,6 +408,8 @@ async function draw(context) {
         CommssionType: 2
       }
     }
-    await draw(context)
+    //await draw(context)
   }
-)()
+)
+
+module.exports.draw = draw;

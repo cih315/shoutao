@@ -9,19 +9,18 @@ let api = 'http://api.xuandan.com/DataApi/index?AppKey=8ua248rlp0&page=1&cid=0';
 (async () => {
   const response = await got.get(api);
   let data = JSON.parse(response.body);
+  let url = ''
   if (data.total_num && data.total_num > 0) {
     for (i in data.data) {
       var item = data.data[i];
-      //console.log(item)
       console.log(`商品名称:${item.GoodsName} \r\n
       优惠面值:${item.ActMoney} \r\n
       券后价格:${item.LastPrice}\r\n
       优惠时间:${item.BeginDate} - ${item.EndDate}\r\n
       推荐理由:${item.TjRemark}`)
       console.log('============================')
+      url += item.GoodsLink + '|' + item.ActLink + '\r\n';
     }
-    console.log(data.data[0]);
-    let url = data.data[0].GoodsLink + '|' + data.data[0].ActLink;
     let marketImage = data.data[0].MarketImage;
     let tjRemark = data.data[0].TjRemark;
     await uland(url, pid, tjRemark, marketImage);
@@ -48,5 +47,5 @@ async function uland(url, pid, tklTitle = '老王券粉丝福利购', tklImg = '
   let json = JSON.parse(response.body)
   let data = json.data
 
-  
+
 }
