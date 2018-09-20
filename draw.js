@@ -78,7 +78,7 @@ async function output(context) {
     fs.unlinkSync(context.outputPath)
   }
   return new Promise((res, rej) => {
-    let pipe = context.canvas.createPNGStream().pipe(fs.createWriteStream(context.outputPath));
+    let pipe = context.canvas.createJPEGStream().pipe(fs.createWriteStream(context.outputPath));
     pipe.on('finish', () => {
       console.log('output finish')
       res(context.outputPath)
@@ -345,7 +345,7 @@ async function draw(context) {
   const ctx = canvas.getContext('2d')
   const tmpPath = context.tmpPath || path.join(__dirname, 'tmp.jpg')
   const templatePath = context.templatePath || path.join(__dirname, 'template.png')
-  const outputPath = context.outputPath || path.join(__dirname, 'output.png')
+  const outputPath = context.outputPath || path.join(__dirname, 'output.jpg')
   //set ctx
   context.canvas = canvas
   context.ctx = ctx
