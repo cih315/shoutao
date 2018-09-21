@@ -332,7 +332,7 @@ async function fillText(context) {
     ctx.fillStyle = strokeStyle
     ctx.fillText('长按识别二维码', 535, 1095)
   }
-  const qrUrl = context.item.GoodsLink
+  const qrUrl = context.item.uland
   let buffer = qr.imageSync(qrUrl, { type: 'png' })
   return new Promise((res, rej) => {
     let qrImg = new Canvas.Image()
@@ -355,13 +355,13 @@ async function fillText(context) {
  */
 async function draw(context) {
   //add font family
-  const font = new Canvas.Font('pingfang', path.join(__dirname, 'pingfang.ttf'))
+  const font = new Canvas.Font('pingfang', path.join(__dirname, '/font/pingfang.ttf'))
   //font.addFace('msyh', path.join(__dirname, 'msyh.ttf'))
   const canvas = new Canvas(800, 1144)
   const ctx = canvas.getContext('2d')
-  const tmpPath = context.tmpPath || (context.item.hashid && path.join(__dirname + '/tmp/', context.item.hashid + ".jpg")) || path.join(__dirname, 'tmp.jpg')
-  const templatePath = context.templatePath || path.join(__dirname, 'template.png')
-  const outputPath = context.outputPath || (context.item.hashid && path.join(__dirname + '/output/', context.item.hashid + ".jpg")) || path.join(__dirname, 'output.jpg')
+  const tmpPath = context.tmpPath || (context.item.hashid && path.join(__dirname + '/tmp/', context.item.hashid + ".jpg")) || path.join(__dirname, '/tmp/tmp.jpg')
+  const templatePath = context.templatePath || path.join(__dirname, '/template/template.png')
+  const outputPath = context.outputPath || (context.item.hashid && path.join(__dirname + '/output/', context.item.hashid + ".jpg")) || path.join(__dirname, '/output/output.jpg')
   //set ctx
   context.canvas = canvas
   context.ctx = ctx

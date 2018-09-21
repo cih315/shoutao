@@ -9,10 +9,21 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "babel-preset-env": "^1.7.0",
+    "babel-register": "^6.26.0",
     "canvas": "^1.6.12",
+    "chalk": "^2.4.1",
     "ejs": "^2.6.1",
     "got": "^9.2.2",
     "hashids": "^1.2.2",
+    "koa": "^2.5.3",
+    "koa-body": "^4.0.4",
+    "koa-bodyparser": "^4.2.1",
+    "koa-router": "^7.4.0",
+    "mongoose": "^5.2.16",
     "qr-image": "^3.2.0"
+  },
+  "devDependencies": {
+    "cross-env": "^5.2.0"
   }
 }
