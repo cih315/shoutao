@@ -68,7 +68,7 @@ async function loadItem() {
       }
     }
     console.log('job done: ' + num)
-
+    fs.writeFileSync(__dirname + "/tmp/data.json", JSON.stringify(dataList))
     let str = fs.readFileSync(__dirname + "/template/output.ejs", "utf8")
     let html = ejs.render(str, { list: dataList })
     fs.writeFileSync(__dirname + htmlFile, html, "utf-8")
