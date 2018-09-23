@@ -16,8 +16,8 @@ var api = 'http://api.xuandan.com/DataApi/index?AppKey=8ua248rlp0&page=1&cid=0&s
 //销量榜
 var api = 'http://api.xuandan.com/DataApi/Top100?appkey=8ua248rlp0&type=3'
 
-const date = '20180921'
-const prefix = '20180921-1'
+const date = '20180923'
+const prefix = '20180923-2'
 const htmlFile = '/output/' + prefix + '.html'
 
 async function loadItem() {

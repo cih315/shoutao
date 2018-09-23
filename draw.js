@@ -359,9 +359,14 @@ async function draw(context) {
   //font.addFace('msyh', path.join(__dirname, 'msyh.ttf'))
   const canvas = new Canvas(800, 1144)
   const ctx = canvas.getContext('2d')
-  const tmpPath = context.tmpPath || (context.item.hashid && path.join(__dirname + '/tmp/', context.item.hashid + ".jpg")) || path.join(__dirname, '/tmp/tmp.jpg')
-  const templatePath = context.templatePath || path.join(__dirname, '/template/template.png')
-  const outputPath = context.outputPath || (context.item.hashid && path.join(__dirname + '/output/', context.item.hashid + ".jpg")) || path.join(__dirname, '/output/output.jpg')
+  const tmpPath = context.tmpPath
+    || (context.item.hashid && path.join(__dirname + '/tmp/', context.item.hashid + ".jpg"))
+    || path.join(__dirname, '/tmp/tmp.jpg')
+  const templatePath = context.templatePath
+    || path.join(__dirname, '/template/template.png')
+  const outputPath = context.outputPath
+    || (context.item.hashid && path.join(__dirname + '/output/', context.item.hashid + ".jpg"))
+    || path.join(__dirname, '/output/output.jpg')
   //set ctx
   context.canvas = canvas
   context.ctx = ctx
