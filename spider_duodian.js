@@ -9,8 +9,8 @@ const h5coupon = require('./h5coupon')
 const pid = 'mm_14942785_97600036_18176850324';
 const session = '7000010072916787752d8075875798536fade1f44127420a49db9d443ca9e55488e37c1267987083';
 
-const date = '20180923'
-const prefix = '20180923-1'
+const date = '20180924'
+const prefix = '20180924-1'
 const htmlFile = '/duodian/' + prefix + '.html'
 
 async function getMpHtml(url) {
@@ -119,7 +119,7 @@ function prepare() {
         var ulands = []
         prepare()
         if (!fs.existsSync(__dirname + '/duodian/ulands.json')) {
-            let url = 'https://mp.weixin.qq.com/s/iE35niBeMllXe9F8JE_sxA'
+            let url = 'https://mp.weixin.qq.com/s/Rp_XZJOsO1fGuEQxSfbLFg'
             let array = await getMpHtml(url)
             console.log('download mp html with tkl size: ', array.length)
             let tkl_map = await tklParse(array)
