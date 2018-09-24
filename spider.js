@@ -16,21 +16,23 @@ var api = 'http://api.xuandan.com/DataApi/index?AppKey=8ua248rlp0&page=1&cid=0&s
 //销量榜
 var api = 'http://api.xuandan.com/DataApi/Top100?appkey=8ua248rlp0&type=3'
 
-const date = '20180923'
-const prefix = '20180923-2'
-const htmlFile = '/output/' + prefix + '.html'
+const date = '20180924'
+const prefix = date + '-1'
+const outputBase = __dirname + '/output/' + date + '/'
+const tmpBase = __dirname + '/tmp'
+const htmlFile = outputBase + prefix + '.html'
 
 async function loadItem() {
-
+  prepare()
   const response = await got.get(api);
   let data = JSON.parse(response.body);
   let url = []
   if (data.total_num && data.total_num > 0) {
     var dataList = data.data.slice(0, 100)
     var arr = [];
-    if (!fs.existsSync(__dirname + '/tmp/data.json')) {
+    var num = 0
+    if (!fs.existsSync(tmpBase + '/data.json')) {
       console.log('item count: ' + dataList.length)
-      var num = 0
       var marketImage = 'https://img.wificoin.ml/shoutao/tkl.jpg';
       marketImage = 'https://gw.alicdn.com/tfs/TB1c.wHdh6I8KJjy0FgXXXXzVXa-580-327.png';
       let tjRemark;
@@ -49,18 +51,22 @@ async function loadItem() {
       }
       console.log('uland total: ' + arr.length)
       num = 0;
-      fs.writeFileSync(__dirname + "/tmp/data.json", JSON.stringify(dataList))
-      fs.writeFileSync(__dirname + "/tmp/arr.json", JSON.stringify(arr))
+      fs.writeFileSync(tmpBase + "/data.json", JSON.stringify(dataList))
+      fs.writeFileSync(tmpBase + "/arr.json", JSON.stringify(arr))
     } else {
-      dataList = JSON.parse(fs.readFileSync(__dirname + '/tmp/data.json').toString('utf-8'))
-      arr = JSON.parse(fs.readFileSync(__dirname + '/tmp/arr.json').toString('utf-8'))
+      dataList = JSON.parse(fs.readFileSync(tmpBase + '/data.json').toString('utf-8'))
+      arr = JSON.parse(fs.readFileSync(tmpBase + '/arr.json').toString('utf-8'))
     }
+    num = 0
     for (i in dataList) {
       var item = dataList[i];
       if (arr[i]) {
         item.tkl = arr[i].tkl;
         item.uland = arr[i].ulandResult;
-        var filePath = await pic.draw({ item: item })
+        var outputPath = outputBase + item.hashid + '.jpg'
+        if (!fs.existsSync(outputPath)) {
+          var filePath = await pic.draw({ item: item, outputPath: outputPath })
+        }
         item.shoutao = 'https://img.wificoin.ml/shoutao/' + date + '/' + item.hashid + '.jpg'
         num++
         if (num % 3 == 0) {
@@ -69,11 +75,23 @@ async function loadItem() {
       }
     }
     console.log('job done: ' + num)
-    fs.writeFileSync(__dirname + "/tmp/data.json", JSON.stringify(dataList))
+    fs.writeFileSync(tmpBase + "/data.json", JSON.stringify(dataList))
     let str = fs.readFileSync(__dirname + "/template/output.ejs", "utf8")
     let html = ejs.render(str, { list: dataList })
-    fs.writeFileSync(__dirname + htmlFile, html, "utf-8")
+    fs.writeFileSync(htmlFile, html, "utf-8")
 
+  }
+}
+
+
+function prepare() {
+  var is_exist = fs.existsSync(outputBase)
+  if (!is_exist) {
+    fs.mkdirSync(outputBase)
+  }
+  var is_exist = fs.existsSync(tmpBase)
+  if (!is_exist) {
+    fs.mkdirSync(tmpBase)
   }
 }
 

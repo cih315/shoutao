@@ -88,7 +88,7 @@ async function output(context) {
       res(context.outputPath)
     })
     pipe.on('error', (err) => {
-      console.err(err)
+      console.error(err)
       rej(err)
     })
   })
@@ -212,6 +212,7 @@ async function fillText(context) {
   let txt = '';
   let line = 1;
   let idx = 0;
+  str = str.replace(/\ +/g, "").replace(/[ ]/g, "").replace(/[\r\n]/g, "")
   while (line <= 3) {
     if (line == 1) {
       idx = 0;
@@ -222,10 +223,10 @@ async function fillText(context) {
           break;
         }
       }
-      console.log(txt)
+      console.log(txt + ' line:' + line)
       ctx.fillText(txt, 110, 875)
       str = str.substring(idx - 1)
-      line = 2
+      line++
     } else if (line == 2) {
       idx = 0;
       while (idx < str.length) {
@@ -235,11 +236,11 @@ async function fillText(context) {
           break;
         }
       }
-      console.log(txt)
+      console.log(txt + ' line:' + line)
       ctx.fillText(txt, 25, 920)
       str = str.substring(idx - 1)
-      line = 3
-    } else {
+      line++
+    } else if (line == 3) {
       idx = 0;
       while (idx < str.length) {
         txt = str.substring(0, idx++)
@@ -248,10 +249,11 @@ async function fillText(context) {
           break;
         }
       }
-      console.log(txt)
+      console.log(txt + ' line:' + line)
       ctx.fillText(txt, 25, 965)
       str = str.substring(idx - 1)
-      line = 4
+      line++
+      break
     }
   }
 
