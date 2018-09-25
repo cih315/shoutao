@@ -2,6 +2,7 @@ const querystring = require('querystring');
 const got = require('got')
 const ejs = require('ejs')
 const fs = require("fs")
+const path = require('path')
 var Hashids = require('hashids');
 var hashids = new Hashids();
 const pic = require('./draw')
@@ -16,7 +17,7 @@ var api = 'http://api.xuandan.com/DataApi/index?AppKey=8ua248rlp0&page=1&cid=0&s
 //销量榜
 var api = 'http://api.xuandan.com/DataApi/Top100?appkey=8ua248rlp0&type=3'
 
-const date = '20180924'
+const date = '20180925'
 const prefix = date + '-1'
 const outputBase = __dirname + '/output/' + date + '/'
 const tmpBase = __dirname + '/tmp'
@@ -87,14 +88,19 @@ async function loadItem() {
 function prepare() {
   var is_exist = fs.existsSync(outputBase)
   if (!is_exist) {
-    fs.mkdirSync(outputBase)
+    mkdirs(outputBase)
   }
   var is_exist = fs.existsSync(tmpBase)
   if (!is_exist) {
-    fs.mkdirSync(tmpBase)
+    mkdirs(tmpBase)
   }
 }
-
+function mkdirs(dirpath) {
+  if (!fs.existsSync(path.dirname(dirpath))) {
+      mkdirs(path.dirname(dirpath));
+  }
+  fs.mkdirSync(dirpath);
+}
 function rand(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min)
 }
