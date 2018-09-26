@@ -6,6 +6,7 @@ const path = require('path')
 var Hashids = require('hashids');
 var hashids = new Hashids();
 const pic = require('./draw')
+const h5coupon = require('./h5coupon')
 const pid = 'mm_14942785_97600036_18176850324';
 const session = '7000010072916787752d8075875798536fade1f44127420a49db9d443ca9e55488e37c1267987083';
 //all
@@ -17,7 +18,7 @@ var api = 'http://api.xuandan.com/DataApi/index?AppKey=8ua248rlp0&page=1&cid=0&s
 //销量榜
 var api = 'http://api.xuandan.com/DataApi/Top100?appkey=8ua248rlp0&type=3'
 
-const date = '20180925'
+const date = '20180926'
 const prefix = date + '-1'
 const outputBase = __dirname + '/output/' + date + '/'
 const tmpBase = __dirname + '/tmp'
@@ -42,7 +43,7 @@ async function loadItem() {
         item.hashid = hashids.encode(item.GoodsId)
         url.push(item.GoodsLink + '|' + item.ActLink);
         num++;
-        if (num % 10 == 0) {
+        if (num % 40 == 0) {
           console.log('tmp uland request: ' + url.length)
           var tmp = await uland(url, pid, tjRemark, marketImage);
           console.log('tmp uland response: ' + tmp.length)
@@ -59,9 +60,14 @@ async function loadItem() {
       arr = JSON.parse(fs.readFileSync(tmpBase + '/arr.json').toString('utf-8'))
     }
     num = 0
+    var resultList = []
     for (i in dataList) {
       var item = dataList[i];
       if (arr[i]) {
+        if(arr[i].ulandCode!=0){
+          console.log(`item: ${i},tkl parse error: ${arr[i].ulandResult}`)
+          continue
+        }
         item.tkl = arr[i].tkl;
         item.uland = arr[i].ulandResult;
         var outputPath = outputBase + item.hashid + '.jpg'
@@ -69,16 +75,31 @@ async function loadItem() {
           var filePath = await pic.draw({ item: item, outputPath: outputPath })
         }
         item.shoutao = 'https://img.wificoin.ml/shoutao/' + date + '/' + item.hashid + '.jpg'
-        num++
-        if (num % 3 == 0) {
-          //await sleep(rand(1000, 3000))
+        var rt;
+        try {
+          rt = await h5coupon.fetch(item.uland + '&pid=' + pid)
+        } catch (e) {
+          console.log('============================')
+          console.log(item)
+          console.log('============================')
+          console.error(e)
         }
+        if (rt.data && rt.data.success) {
+          var coupon = rt.data.result
+          if (coupon && coupon.amount) {
+            resultList.push(item)
+            num++
+          } else {
+            console.log('item: ' + i + ',coupon invalid', coupon)
+          }
+        }
+
       }
     }
     console.log('job done: ' + num)
-    fs.writeFileSync(tmpBase + "/data.json", JSON.stringify(dataList))
+    fs.writeFileSync(tmpBase + "/data.json", JSON.stringify(resultList))
     let str = fs.readFileSync(__dirname + "/template/output.ejs", "utf8")
-    let html = ejs.render(str, { list: dataList })
+    let html = ejs.render(str, { list: resultList })
     fs.writeFileSync(htmlFile, html, "utf-8")
 
   }
@@ -97,7 +118,7 @@ function prepare() {
 }
 function mkdirs(dirpath) {
   if (!fs.existsSync(path.dirname(dirpath))) {
-      mkdirs(path.dirname(dirpath));
+    mkdirs(path.dirname(dirpath));
   }
   fs.mkdirSync(dirpath);
 }
