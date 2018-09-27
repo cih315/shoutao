@@ -18,7 +18,7 @@ var api = 'http://api.xuandan.com/DataApi/index?AppKey=8ua248rlp0&page=1&cid=0&s
 //销量榜
 var api = 'http://api.xuandan.com/DataApi/Top100?appkey=8ua248rlp0&type=3'
 
-const date = '20180926'
+const date = '20180927'
 const prefix = date + '-1'
 const outputBase = __dirname + '/output/' + date + '/'
 const tmpBase = __dirname + '/tmp'
@@ -51,6 +51,14 @@ async function loadItem() {
           url = []
         }
       }
+      if (url.length > 0) {
+        console.log('tmp uland request: ' + url.length)
+        var tmp = await uland(url, pid, tjRemark, marketImage);
+        console.log('tmp uland response: ' + tmp.length)
+        arr = arr.concat(tmp)
+        url = []
+      }
+
       console.log('uland total: ' + arr.length)
       num = 0;
       fs.writeFileSync(tmpBase + "/data.json", JSON.stringify(dataList))
@@ -64,7 +72,7 @@ async function loadItem() {
     for (i in dataList) {
       var item = dataList[i];
       if (arr[i]) {
-        if(arr[i].ulandCode!=0){
+        if (arr[i].ulandCode != 0) {
           console.log(`item: ${i},tkl parse error: ${arr[i].ulandResult}`)
           continue
         }
@@ -72,9 +80,14 @@ async function loadItem() {
         item.uland = arr[i].ulandResult;
         var outputPath = outputBase + item.hashid + '.jpg'
         if (!fs.existsSync(outputPath)) {
-          var filePath = await pic.draw({ item: item, outputPath: outputPath })
+          try {
+            var filePath = await pic.draw({ item: item, outputPath: outputPath })
+            item.shoutao = 'https://img.wificoin.ml/shoutao/' + date + '/' + item.hashid + '.jpg'
+          } catch (error) {
+            console.log(`${++i} draw error`)
+            continue
+          }
         }
-        item.shoutao = 'https://img.wificoin.ml/shoutao/' + date + '/' + item.hashid + '.jpg'
         var rt;
         try {
           rt = await h5coupon.fetch(item.uland + '&pid=' + pid)
@@ -90,13 +103,27 @@ async function loadItem() {
             resultList.push(item)
             num++
           } else {
-            console.log('item: ' + i + ',coupon invalid', coupon)
+            console.log('item: ' + i + ',coupon invalid')
           }
         }
 
       }
     }
     console.log('job done: ' + num)
+    var check = '花印旗舰店'
+    var t, x
+    for (var i in resultList) {
+      if (resultList[i].GoodsName.indexOf(check) >= 0) {
+        t = resultList[i]
+        x = i
+        break
+      }
+    }
+    if (t) {
+      resultList[x] = resultList[0]
+      resultList[0] = t
+    }
+
     fs.writeFileSync(tmpBase + "/data.json", JSON.stringify(resultList))
     let str = fs.readFileSync(__dirname + "/template/output.ejs", "utf8")
     let html = ejs.render(str, { list: resultList })

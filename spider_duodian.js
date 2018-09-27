@@ -10,7 +10,7 @@ const h5coupon = require('./h5coupon')
 const pid = 'mm_14942785_97600036_18176850324';
 const session = '7000010072916787752d8075875798536fade1f44127420a49db9d443ca9e55488e37c1267987083';
 
-const date = '20180924'
+const date = '20180927'
 const prefix = date + '-1'
 const outputBase = __dirname + '/dd/' + date + '/'
 const tmpBase = __dirname + '/tmp'
@@ -128,7 +128,7 @@ function mkdirs(dirpath) {
         var ulands = []
         prepare()
         if (!fs.existsSync(outputBase + '/ulands.json')) {
-            let url = 'https://mp.weixin.qq.com/s/Rp_XZJOsO1fGuEQxSfbLFg'
+            let url = 'https://mp.weixin.qq.com/s/aawHKL6_KIYoSsfHC1u21A'
             let array = await getMpHtml(url)
             console.log('download mp html with tkl size: ', array.length)
             let tkl_map = await tklParse(array)
@@ -221,18 +221,26 @@ function mkdirs(dirpath) {
         }
         console.log('parse duodian item success: ' + dataList.length)
         var num = 0
+        var resultList = []
         for (i in dataList) {
             var item = dataList[i];
             var outputPath = outputBase + item.hashid + '.jpg'
             if (!fs.existsSync(outputPath)) {
-                var filePath = await pic.draw({ item: item, outputPath: outputPath })
-                item.shoutao = 'https://img.wificoin.ml/shoutao/' + date + '/' + item.hashid + '.jpg'
+                try {
+                    var filePath = await pic.draw({ item: item, outputPath: outputPath })
+                    item.shoutao = 'https://img.wificoin.ml/shoutao/' + date + '/' + item.hashid + '.jpg'
+                    resultList.push(item)
+                    num++
+                } catch (e) {
+                    //console.error(e)
+                    console.log(`${++i} draw error`)
+                }
             }
-            num++
+
         }
         console.log('job done: ' + num)
         let str = fs.readFileSync(__dirname + "/template/output.ejs", "utf8")
-        let html = ejs.render(str, { list: dataList })
+        let html = ejs.render(str, { list: resultList })
         fs.writeFileSync(htmlFile, html, "utf-8")
     }
 )()

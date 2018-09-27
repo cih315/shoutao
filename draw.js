@@ -44,13 +44,21 @@ async function downloadImage(context) {
   if (url.indexOf('http') < 0) {
     url = 'http:' + url;
   }
-  let pipe = got.stream(url).pipe(fs.createWriteStream(context.tmpPath))
+  let pipe;
+  try {
+    console.log('1111')
+    pipe = got.stream(url).pipe(fs.createWriteStream(context.tmpPath))
+    console.log('2222')
+  } catch (e) {
+    console.error('errrorrrrrrr')
+  }
   return new Promise((res, rej) => {
     pipe.on('finish', () => {
       console.log('downloadImage end')
       res()
     })
     pipe.on('error', (err) => {
+      console.log("3333")
       rej(err)
     })
   })
@@ -63,6 +71,10 @@ async function fillImage(context) {
   return new Promise((res, rej) => {
     let img2 = new Canvas.Image()
     img2.onload = () => {
+      if (img2.width < 500) {
+        rej('img width < 500')
+        return
+      }
       context.ctx.drawImage(img2, 0, 0)
       res()
     }
