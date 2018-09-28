@@ -44,21 +44,16 @@ async function downloadImage(context) {
   if (url.indexOf('http') < 0) {
     url = 'http:' + url;
   }
-  let pipe;
-  try {
-    console.log('1111')
-    pipe = got.stream(url).pipe(fs.createWriteStream(context.tmpPath))
-    console.log('2222')
-  } catch (e) {
-    console.error('errrorrrrrrr')
-  }
   return new Promise((res, rej) => {
+    let pipe = got.stream(url).on('error', (err) => {
+      console.error(err)
+      rej(err)
+    }).pipe(fs.createWriteStream(context.tmpPath))
     pipe.on('finish', () => {
       console.log('downloadImage end')
       res()
     })
     pipe.on('error', (err) => {
-      console.log("3333")
       rej(err)
     })
   })
