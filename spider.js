@@ -18,9 +18,11 @@ var api = 'http://api.xuandan.com/DataApi/index?AppKey=8ua248rlp0&page=1&cid=0&s
 //销量榜
 var api = 'http://api.xuandan.com/DataApi/Top100?appkey=8ua248rlp0&type=3'
 
-const date = '20180927'
+const date = '20180929'
+const last = '20180928'
 const prefix = date + '-1'
 const outputBase = __dirname + '/output/' + date + '/'
+const last_output_base = __dirname + '/output/' + last + '/'
 const tmpBase = __dirname + '/tmp'
 const htmlFile = outputBase + prefix + '.html'
 
@@ -76,18 +78,23 @@ async function loadItem() {
           console.log(`item: ${i},tkl parse error: ${arr[i].ulandResult}`)
           continue
         }
+        if (fs.existsSync(last_output_path)) {
+          console.log(`${++i} id: ${item.hashid} exist`)
+          continue
+        }
         item.tkl = arr[i].tkl;
         item.uland = arr[i].ulandResult;
         var outputPath = outputBase + item.hashid + '.jpg'
+        var last_output_path = last_output_base + item.hashid + '.jpg'
         if (!fs.existsSync(outputPath)) {
           try {
             var filePath = await pic.draw({ item: item, outputPath: outputPath })
-            item.shoutao = 'https://img.wificoin.ml/shoutao/' + date + '/' + item.hashid + '.jpg'
           } catch (error) {
             console.log(`${++i} draw error`)
             continue
           }
         }
+        item.shoutao = 'https://img.wificoin.ml/shoutao/' + date + '/' + item.hashid + '.jpg'
         var rt;
         try {
           rt = await h5coupon.fetch(item.uland + '&pid=' + pid)
@@ -110,7 +117,7 @@ async function loadItem() {
       }
     }
     console.log('job done: ' + num)
-    var check = '花印旗舰店'
+    var check = '@nothing'
     var t, x
     for (var i in resultList) {
       if (resultList[i].GoodsName.indexOf(check) >= 0) {
