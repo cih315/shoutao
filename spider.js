@@ -18,8 +18,8 @@ var api = 'http://api.xuandan.com/DataApi/index?AppKey=8ua248rlp0&page=1&cid=0&s
 //销量榜
 var api = 'http://api.xuandan.com/DataApi/Top100?appkey=8ua248rlp0&type=3'
 
-const date = '20180929'
-const last = '20180928'
+const date = '20181007'
+const last = '20181006'
 const prefix = date + '-1'
 const outputBase = __dirname + '/output/' + date + '/'
 const last_output_base = __dirname + '/output/' + last + '/'
@@ -117,7 +117,7 @@ async function loadItem() {
       }
     }
     console.log('job done: ' + num)
-    var check = '@nothing'
+    var check = '情侣室内棉拖'
     var t, x
     for (var i in resultList) {
       if (resultList[i].GoodsName.indexOf(check) >= 0) {
