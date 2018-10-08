@@ -18,8 +18,8 @@ var api = 'http://api.xuandan.com/DataApi/index?AppKey=8ua248rlp0&page=1&cid=0&s
 //销量榜
 var api = 'http://api.xuandan.com/DataApi/Top100?appkey=8ua248rlp0&type=3'
 
-const date = '20181007'
-const last = '20181006'
+const date = '20181008'
+const last = '20181007'
 const prefix = date + '-1'
 const outputBase = __dirname + '/output/' + date + '/'
 const last_output_base = __dirname + '/output/' + last + '/'
@@ -78,14 +78,25 @@ async function loadItem() {
           console.log(`item: ${i},tkl parse error: ${arr[i].ulandResult}`)
           continue
         }
-        if (fs.existsSync(last_output_path)) {
-          console.log(`${++i} id: ${item.hashid} exist`)
-          continue
-        }
         item.tkl = arr[i].tkl;
         item.uland = arr[i].ulandResult;
         var outputPath = outputBase + item.hashid + '.jpg'
         var last_output_path = last_output_base + item.hashid + '.jpg'
+        if (fs.existsSync(last_output_path)) {
+          console.log(`${++i} id: ${item.hashid} exist`)
+          continue
+        }
+        item.shoutao = 'https://img.wificoin.ml/shoutao/' + date + '/' + item.hashid + '.jpg'
+        var last_img = 'https://img.wificoin.ml/shoutao/' + last + '/' + item.hashid + '.jpg'
+        try {
+          var res = await got.head(last_img)
+          if (res.statusCode == 200) {
+            console.log(`${++i} id: ${item.hashid} last img exist`)
+            continue
+          }
+        } catch (e) {
+          //console.log(e)
+        }
         if (!fs.existsSync(outputPath)) {
           try {
             var filePath = await pic.draw({ item: item, outputPath: outputPath })
@@ -94,7 +105,7 @@ async function loadItem() {
             continue
           }
         }
-        item.shoutao = 'https://img.wificoin.ml/shoutao/' + date + '/' + item.hashid + '.jpg'
+
         var rt;
         try {
           rt = await h5coupon.fetch(item.uland + '&pid=' + pid)
@@ -117,7 +128,7 @@ async function loadItem() {
       }
     }
     console.log('job done: ' + num)
-    var check = '情侣室内棉拖'
+    var check = '法兰绒毛毯'
     var t, x
     for (var i in resultList) {
       if (resultList[i].GoodsName.indexOf(check) >= 0) {
