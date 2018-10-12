@@ -18,8 +18,8 @@ var api = 'http://api.xuandan.com/DataApi/index?AppKey=8ua248rlp0&page=1&cid=0&s
 //销量榜
 var api = 'http://api.xuandan.com/DataApi/Top100?appkey=8ua248rlp0&type=3'
 
-const date = '20181008'
-const last = '20181007'
+const date = '20181011'
+const last = '20181010'
 const prefix = date + '-1'
 const outputBase = __dirname + '/output/' + date + '/'
 const last_output_base = __dirname + '/output/' + last + '/'
