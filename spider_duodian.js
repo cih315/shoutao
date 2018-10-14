@@ -10,7 +10,7 @@ const h5coupon = require('./h5coupon')
 const pid = 'mm_14942785_97600036_18176850324';
 const session = '7000010072916787752d8075875798536fade1f44127420a49db9d443ca9e55488e37c1267987083';
 
-const date = '20181013'
+const date = '20181014'
 const prefix = date + '-1'
 const outputBase = __dirname + '/dd/' + date + '/'
 const tmpBase = __dirname + '/tmp'
@@ -128,7 +128,7 @@ function mkdirs(dirpath) {
         var ulands = []
         prepare()
         if (!fs.existsSync(outputBase + '/ulands.json')) {
-            let url = 'https://mp.weixin.qq.com/s/ZAcX4cMFqVt9n8EWC5xIpQ'
+            let url = 'https://mp.weixin.qq.com/s/YKgO7lvRbI3qZP-zThfrjA'
             let array = await getMpHtml(url)
             console.log('download mp html with tkl size: ', array.length)
             let tkl_map = await tklParse(array)
