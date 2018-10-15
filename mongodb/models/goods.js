@@ -20,7 +20,9 @@ const GoodsSchema = new Schema({
   act_link: String,
   act_money: Number, //
   act_type: Number, //0:none 1:taoqianggou 2:juhuasuan
+  begin_date_str: String,
   begin_date: { type: Number, index: true }, //timestamp
+  end_date_str: String,
   end_date: { type: Number, index: true }, //timestamp
   seller_id: String,
   sale_count: Number,

@@ -79,7 +79,9 @@ async function xuandan(dataList) {
       act_link: e.ActLink,
       act_money: e.ActMoney,
       act_type: e.ActivityType, //0:none 1:taoqianggou 2:juhuasuan
+      begin_date_str: e.BeginDate,
       begin_date: new Date(e.BeginDate).valueOf(), //timestamp
+      end_date_str: e.EndDate,
       end_date: new Date(e.EndDate).valueOf(), //timestamp
       seller_id: e.SellerId,
       sale_count: e.SaleCount,
@@ -102,11 +104,9 @@ async function save(modelList) {
     let goods = await Goods.findOne({ hashid: m.hashid }).exec()
     if (goods) {
       //console.log(`index: ${i},item_id:${goods.item_id} is exist`)
-      m._id = goods._id
-      //await m.save()
-    } else {
-      await Goods.create(m)
+      await Goods.deleteOne({ _id: goods._id })
     }
+    await Goods.create(m)
   }
 }
 
@@ -124,7 +124,7 @@ async function sleep(time) {
     let dataList
     let modelList
     let page = 1
-    let end_page = 8
+    let end_page = 2
     let cid = 0
     do {
       dataList = await fetch(type, page++, cid)
