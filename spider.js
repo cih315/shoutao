@@ -14,15 +14,15 @@ var api = 'http://api.xuandan.com/DataApi/index?AppKey=8ua248rlp0&page=1&cid=0';
 //9.9
 var api = 'http://api.xuandan.com/DataApi/index?AppKey=8ua248rlp0&page=1&cid=0&Maxp=10&Minp=1'
 //大面额
-var api = 'http://api.xuandan.com/DataApi/index?AppKey=8ua248rlp0&page=1&cid=0&sort=2'
+//var api = 'http://api.xuandan.com/DataApi/index?AppKey=8ua248rlp0&page=1&cid=0&sort=2'
 //销量榜
-var api = 'http://api.xuandan.com/DataApi/Top100?appkey=8ua248rlp0&type=3'
+//var api = 'http://api.xuandan.com/DataApi/Top100?appkey=8ua248rlp0&type=3'
 
-const date = '20181011'
-const last = '20181010'
-const prefix = date + '-1'
+const date = '20181016'
+const last = '20181016'
+const prefix = date + '-3'
 const outputBase = __dirname + '/output/' + date + '/'
-const last_output_base = __dirname + '/output/' + last + '/'
+const last_output_base = __dirname + '/dd/' + date + '/'
 const tmpBase = __dirname + '/tmp'
 const htmlFile = outputBase + prefix + '.html'
 
@@ -86,9 +86,12 @@ async function loadItem() {
           console.log(`${++i} id: ${item.hashid} exist`)
           continue
         }
+
         item.shoutao = 'https://img.wificoin.ml/shoutao/' + date + '/' + item.hashid + '.jpg'
         var last_img = 'https://img.wificoin.ml/shoutao/' + last + '/' + item.hashid + '.jpg'
+        /*
         try {
+          console.log('check last img:' + last_img)
           var res = await got.head(last_img)
           if (res.statusCode == 200) {
             console.log(`${++i} id: ${item.hashid} last img exist`)
@@ -97,6 +100,7 @@ async function loadItem() {
         } catch (e) {
           //console.log(e)
         }
+        */
         if (!fs.existsSync(outputPath)) {
           try {
             var filePath = await pic.draw({ item: item, outputPath: outputPath })
