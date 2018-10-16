@@ -445,7 +445,7 @@ body{max-width:640px;margin:auto;}
         }
         $.ajax({
             type: 'post', //TODO 改成post
-            url: "http://api.chaozhi.hk/tb/ulandArray",
+            url: "https://api.chaozhi.hk/tb/ulandArray",
             data: {'urls':url, 'tklTitle': tklTitle, 'tklImg': tklImg, 'pid':pid,'platform':true,'isTkl':true,'session':session}
         }).done(function (res) {
             if (res.error_code == 0) {
