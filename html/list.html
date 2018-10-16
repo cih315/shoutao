@@ -1,0 +1,1588 @@
+<!doctype html>
+<html class="no-js">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
+  <link rel="shortcut icon" href="./assets/img/" type="image/x-icon" />
+  <title></title>
+  <link rel="stylesheet" type="text/css" href="//lib.baomitu.com/amazeui/2.7.2/css/amazeui.min.css" />
+  <link rel="stylesheet" type="text/css" href="./assets/css/app.css?t=14" />
+  <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_622367_a4tohrykg4n7y14i.css" />
+  <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_734628_0qcmhxvn2z5a.css" />
+  <script type="text/javascript" src="//lib.baomitu.com/jquery/2.2.4/jquery.min.js"></script>
+  <script type="text/javascript" src="//lib.baomitu.com/amazeui/2.7.2/js/amazeui.min.js"></script>
+  <script type="text/javascript" src="//lib.baomitu.com/clipboard.js/1.6.1/clipboard.min.js"></script>
+</head>
+<style>
+  .fq-search{position:fixed;right:10px;bottom:105px;z-index:99;width:40px;height:40px;background:#555;color:#fff}
+.fq-search span{line-height:40px}
+.fq-search:focus,.fq-search:hover{color:#fff}
+@media screen and (min-width:640px){.fq-search{margin-right:calc((100% - 640px)/ 2)}
+}
+</style>
+<!-- 联系客服 -->
+<div class="am-modal am-modal-no-btn" tabindex="-1" id="qrcode_large">
+  <div class="am-modal-dialog">
+    <div class="am-modal-hd">
+      <span class="am-text-sm">↓点击二维码长按关注↓</span>
+      <a href="javascript: void(0)" class="am-close" style="top: -5px; right: 0px;" data-am-modal-close>&times;</a>
+    </div>
+    <div class="am-g">
+      <figure data-am-widget="figure" class="am am-figure" data-am-figure="{pureview:'true'}">
+
+      </figure>
+      <div class="am-margin-bottom">建设中 敬请期待</div>
+    </div>
+  </div>
+</div>
+
+<body>
+  <div class="am-modal am-modal-alert" tabindex="-1" id="fq_alert">
+    <div class="am-modal-dialog">
+      <div class="am-modal-hd" id="fq_alert_title"></div>
+      <div class="am-modal-bd" id="fq_alert_info">
+      </div>
+      <div class="am-modal-footer">
+        <span class="am-modal-btn">确定</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="am-modal am-modal-confirm" tabindex="-1" id="fq_confirm">
+    <div class="am-modal-dialog">
+      <div class="am-modal-hd" id="fq_confirm_title"></div>
+      <div class="am-modal-bd" id="fq_confirm_info"></div>
+      <div class="am-modal-footer">
+        <span class="am-modal-btn" data-am-modal-confirm>确定</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="index-app-fixed">
+    <header class="am-padding-vertical-xs">
+      <!-- 自定义图标 -->
+      <a href="/index/index.html">
+        <i class="icon-shouye2 iconfont"></i>
+      </a>
+      <!-- 搜索栏 -->
+      <form onkeydown="if(event.keyCode==13){search();return false;}" class="am-form am-text-sm">
+        <input id="key" name="key" type="text" data-tb="" placeholder='寻找独家优惠' value="">
+
+        <i class="iconfont icon-fangdajing" onclick="search();"></i>
+      </form>
+      <!-- 联系客服 -->
+      <div class="index-app-service" data-am-modal="{target:'#qrcode_large'}">
+        <i class="icon-liaotiankefu iconfont"></i>
+        <div>客服</div>
+      </div>
+    </header>
+  </div>
+
+  <div class="index-app-relative" style="top:48px;">
+    <!-- 栏目排序筛选 -->
+
+    <ul class="am-avg-sm-4 column-sort am-text-sm am-text-center am-margin-bottom-xs">
+      <li class="am-padding-vertical-xs">
+        <a class="column-sort-active" href="/cat?cid=1&sort=2">
+          综合
+        </a>
+      </li>
+      <li class="am-padding-vertical-xs">
+        <a class="" href="/cat?cid=1&sort=4">
+          券后价
+        </a>
+      </li>
+      <li class="am-padding-vertical-xs">
+        <a class="" href="/cat?cid=1&sort=1">
+          销量
+        </a>
+      </li>
+      <li class="am-padding-vertical-xs">
+        <a class="" href="/cat?cid=1&sort=3">
+          超优惠
+        </a>
+      </li>
+    </ul>
+    <!-- 商品列表 -->
+    <div class="item_list">
+      <div class="am-text-center am-text-xs am-margin-bottom-xs am-margin-top-sm">
+        <img style="width:17px;" src="http://img.fqapps.com/Fn17i7PbU0JN8SuAzUru2gdNH9Wb-600" />
+        每日上新·好券不断
+      </div>
+      <ul class="index-goods-lists" id="goods_list" data-p="1">
+        <li class="tobuy" data-id="6978859" data-p="1">
+          <div class="goods-lists-goods">
+            <div class="img-box">
+              <img class="fq-goods-img fq-left" src="https://img.alicdn.com/imgextra/i1/3695689353/O1CN012Ixirr4ZtxCsJaw_!!3695689353.jpg_310x310.jpg" />
+            </div>
+            <div class="fq-goods-message tobuy" data-id="6978859">
+              <div class="fq-goods-title">
+                秋冬款圆领高领羊绒衫羊毛衫毛衣 </div>
+              <div class="fq-goods-money">
+                <div class="fq-goods-free">
+                  券后<text>￥39.00</text>
+                </div>
+                <div class="fq-goods-ticket">
+                  <text>券</text>
+                  <text>￥150</text>
+                </div>
+              </div>
+              <div class="fq-goods-money" style="border:none;padding-top:6px;">
+
+                <text class="fq-goods-sale">已售5464</text>
+                <text class="fq-goods-mark"><img src="http://img.fqapps.com/FiOqCid39BXPRU38KTwj9oG-vyKe-600" /></text>
+
+              </div>
+            </div>
+          </div>
+
+        </li>
+        <li class="tobuy" data-id="6959624" data-p="1">
+          <div class="goods-lists-goods">
+            <div class="img-box">
+              <img class="fq-goods-img fq-left" src="http://img.alicdn.com/imgextra/i3/3330078988/O1CN012GGYISNDmCuiJEy_!!3330078988.jpg_310x310.jpg" />
+            </div>
+            <div class="fq-goods-message tobuy" data-id="6959624">
+              <div class="fq-goods-title">
+                【新券】加厚-绣花显瘦针织衫毛衣 </div>
+              <div class="fq-goods-money">
+                <div class="fq-goods-free">
+                  券后<text>￥29.00</text>
+                </div>
+                <div class="fq-goods-ticket">
+                  <text>券</text>
+                  <text>￥10</text>
+                </div>
+              </div>
+              <div class="fq-goods-money" style="border:none;padding-top:6px;">
+
+                <text class="fq-goods-sale">已售46709</text>
+                <text class="fq-goods-mark"><img src="http://img.fqapps.com/FiOqCid39BXPRU38KTwj9oG-vyKe-600" /></text>
+
+              </div>
+            </div>
+          </div>
+
+        </li>
+        <li class="tobuy" data-id="6997310" data-p="1">
+          <div class="goods-lists-goods">
+            <div class="img-box">
+              <img class="fq-goods-img fq-left" src="https://img.alicdn.com/imgextra/i4/26798445/O1CN012CFrF4kqsEU7U5K_!!26798445.jpg_310x310.jpg" />
+            </div>
+            <div class="fq-goods-message tobuy" data-id="6997310">
+              <div class="fq-goods-title">
+                秋冬ins超火的网红卫衣男女刺绣草写大C潮牌连帽加绒加厚宽松外套 </div>
+              <div class="fq-goods-money">
+                <div class="fq-goods-free">
+                  券后<text>￥109.00</text>
+                </div>
+                <div class="fq-goods-ticket">
+                  <text>券</text>
+                  <text>￥60</text>
+                </div>
+              </div>
+              <div class="fq-goods-money" style="border:none;padding-top:6px;">
+
+                <text class="fq-goods-sale">已售4001</text>
+                <text class="fq-goods-mark"><img src="http://img.fqapps.com/FiOqCid39BXPRU38KTwj9oG-vyKe-600" /></text>
+
+              </div>
+            </div>
+          </div>
+
+        </li>
+        <li class="tobuy" data-id="6889023" data-p="1">
+          <div class="goods-lists-goods">
+            <div class="img-box">
+              <img class="fq-goods-img fq-left" src="https://img.alicdn.com/imgextra/i3/2049308489/TB2Wy0RmcrI8KJjy0FhXXbfnpXa_!!2049308489.jpg_310x310.jpg" />
+            </div>
+            <div class="fq-goods-message tobuy" data-id="6889023">
+              <div class="fq-goods-title">
+                打底裤女冬季新款韩版加绒小脚裤弹力靴裤百搭外穿紧身裤女裤大码 </div>
+              <div class="fq-goods-money">
+                <div class="fq-goods-free">
+                  券后<text>￥49.00</text>
+                </div>
+                <div class="fq-goods-ticket">
+                  <text>券</text>
+                  <text>￥40</text>
+                </div>
+              </div>
+              <div class="fq-goods-money" style="border:none;padding-top:6px;">
+
+                <text class="fq-goods-sale">已售1060</text>
+                <text class="fq-goods-mark"><img src="http://img.fqapps.com/FiOqCid39BXPRU38KTwj9oG-vyKe-600" /></text>
+
+              </div>
+            </div>
+          </div>
+
+        </li>
+        <li class="tobuy" data-id="6992224" data-p="1">
+          <div class="goods-lists-goods">
+            <div class="img-box">
+              <img class="fq-goods-img fq-left" src="http://img.alicdn.com/imgextra/i1/4134286831/TB20goIwsj_B1NjSZFHXXaDWpXa_!!4134286831.jpg_310x310.jpg" />
+            </div>
+            <div class="fq-goods-message tobuy" data-id="6992224">
+              <div class="fq-goods-title">
+                秋冬款圆领纯色毛衣打底衫 </div>
+              <div class="fq-goods-money">
+                <div class="fq-goods-free">
+                  券后<text>￥19.90</text>
+                </div>
+                <div class="fq-goods-ticket">
+                  <text>券</text>
+                  <text>￥100</text>
+                </div>
+              </div>
+              <div class="fq-goods-money" style="border:none;padding-top:6px;">
+
+                <text class="fq-goods-sale">已售1167</text>
+                <text class="fq-goods-mark"><img src="http://img.fqapps.com/FiOqCid39BXPRU38KTwj9oG-vyKe-600" /></text>
+
+              </div>
+            </div>
+          </div>
+
+        </li>
+        <li class="tobuy" data-id="6888849" data-p="1">
+          <div class="goods-lists-goods">
+            <div class="img-box">
+              <img class="fq-goods-img fq-left" src="https://img.alicdn.com/imgextra/i1/2049308489/TB26AxIcgHqK1RjSZFgXXa7JXXa_!!2049308489-0-item_pic.jpg_310x310.jpg" />
+            </div>
+            <div class="fq-goods-message tobuy" data-id="6888849">
+              <div class="fq-goods-title">
+                胖mm2018秋季新款T恤中袖中长款T恤娃娃领时尚宽松大码上衣女士潮 </div>
+              <div class="fq-goods-money">
+                <div class="fq-goods-free">
+                  券后<text>￥49.00</text>
+                </div>
+                <div class="fq-goods-ticket">
+                  <text>券</text>
+                  <text>￥40</text>
+                </div>
+              </div>
+              <div class="fq-goods-money" style="border:none;padding-top:6px;">
+
+                <text class="fq-goods-sale">已售1006</text>
+                <text class="fq-goods-mark"><img src="http://img.fqapps.com/FiOqCid39BXPRU38KTwj9oG-vyKe-600" /></text>
+
+              </div>
+            </div>
+          </div>
+
+        </li>
+        <li class="tobuy" data-id="6887154" data-p="1">
+          <div class="goods-lists-goods">
+            <div class="img-box">
+              <img class="fq-goods-img fq-left" src="https://img.alicdn.com/imgextra/i1/2049308489/TB20sKhcgHqK1RjSZFkXXX.WFXa_!!2049308489.jpg_310x310.jpg" />
+            </div>
+            <div class="fq-goods-message tobuy" data-id="6887154">
+              <div class="fq-goods-title">
+                2018秋季新款韩版雪纺衫女长袖休闲打底上衣韩范修身百搭白上衣潮 </div>
+              <div class="fq-goods-money">
+                <div class="fq-goods-free">
+                  券后<text>￥59.00</text>
+                </div>
+                <div class="fq-goods-ticket">
+                  <text>券</text>
+                  <text>￥40</text>
+                </div>
+              </div>
+              <div class="fq-goods-money" style="border:none;padding-top:6px;">
+
+                <text class="fq-goods-sale">已售1028</text>
+                <text class="fq-goods-mark"><img src="http://img.fqapps.com/FiOqCid39BXPRU38KTwj9oG-vyKe-600" /></text>
+
+              </div>
+            </div>
+          </div>
+
+        </li>
+        <li class="tobuy" data-id="6955653" data-p="1">
+          <div class="goods-lists-goods">
+            <div class="img-box">
+              <img class="fq-goods-img fq-left" src="http://img.alicdn.com/imgextra/i2/3793689567/O1CN012KXjcmUfLbDfgLp_!!3793689567.jpg_310x310.jpg" />
+            </div>
+            <div class="fq-goods-message tobuy" data-id="6955653">
+              <div class="fq-goods-title">
+                【39个款式】ins超火加绒卫衣 </div>
+              <div class="fq-goods-money">
+                <div class="fq-goods-free">
+                  券后<text>￥29.90</text>
+                </div>
+                <div class="fq-goods-ticket">
+                  <text>券</text>
+                  <text>￥20</text>
+                </div>
+              </div>
+              <div class="fq-goods-money" style="border:none;padding-top:6px;">
+
+                <text class="fq-goods-sale">已售7183</text>
+                <text class="fq-goods-mark"><img src="http://img.fqapps.com/FiOqCid39BXPRU38KTwj9oG-vyKe-600" /></text>
+
+              </div>
+            </div>
+          </div>
+
+        </li>
+        <li class="tobuy" data-id="6983330" data-p="1">
+          <div class="goods-lists-goods">
+            <div class="img-box">
+              <img class="fq-goods-img fq-left" src="https://img.alicdn.com/imgextra/i4/3964451368/O1CN011LyaHd32E5kRwqP_!!3964451368.jpg_310x310.jpg" />
+            </div>
+            <div class="fq-goods-message tobuy" data-id="6983330">
+              <div class="fq-goods-title">
+                【美国雁芬奇】男女童连帽羽绒服 </div>
+              <div class="fq-goods-money">
+                <div class="fq-goods-free">
+                  券后<text>￥68.00</text>
+                </div>
+                <div class="fq-goods-ticket">
+                  <text>券</text>
+                  <text>￥170</text>
+                </div>
+              </div>
+              <div class="fq-goods-money" style="border:none;padding-top:6px;">
+
+                <text class="fq-goods-sale">已售4036</text>
+                <text class="fq-goods-mark"><img src="http://img.fqapps.com/FiOqCid39BXPRU38KTwj9oG-vyKe-600" /></text>
+
+              </div>
+            </div>
+          </div>
+
+        </li>
+        <li class="tobuy" data-id="6934200" data-p="1">
+          <div class="goods-lists-goods">
+            <div class="img-box">
+              <img class="fq-goods-img fq-left" src="https://gd2.alicdn.com/imgextra/i2/2767480192/O1CN011DHyUxYuwlanyXK_!!2767480192.jpg_310x310.jpg" />
+            </div>
+            <div class="fq-goods-message tobuy" data-id="6934200">
+              <div class="fq-goods-title">
+                魔术黑色打底裤女裤外穿秋季2018新款夏薄款九分显瘦小脚铅笔韩版 </div>
+              <div class="fq-goods-money">
+                <div class="fq-goods-free">
+                  券后<text>￥38.00</text>
+                </div>
+                <div class="fq-goods-ticket">
+                  <text>券</text>
+                  <text>￥30</text>
+                </div>
+              </div>
+              <div class="fq-goods-money" style="border:none;padding-top:6px;">
+
+                <text class="fq-goods-sale">已售129165</text>
+                <text class="fq-goods-mark"><img src="http://img.fqapps.com/FiOqCid39BXPRU38KTwj9oG-vyKe-600" /></text>
+
+              </div>
+            </div>
+          </div>
+
+        </li>
+        <li class="tobuy" data-id="6979252" data-p="1">
+          <div class="goods-lists-goods">
+            <div class="img-box">
+              <img class="fq-goods-img fq-left" src="http://img.alicdn.com/imgextra/i4/2965852829/O1CN011WlivDtnI1YHjJv_!!2965852829.jpg_310x310.jpg" />
+            </div>
+            <div class="fq-goods-message tobuy" data-id="6979252">
+              <div class="fq-goods-title">
+                【帕兰朵】加绒加厚打底裤连裤袜女 </div>
+              <div class="fq-goods-money">
+                <div class="fq-goods-free">
+                  券后<text>￥29.80</text>
+                </div>
+                <div class="fq-goods-ticket">
+                  <text>券</text>
+                  <text>￥30</text>
+                </div>
+              </div>
+              <div class="fq-goods-money" style="border:none;padding-top:6px;">
+
+                <text class="fq-goods-sale">已售2372</text>
+                <text class="fq-goods-mark"><img src="http://img.fqapps.com/FiOqCid39BXPRU38KTwj9oG-vyKe-600" /></text>
+
+              </div>
+            </div>
+          </div>
+
+        </li>
+        <li class="tobuy" data-id="6995231" data-p="1">
+          <div class="goods-lists-goods">
+            <div class="img-box">
+              <img class="fq-goods-img fq-left" src="https://img.alicdn.com/imgextra/i3/1735759642/TB2a7fTE25TBuNjSspcXXbnGFXa_!!1735759642.jpg_310x310.jpg" />
+            </div>
+            <div class="fq-goods-message tobuy" data-id="6995231">
+              <div class="fq-goods-title">
+                【杨幂同款】九分魔术打底裤女 </div>
+              <div class="fq-goods-money">
+                <div class="fq-goods-free">
+                  券后<text>￥38.00</text>
+                </div>
+                <div class="fq-goods-ticket">
+                  <text>券</text>
+                  <text>￥30</text>
+                </div>
+              </div>
+              <div class="fq-goods-money" style="border:none;padding-top:6px;">
+
+                <text class="fq-goods-sale">已售160492</text>
+                <text class="fq-goods-mark"><img src="http://img.fqapps.com/FiOqCid39BXPRU38KTwj9oG-vyKe-600" /></text>
+
+              </div>
+            </div>
+          </div>
+
+        </li>
+        <li class="tobuy" data-id="6964079" data-p="1">
+          <div class="goods-lists-goods">
+            <div class="img-box">
+              <img class="fq-goods-img fq-left" src="https://gd2.alicdn.com/imgextra/i3/0/O1CN012GpMP2Q5rYQaiXe_!!0-item_pic.jpg_310x310.jpg" />
+            </div>
+            <div class="fq-goods-message tobuy" data-id="6964079">
+              <div class="fq-goods-title">
+                日版Channpion潮牌秋冬男女连帽卫衣刺绣宽松情侣款休闲运动衫 </div>
+              <div class="fq-goods-money">
+                <div class="fq-goods-free">
+                  券后<text>￥48.00</text>
+                </div>
+                <div class="fq-goods-ticket">
+                  <text>券</text>
+                  <text>￥210</text>
+                </div>
+              </div>
+              <div class="fq-goods-money" style="border:none;padding-top:6px;">
+
+                <text class="fq-goods-sale">已售142752</text>
+                <text class="fq-goods-mark"><img src="http://img.fqapps.com/FmwANr1_lNmPzTHdIzSen6QuuSOv-600" /></text>
+              </div>
+            </div>
+          </div>
+
+        </li>
+        <li class="tobuy" data-id="6976795" data-p="1">
+          <div class="goods-lists-goods">
+            <div class="img-box">
+              <img class="fq-goods-img fq-left" src="https://img.alicdn.com/bao/uploaded/i4/TB1ddH2LFXXXXaBXXXXXXXXXXXX_!!0-item_pic.jpg_310x310.jpg" />
+            </div>
+            <div class="fq-goods-message tobuy" data-id="6976795">
+              <div class="fq-goods-title">
+                韩版黑色打底裤女外穿春秋2018新款九分百搭显瘦薄款小脚铅笔裤冬 </div>
+              <div class="fq-goods-money">
+                <div class="fq-goods-free">
+                  券后<text>￥19.00</text>
+                </div>
+                <div class="fq-goods-ticket">
+                  <text>券</text>
+                  <text>￥10</text>
+                </div>
+              </div>
+              <div class="fq-goods-money" style="border:none;padding-top:6px;">
+
+                <text class="fq-goods-sale">已售24685</text>
+                <text class="fq-goods-mark"><img src="http://img.fqapps.com/FiOqCid39BXPRU38KTwj9oG-vyKe-600" /></text>
+
+              </div>
+            </div>
+          </div>
+
+        </li>
+        <li class="tobuy" data-id="6990340" data-p="1">
+          <div class="goods-lists-goods">
+            <div class="img-box">
+              <img class="fq-goods-img fq-left" src="http://img.alicdn.com/imgextra/i4/3489793595/TB2_PS.d63z9KJjy0FmXXXiwXXa_!!3489793595.jpg_310x310.jpg" />
+            </div>
+            <div class="fq-goods-message tobuy" data-id="6990340">
+              <div class="fq-goods-title">
+                新款韩版大码女装外套加绒卫衣 </div>
+              <div class="fq-goods-money">
+                <div class="fq-goods-free">
+                  券后<text>￥23.90</text>
+                </div>
+                <div class="fq-goods-ticket">
+                  <text>券</text>
+                  <text>￥5</text>
+                </div>
+              </div>
+              <div class="fq-goods-money" style="border:none;padding-top:6px;">
+
+                <text class="fq-goods-sale">已售71675</text>
+                <text class="fq-goods-mark"><img src="http://img.fqapps.com/FiOqCid39BXPRU38KTwj9oG-vyKe-600" /></text>
+
+              </div>
+            </div>
+          </div>
+
+        </li>
+        <li class="tobuy" data-id="6945456" data-p="1">
+          <div class="goods-lists-goods">
+            <div class="img-box">
+              <img class="fq-goods-img fq-left" src="http://img.alicdn.com/imgextra/i2/2176977612/TB2BWsuxnCWBKNjSZFtXXaC3FXa_!!2176977612.jpg_310x310.jpg" />
+            </div>
+            <div class="fq-goods-message tobuy" data-id="6945456">
+              <div class="fq-goods-title">
+                冲量大促半高领韩版毛衣女针织衫 </div>
+              <div class="fq-goods-money">
+                <div class="fq-goods-free">
+                  券后<text>￥19.90</text>
+                </div>
+                <div class="fq-goods-ticket">
+                  <text>券</text>
+                  <text>￥10</text>
+                </div>
+              </div>
+              <div class="fq-goods-money" style="border:none;padding-top:6px;">
+
+                <text class="fq-goods-sale">已售3932</text>
+                <text class="fq-goods-mark"><img src="http://img.fqapps.com/FiOqCid39BXPRU38KTwj9oG-vyKe-600" /></text>
+
+              </div>
+            </div>
+          </div>
+
+        </li>
+        <li class="tobuy" data-id="6959606" data-p="1">
+          <div class="goods-lists-goods">
+            <div class="img-box">
+              <img class="fq-goods-img fq-left" src="https://img.alicdn.com/imgextra/i2/2733728678/TB2yTZgoZUrBKNjSZPxXXX00pXa_!!2733728678.jpg_310x310.jpg" />
+            </div>
+            <div class="fq-goods-message tobuy" data-id="6959606">
+              <div class="fq-goods-title">
+                冬季加绒加厚打底裤女外穿绒保暖裤 </div>
+              <div class="fq-goods-money">
+                <div class="fq-goods-free">
+                  券后<text>￥39.00</text>
+                </div>
+                <div class="fq-goods-ticket">
+                  <text>券</text>
+                  <text>￥20</text>
+                </div>
+              </div>
+              <div class="fq-goods-money" style="border:none;padding-top:6px;">
+
+                <text class="fq-goods-sale">已售6427</text>
+                <text class="fq-goods-mark"><img src="http://img.fqapps.com/FiOqCid39BXPRU38KTwj9oG-vyKe-600" /></text>
+
+              </div>
+            </div>
+          </div>
+
+        </li>
+        <li class="tobuy" data-id="6990162" data-p="1">
+          <div class="goods-lists-goods">
+            <div class="img-box">
+              <img class="fq-goods-img fq-left" src="https://img.alicdn.com/imgextra/i1/1873675154/O1CN011nwZmI86LFOxRGl_!!1873675154.jpg_310x310.jpg" />
+            </div>
+            <div class="fq-goods-message tobuy" data-id="6990162">
+              <div class="fq-goods-title">
+                【聚划算】外穿打底裤仿牛仔裤 </div>
+              <div class="fq-goods-money">
+                <div class="fq-goods-free">
+                  券后<text>￥25.00</text>
+                </div>
+                <div class="fq-goods-ticket">
+                  <text>券</text>
+                  <text>￥3</text>
+                </div>
+              </div>
+              <div class="fq-goods-money" style="border:none;padding-top:6px;">
+
+                <text class="fq-goods-sale">已售80373</text>
+                <text class="fq-goods-mark"><img src="http://img.fqapps.com/FiOqCid39BXPRU38KTwj9oG-vyKe-600" /></text>
+
+              </div>
+            </div>
+          </div>
+
+        </li>
+        <li class="tobuy" data-id="6896967" data-p="1">
+          <div class="goods-lists-goods">
+            <div class="img-box">
+              <img class="fq-goods-img fq-left" src="https://img.alicdn.com/imgextra/i2/833125853/TB2M2JLr8jTBKNjSZFuXXb0HFXa_!!833125853.jpg_310x310.jpg" />
+            </div>
+            <div class="fq-goods-message tobuy" data-id="6896967">
+              <div class="fq-goods-title">
+                纯棉打底裤女裤袜秋裤薄款外穿棉裤秋冬加绒加厚内穿螺纹灰色秋季 </div>
+              <div class="fq-goods-money">
+                <div class="fq-goods-free">
+                  券后<text>￥26.90</text>
+                </div>
+                <div class="fq-goods-ticket">
+                  <text>券</text>
+                  <text>￥3</text>
+                </div>
+              </div>
+              <div class="fq-goods-money" style="border:none;padding-top:6px;">
+
+                <text class="fq-goods-sale">已售73691</text>
+                <text class="fq-goods-mark"><img src="http://img.fqapps.com/FiOqCid39BXPRU38KTwj9oG-vyKe-600" /></text>
+
+              </div>
+            </div>
+          </div>
+
+        </li>
+        <li class="tobuy" data-id="6982751" data-p="1">
+          <div class="goods-lists-goods">
+            <div class="img-box">
+              <img class="fq-goods-img fq-left" src="https://img.alicdn.com/imgextra/i4/2137074500/TB2LcVlaHaI.eBjSszdXXaB6XXa_!!2137074500.jpg_310x310.jpg" />
+            </div>
+            <div class="fq-goods-message tobuy" data-id="6982751">
+              <div class="fq-goods-title">
+                秋冬阔腿裤毛呢裤子萝卜裤哈伦裤女裤直筒九分裤韩版休闲裤黑宽松 </div>
+              <div class="fq-goods-money">
+                <div class="fq-goods-free">
+                  券后<text>￥49.90</text>
+                </div>
+                <div class="fq-goods-ticket">
+                  <text>券</text>
+                  <text>￥10</text>
+                </div>
+              </div>
+              <div class="fq-goods-money" style="border:none;padding-top:6px;">
+
+                <text class="fq-goods-sale">已售5373</text>
+                <text class="fq-goods-mark"><img src="http://img.fqapps.com/FiOqCid39BXPRU38KTwj9oG-vyKe-600" /></text>
+
+              </div>
+            </div>
+          </div>
+
+        </li>
+
+      </ul>
+
+    </div>
+    <div id="totalheight" alt="0"></div>
+    <div class='am-text-center am-margin-vertical-sm am-text-sm am-text-danger loading'></div>
+
+
+    <div class="am-text-xs am-text-center am-margin-vertical-sm">
+      ©版权所有
+    </div>
+  </div>
+
+  <!-- 返回顶部 -->
+  <img class="index-app-top" src="http://img.fqapps.com/FoiexnJt0jkizVpnPWJwfGjAysEM-600" />
+
+
+
+
+  <!--查找券-->
+  <!--查找券-->
+
+  <!-- 默认菜单 -->
+  <!-- <ul class="index-app-menu am-avg-sm-5">
+    <li>
+        <a class="index-app-active">
+            <i class="iconfont icon-home"></i>
+            首页
+        </a>
+        
+    </li>
+    <li>
+        <a>
+            <i class="iconfont icon-remind"></i>
+            快抢
+        </a>
+        
+    </li>
+    <li>
+        <a>
+            <i class="iconfont icon-goodsfavor"></i>
+            疯抢榜单
+        </a>
+        
+    </li>
+    <li>
+        <a>
+            <i class="iconfont icon-video"></i>
+            视频购物
+        </a>
+        
+    </li>
+    <li>
+        <a>
+            <i class="iconfont icon-list"></i>
+            超级分类
+        </a>
+        
+    </li>
+
+</ul> -->
+
+</body>
+
+</html>
+<style>
+  .am-gotop-fixed .am-gotop-icon {
+        line-height: 40px;
+    }
+    
+    .am-gotop-fixed {
+        width: 40px;
+        position: fixed;
+        display: none;
+        opacity: 0.9;
+        bottom: 60px;
+    }
+    
+    .fq-icon-play{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        left: calc((100% - 50px) / 2 );
+        top: calc((100% - 50px) / 2 );
+        width: 50px;
+        height: 50px;
+        color: white;
+        background:rgba(0, 0, 0, 0.4);
+        border:2px solid rgba(255, 255, 255, 0.5);
+    }
+
+    .am-icon-play:before{
+        position: relative;
+        left: 1px;
+        top:1px;
+    }
+
+    .fq-video .am-modal-dialog{
+        position: relative;
+        width: 70%;
+        display: inline-flex;
+        margin-bottom:-2px;
+        padding:0;
+    }
+
+    .fq-video-close{
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        right:-43px;
+        top: 0;
+        color: #555;
+        width: 40px;
+        height: 40px;
+        background: white;
+        opacity:1;
+        font-size: 24px;
+        padding-bottom:3px;
+    }
+
+    .fq-video-play{
+        margin-bottom:-10px;
+    }
+
+    .fq-float{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        left: 0;
+        top:0;
+        width: 100%;
+        height: 100%;
+        background:rgba(0,0,0,.3);
+        z-index: 9999;
+     }
+
+     .fq-huami{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        left: 0;
+        top:0;
+        width: 100%;
+        height: 100%;
+        background:rgba(0,0,0,.3);
+        z-index: 9999;
+     }
+     
+     .fq-nvwang{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        left: 0;
+        top:0;
+        width: 100%;
+        height: 100%;
+        background:rgba(0,0,0,.3);
+        z-index: 9999;
+     }
+
+    .fq-huami .am-close{
+        background: white;
+        color: #555;
+        position: absolute;
+        right:-42px;
+        top: 0;
+        width: 40px;
+        height: 40px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 1;
+
+    }
+
+    .fq-nvwang .am-close{
+        background: white;
+        color: #555;
+        position: absolute;
+        right:-42px;
+        top: 0;
+        width: 40px;
+        height: 40px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 1;
+
+    }
+
+     .fq-huami div:first-child{
+         position: relative;
+        width: 90%;
+        height: auto;
+        border-radius:5px;
+           background-color: #FFF;
+     }
+
+     .fq-nvwang div:first-child{
+         position: relative;
+        width: 90%;
+        height: auto;
+        border-radius:5px;
+           background-color: #FFF;
+     }
+
+     .fq-huamei-word{
+         position: relative;
+        border:1px dashed #ff5600;
+        color:#ff5600;
+        width: 80%;
+     }
+
+     .fq-nvwang-word{
+         position: relative;
+        border:1px dashed #ff5600;
+        color:#ff5600;
+        width: 80%;
+     }
+
+    .fq-huami-instructions {
+        background: #f3f3f3;
+        border-radius: 0 0 5px 5px;
+        color: #86564B;
+    }
+
+    .fq-nvwang-instructions {
+        background: #f3f3f3;
+        border-radius: 0 0 5px 5px;
+        color: #86564B;
+    }
+
+    .fq-huami-copy{
+        background:#599be1;
+        color:white;
+    }
+
+    .fq-nvwang-copy{
+        background:#599be1;
+        color:white;
+    }
+
+    .fq-huami-src{
+        background:#ff5600;
+        color:white;
+    }
+
+    .fq-nvwang-src{
+        background:#ff5600;
+        color:white;
+    }
+
+    .fq-huami-nowrap{
+        position: absolute;
+        top:-10px;
+        left:calc((100% - 150px) / 2);
+        width: 150px;
+        height: 20px;
+        background:#ff5600;
+    }
+
+    .fq-nvwang-nowrap{
+        position: absolute;
+        top:-10px;
+        left:calc((100% - 150px) / 2);
+        width: 150px;
+        height: 20px;
+        background:#ff5600;
+    }
+
+    .fq-huami-welfare{
+      position: absolute;
+      left: 0;
+      top: -15%;
+      width: 100%;
+    }
+
+    .fq-nvwang-welfare{
+    position: absolute;
+    left: 5%;
+    top: -45%;
+    width: 90%;
+    }
+
+    .copykey-android{
+        display: none;
+        border:0;
+        width:100%;
+        height: 50px;
+        text-align: center;
+        padding-top:5px;
+    }
+
+    .copykey-android1{
+        display: none;
+        border:0;
+        width:100%;
+        height: 30px;
+        text-align: center;
+        padding-top:5px;
+    }
+
+
+
+
+    .fq-huami2018{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        left: 0;
+        top:0;
+        width: 100%;
+        height: 100%;
+        background:rgba(0,0,0,.3);
+        z-index: 9999;
+     }
+
+
+
+
+
+
+    .agentianm-modal .am-modal-hd{
+        background: #F54D23;
+        color:white;
+        padding: 10px;
+        font-size: 16px;
+    }
+
+    .agentianm-modal .am-modal-hd .am-close{
+        font-size: 36px;
+        top: 8px;
+        right: 8px;
+        color: white;
+        font-weight: 100;
+        opacity: 1;
+    }
+
+    .fq-goods-border {
+        border: .1rem #f54d23 dashed;
+    }
+
+
+</style>
+
+<!-- 返回顶部 -->
+<div data-am-widget="gotop" class="am-gotop am-gotop-fixed">
+  <a class="fq-top">
+    <i class="am-gotop-icon am-icon-chevron-up am-round"></i>
+  </a>
+</div>
+
+<script>
+
+  $(".fq-video-close").click(function () {
+    $("#video_url").trigger("pause");  //关闭视频
+  });
+
+  $(".fq-icon-play").click(function () {
+    $("#video_url").load();
+  });
+</script>
+
+<script>
+  //平滑滚动回顶部
+  $('.main').on('scroll', function () {
+    $('.am-gotop-fixed').css('display', 'block');
+    if ($('.main').scrollTop() === 0) {
+      // 滚动到底部了
+      $('.am-gotop-fixed').css('display', 'none');
+    }
+  });
+
+  $('.fq-top').click(function () {
+    $('.main').animate({
+      scrollTop: $('.header-top').offset().top
+    }, 800);
+  });
+
+
+
+  $('.fq-confirm').click(function () {
+    $('.fq-lose').css('display', 'none');
+  });
+
+  $("#all_list").click(function () {
+    //激活状态
+    $("#fq-classify").addClass("active");
+    $("#all_list").attr("class", "am-block fq-classify active");
+    $("#all_list").css("color", "#f54d23");
+    $(".column_list a").removeClass("active");
+
+    //分类展示
+    $(".fq-type").slideToggle();
+
+  });
+
+  $("#fq_alllist").click(function () {
+    $("#fq_alllist").addClass("active");
+    $("#fq_alllist").attr("class", "am-block fq-classify");
+    $("#fq_alllist").css({ "color": "#f54d23", "border-bottom": ".3rem solid #f54d23" });
+    $(".column_list a").removeClass("active");
+    $(".fq-newtype").slideToggle();
+  });
+
+</script>
+
+<link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_833477_pk3i4pzjvgh.css">
+
+<style>
+  .menu{
+        position:fixed;
+        bottom:0;
+        background:#fff;
+        border-top:.1rem solid #F3E7E3;
+        z-index:999;
+        height: 40px;
+        width:100%;
+        max-width: 640px;
+        margin: auto;
+    }
+    .menu a {
+        display:flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color:#929292;
+        height: 40px;
+        line-height: 22px;
+    }
+    
+    .menu a .iconfont{
+        font-size: 16px;
+        line-height: 16px;
+        height: 18px;
+    }
+    
+    .menu .menu-active{
+        color:#FE8662;
+    }
+    
+    .menu a span{
+        line-height: 14px;
+        font-size: 10px;
+    }
+</style>
+
+<style>
+  .main{
+    bottom:0.5px;
+}
+</style>
+
+
+
+
+
+<style>
+  .main{
+            bottom:40px;
+        }
+    </style>
+<div class="menu">
+
+  <!-- 默认菜单 -->
+  <!-- index-app-menu -->
+  <ul class=" am-avg-sm-5">
+    <li>
+      <a href="/Index/index" class="menu-active">
+        <i class="iconfont icon-home"></i>
+        <span class="am-text-center">首页</span>
+      </a>
+
+    </li>
+
+    <li>
+      <a href="/Applist/index" class="">
+        <i class="iconfont icon-rebang"></i>
+        <span class="am-text-center">热榜</span>
+      </a>
+
+    </li>
+    <li>
+      <a href="/Quickly/index" class="">
+        <i class="iconfont icon-remind"></i>
+        <span class="am-text-center">快抢</span>
+      </a>
+
+    </li>
+    <li>
+      <a href="/Talent/index" class="">
+        <i class="iconfont icon-form"></i>
+        <span class="am-text-center">达人说</span>
+      </a>
+
+    </li>
+    <li>
+      <a href="/Assortment/index" class="">
+        <i class="iconfont icon-list"></i>
+        <span class="am-text-center">超级分类</span>
+      </a>
+
+    </li>
+
+  </ul>
+</div>
+
+
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    $(".icon-jiantouxia").click(function () {
+      $(".category-details-bg").toggle();
+    });
+  });
+
+  function search() {
+    var jump_where = "0";
+    console.log(jump_where);
+    if (jump_where == 1) {
+      window.location.href = "/supersearch/index/header_click/1";
+    } else {
+      var key_value = $('#key').val();
+      var key = key_value.replace("+", "%20");
+      window.location.href = "/index/index/sort/8/all_hide/1/key/" + key;
+    }
+
+    return false;
+  }
+
+  function show_20171111_popup(type) {
+    var banner_type = type;
+    if (banner_type == 1) {
+      $('.fq-huami').show();
+    } else {
+      $('.fq-nvwang').show();
+    }
+    var ua = navigator.userAgent.toLowerCase();
+    var isShow = 1;
+
+    if (ua.match(/iphone/i) == "iphone" || ua.match(/ipad/i) == "ipad") {
+      if (banner_type == 1) {
+        $('.fq-huami-nowrap').html("长按框内 > 拷贝");
+      } else {
+        $('.fq-nvwang-nowrap').html("长按框内 > 拷贝");
+      }
+    } else {
+      if (banner_type == 1) {
+        $("#copy_key_ios").hide();
+        $("#copy_key_android").show();
+      } else {
+        $("#copy_key_ios1").hide();
+        $("#copy_key_android1").show();
+      }
+    }
+
+    if (ua.match(/iphone/i) == "iphone") {
+      //获取iOS版本
+      var iphoneInfo = ua.match(/iphone os (\d{1,})/i);
+      var iosVersion = iphoneInfo[1];
+      //ipad或IOS10以上显示一键复制按钮
+      if (iosVersion >= 10) {
+        isShow = 1;
+      } else {
+        isShow = 0;
+      }
+    } else {
+      isShow = 1;
+    }
+
+    $(".fq-huami-close").click(function () {
+      $(".fq-huami").css("display", "none");
+      localStorage.setItem("superhongbaos", 1);
+    })
+
+    $(".fq-nvwang-close").click(function () {
+      $(".fq-nvwang").css("display", "none");
+    })
+
+    if (isShow == 1) {
+      if (banner_type == 1) {
+        var clipboard = new Clipboard('.fq-huami-copy', {
+          //动态设置复制内容
+          text: function (trigger) {
+            return trigger.getAttribute('data-words');
+          }
+        });
+      } else {
+        var clipboard = new Clipboard('.fq-nvwang-copy', {
+          //动态设置复制内容
+          text: function (trigger) {
+            return trigger.getAttribute('data-words');
+          }
+        });
+      }
+
+      clipboard.on('success', function (e) {
+        if (e.trigger.disabled == false || e.trigger.disabled == undefined) {
+          e.trigger.innerHTML = "已复制";
+          e.trigger.style.backgroundColor = "#9ED29E";
+          e.trigger.style.borderColor = "#9ED29E";
+          e.clearSelection();
+          e.trigger.disabled = true;
+          //2秒后按钮恢复原状
+          setTimeout(function () {
+            e.trigger.innerHTML = "一键复制";
+            e.trigger.style.backgroundColor = "#599be1";
+            e.trigger.style.borderColor = "#599be1";
+            e.trigger.style.color = "#FFFFFF";
+            e.trigger.disabled = false;
+          }, 2000);
+        }
+      });
+
+      clipboard.on('error', function (e) {
+        e.trigger.innerHTML = "复制失败";
+        e.trigger.style.backgroundColor = "#8f8f8f";
+        e.trigger.style.borderColor = "#8f8f8f";
+      });
+    }
+
+    var image = $(this).attr('data-image');
+
+    var activity_pname = '';
+    var cache_pame = window.localStorage.getItem('adzone_pname') || '';
+    if (cache_pame && cache_pame != 'no') {
+      activity_pname = cache_pame;
+    } else {
+      activity_pname = "14942785-97600036-44588750159";
+    }
+    if (activity_pname) {
+
+      $.ajax({
+        url: '/Index/api_index_activity_words.html',
+        type: 'POST',
+        data: { "pname": activity_pname, 'type': banner_type }
+      }).done(function (res) {
+        if (res.status == 1) {
+          if (banner_type == 1) {
+            $('.js_tip_hide').show();
+            if (isShow == 1) {
+              $('.fq-huami-copy').removeClass('am-hide').attr('data-words', res.info);
+            }
+            $('#copy_key_ios').text(res.info);
+            var result = res.info;
+            $('#copy_key_android').val(result);
+            console.log(res.info)
+          } else {
+            $('.js_tip_hide1').show();
+            if (isShow == 1) {
+              $('.fq-nvwang-copy').removeClass('am-hide').attr('data-words', res.info);
+            }
+            $('#copy_key_ios1').text(res.info);
+            var result = res.info;
+            $('#copy_key_android1').val(result);
+          }
+        }
+      })
+    }
+  }
+
+  $(function () {
+
+    var huamei2015 = localStorage.getItem("daoxiangcun0828");
+    if (huamei2015 == null) {
+      if ("1" == 1) {
+        // $(".fq-huami2018").show();
+      }
+    }
+    $(".fq-huami2018-pic").click(function () {
+      localStorage.setItem("daoxiangcun0828", 1);
+      var huamei2015 = localStorage.getItem("daoxiangcun0828");
+      if (huamei2015 == 1) {
+        own_src = "http://" + location.hostname + "/index/details/id/6219678";
+        window.location.href = own_src;
+      }
+    })
+    $(".fq-huami2018-close").click(function () {
+      $(".fq-huami2018").css("display", "none");
+      localStorage.setItem("daoxiangcun0828", 1);
+    })
+
+
+    $(".own_src").click(function () {
+
+      var own_src = $(this).attr('data-src');
+      if (own_src == "https://www.chunjielaxin.com") {
+        show_20171111_popup(1);
+      } else if (own_src == "http://www.tianmao99.com") {
+        show_20171111_popup(2);
+      } else if (own_src == "http://www.daoxiangcunyugao.com") {
+        $('#doc-modal-1').modal();
+      } else if (own_src == "http://www.daoxiangcun.com") {
+        own_src = "http://" + location.hostname + "/index/details/id/6219678";
+        window.location.href = own_src;
+      } else if (own_src == "http://www.baodan.com") {
+        own_src = "http://" + location.hostname + "/index/index/all_hide/1/baodan/1.html";
+        window.location.href = own_src;
+      } else if (own_src == "http://www.miandan.com") {
+        own_src = "http://" + location.hostname + "/index/miandan/all_hide/1.html";
+        window.location.href = own_src;
+      } else if (own_src == "http://www.618pintuan.com") {
+        window.location.href = '/index/cms_jhs';
+      } else if (own_src == "http://www.huamei0822.com") {
+        own_src = "http://" + location.hostname + "/index/details/id/6135802";
+        window.location.href = own_src;
+      } else {
+        own_src = own_src;
+        window.location.href = own_src;
+      }
+
+    })
+
+    function regain() {
+      var kouling_value = document.getElementById("copy_key_android").getAttribute('data-words');
+      document.getElementById('copy_key_android').value = kouling_value;
+    }
+
+    document.addEventListener("selectionchange", function (e) {
+      if (window.getSelection().anchorNode != null) {
+        if (window.getSelection().anchorNode.parentNode.id == 'copy_key_ios' && document.getElementById('copy_key_ios').innerText != window.getSelection()) {
+          var key = document.getElementById('copy_key_ios');
+          window.getSelection().selectAllChildren(key);
+        }
+      }
+    }, false);
+
+
+    function regain1() {
+      var kouling_value = document.getElementById("copy_key_android1").getAttribute('data-words');
+      document.getElementById('copy_key_android1').value = kouling_value;
+    }
+
+    document.addEventListener("selectionchange", function (e) {
+      if (window.getSelection().anchorNode != null) {
+        if (window.getSelection().anchorNode.parentNode.id == 'copy_key_ios1' && document.getElementById('copy_key_ios1').innerText != window.getSelection()) {
+          var key = document.getElementById('copy_key_ios1');
+          window.getSelection().selectAllChildren(key);
+        }
+      }
+    }, false);
+  })
+
+</script>
+
+<script>
+  //自动加载
+  var is_page = '1';
+  var isloading = true;//控制自动加载参数 默认允许加载
+  var windowHeight = 0, docHeight = 0, y = 0;
+
+  $(window).scroll(function () {
+    if (is_page == 0) {
+      return;
+    }
+    windowHeight = $(this).height();
+    docHeight = $(document).height();
+    y = $(this).scrollTop();
+    if (docHeight - windowHeight - y < 100 && isloading) {
+      isloading = false;
+
+      var p = parseInt($('#goods_list').attr('data-p')) + 1;
+      var url = '/index/index/index_app/1/all_hide/1/p/' + p;
+      url += '' != '' ? '/key/' : '';
+      url += '1' != '' ? '/cat/1' : '';
+      url += '' != '' ? '/banner_source/' : '';
+      url += '' != '' ? '/banner_id/' : '';
+      url += '8' != '' ? '/sort/8' : '';
+      url += '' != '' ? '/p_cat/' : '';
+
+      $(".loading").html('<span class="am-text-sm am-text-success"><i class="am-icon-spinner am-icon-pulse am-margin-right-xs"></i>正在加载第' + p + '页，请稍候。 </span>');
+
+      $.ajax({
+        url: url,
+        type: 'GET'
+      }).done(function (res) {
+        var list_len = res.list.length;
+        $('#goods_list').append(goodsInfo(res.list, list_len)).attr('data-p', p);
+        $('#page').html(res.page);
+        if (list_len < 20) {
+          $(".loading").html('<span class="am-text-sm am-text-success">已加载至最后一页</span>');
+        } else {
+          isloading = true;
+        }
+      }).fail(function () {
+        isloading = true;
+      });
+    }
+
+    $('.index-app-top').css('display', 'block');
+    if ($(window).scrollTop() === 0) {
+      // 滚动到顶部了
+      $('.index-app-top').css('display', 'none')
+    }
+
+  });
+
+  /* 返回顶部 */
+  $('.index-app-top').click(function () {
+    $('html,body').animate({ scrollTop: 0 }, 800);
+  })
+
+  function goodsInfo(goods, len) {
+    var html = '';
+
+    for (var i = 0; i < len; i++) {
+      if ("" == 3) {
+        html += '<li>';
+      } else {
+
+        html += '<li class="tobuy"  data-id="' + goods[i]['id'] + '">';
+      }
+
+      html += '<div class="goods-lists-goods">';
+      html += '<div class="img-box">';
+      html += '<img src="';
+      html += goods[i]['image'].indexOf('_310x310.jpg') == -1 ? goods[i]['image'] + '_310x310.jpg"' : goods[i]['image'] + '"';
+      html += ' class="fq-goods-img fq-left">';
+      if ("" == 3) {
+        html += '<a class="fq-icon-play am-padding-xs am-round am-icon-play click_video" data-vid="' + goods[i]['videoid'] + '"></a>';
+      }
+
+
+      html += '</div>';
+      html += '<div class="fq-goods-message tobuy"  data-id="' + goods[i]['id'] + '">';
+      html += '<div class="fq-goods-title">' + goods[i]['title'] + '</div>';
+
+      html += '<div class="fq-goods-money">';
+      html += '<div class="fq-goods-free">券后<text>￥' + goods[i]['end_price'] + '</text></div>';
+      html += '<div class="fq-goods-ticket"><text>券</text><text>￥' + goods[i]['coupons'] + '</text></div>';
+      html += '</div>';
+
+      html += '<div class="fq-goods-money" style="border:none;padding-top:6px;">';
+      html += '<text class="fq-goods-sale">已售' + goods[i]['sales'] + '</text>';
+      if (goods[i]['bc_type'] == 'B') {
+        html += '<text class="fq-goods-mark"><img src="http://img.fqapps.com/FiOqCid39BXPRU38KTwj9oG-vyKe-600" /></text>';
+      } else {
+        html += '<text class="fq-goods-mark"><img src="http://img.fqapps.com/FmwANr1_lNmPzTHdIzSen6QuuSOv-600" /></text>';
+      }
+      html += '</div>';
+
+      html += '</div>';
+      html += '</div>';
+      html += '</li>';
+    }
+    return html;
+  }
+
+
+</script>
+<script>
+  if (window.history.state) {
+    var state = window.history.state
+    $('#goods_list').html(state.goods).attr('data-p', state.p);
+  }
+
+  function setState() {
+    var data = {
+      url: window.location.href,
+      p: $('#goods_list').attr('data-p'),
+      goods: $('#goods_list').html()
+    };
+
+    if (window.history.state) {
+      window.history.replaceState(data, '', window.location.href);
+    } else {
+      window.history.pushState(data, '', window.location.href);
+    }
+  }
+
+  $(document).on('click', '.tobuy', function () {
+    setState();
+    var url = '/index/details/index_app/1/all_hide/1/id/' + $(this).attr('data-id');
+    url += '1' != '' ? '/cat/1' : '';
+    url += '' != '' ? '/key/' : '';
+    url += '' != '' ? '/banner_source/' : '';
+    url += '' != '' ? '/banner_id/' : '';
+    url += '8' != '' ? '/sort/8' : '';
+    url += '' != '' ? '/push_type/' : '';
+    url += '' != '' ? '/p_cat/' : '';
+    url += '.html';
+    window.location.href = url;
+  });
+
+  $('#page a').click(function (e) {
+    e.preventDefault();
+    setState();
+    window.location.href = $(this).attr('href');
+  });
+</script>
+
+<!-- 虚拟消息框 -->
+
+
+
+<script>
+
+  $(".fq-video-close").click(function () {
+    $("#video_url").trigger("pause");  //关闭视频
+  });
+
+  $(".fq-icon-play").click(function () {
+    $("#video_url").load();
+  });
+</script>
+
+
+<div class="am-hide"></div>
+<div class="am-hide">
+  <script src="//s4.cnzz.com/z_stat.php?id=1259014359&web_id=1259014359" language="JavaScript"></script>
+</div>
+<div style="display:none;">BKEx78wFHHpZCnSIrwqJEdd1pqhgN7S5x3TVPAQ2FTbP6gnRlgoWGlDWNa5ril1RF26Z4K9Ly2RmzxThs12JKpcFALOO9le93OQxAUGdyj3bXIMR7HGxVhN8DworDdVGtjU9kcv2yTsQUafcYYUgP0yLqIewSBkamNm3DMMNzks5sdSVBLgNnNFzFBjmW9z8li6kV6LuEZhgBHE54UOnxpyQEi9CBIPlPfdu6o7ed7NXIDmj3AKbJeUNEmd8ly67vZJ52bnTzjLQizc1UFSDLggOHGlzPAW9soxWRTxGdtX2YRbgM9GpCOaCHyQStZ4voZSfcM0nvBcwlc36vFLuRL529UrR1KjN8TLqiPC0GmTDtNIv8NoJLOZDrfh7KkfhI25gxkUd6tBIqMfcaN3x74AwWr5KdrEaznGsthSY9opqemFuuTnIqiND8pJeaGieQmkmzciMlPHWVDHAzwGWRg38UmpdQUWvH2zDsMs4Y8zgjQABnqiKRJOxHcTMLRpgcZKYu4U09nSVvScTsFn1jou5OA7FCVswDeZoYZaVhFBNgu6Ykl9QYodZH1NwtRTkunhsPXdbuAmnIkJNoOCpT304QROCI5iZyXGJ6KbOAysMbtGh0SPnXA4VUSM8wbY9VoRWY11cM05keubmeDQZ4yf3u8UkCt3qjQ2ePPVqXMNi7a98FNASFqYEGli8BUmJHeBqVYUxBSHbvp8MU4a01KdfOqC0T9ONc8Yc1ZS5F5tPS1u5so8h7g8JOQqpHN8fWjaU4z0oyXL9YWrqd5lJZnkow6ry0xgLELg99LF91ueX9PdyG3JcHHqEx7Griroasztq2USezTbQWAXtqss0QvUyWCI3rcBJM4oD8Avy9JMfwXSEXfPu7vSIL4wRyV8DymWcO3nQ1Ik5FOoSjsuf4Z3iv1IezkPtLAFZWOfKwgMVYQF0S9abPWaxTXpHYpuwkk7vGqXeCOCOFv1Qj76aNch8uHcam6SlKkcUVtmXCFifkgd9BwbgyI0mrNB1CzpyNQOHcVpt9VWxivvuoaHkP1oYNTQ5PbaHNA7wZw5lCnmu5DWaaevlVWNDF4cWETlqjPqS86v4EkX12Uro2SOxc6zr29b0qkHLIRXFZtWFDwNO8JINCvkpusSec3Hdcn0xzRJhSaVoctVfU0dNM1JZJhlgpQLYBmXQTr5dgKi65IKmMjYSoDYM0QWMuOHAZDmr5oZDmnrzSTxzHsxpPP4pQJfwAD7dRAmj4JnG3w0IHK5hSCCnKtRYEPVxOmto8lChaWdbOdWbmsbdR5teqwCABaEXasKBqpbwh6AaVtmQXSmYnzCjNZxifxWj2Eq9Y8Lg1JqF6iEuZarr0CJzcbky5taxEp5ULQrND1xIIepeA1gXUJruNxEWFGcMypDzM8KfndVfM8W7Sqj9hf15GNpF86OEorY8xaiXGJ1532rhFTQZKJNyYCun32Tq7GEGxtYIyH1McL1TgKOcW6plZYqQLJw4vfXegqc2IccFj3JihiibcQ8LPHgbNVuq5m9aRt4gGFd8sRMdHqbnv1dgXjDMxeKsJi1sZ2amxc1FXJ6yKSUJiuNXrxvo7qKOmMyayVWY7BgsQKoAApol0W8pces7ZbpI5w4rFoUgnZQApZe8Qz2AaqzH71PZnfaJdrpxEryRftZLZxHRg9ytpRdzR73Eds5xQ4QLpKzJHSCJi3JrTB2XVxB3UsbRGYZO9XlpUx5OWVK4SCEcR07ddJE15q7u7gI2omxXFqs9tpcSRx1fM8mNnSv2jCsP2e7qNyvhGNfks6gCwviYXspSl3cyDldCsANkr0RXLLB1DYNq30AmMhsN4nNcUYjTeLn5UOWgdhFjTH2V7MiyW8DkHpNqdXBcOZSBvEShwSwmPB5lQSGDfHBXDNZ0n18yA4n6AyTHF5MCU4XKtpe3gq8rZ6nQTpoXVxwptdn2tB8Rcy72P9aDJ3WHV6eOIFH9YeloKI3g1E1SunRXHOEKuuYJTrFk</div>
+
+<script>
+  $('.item_list').on('click', '.click_video', function () {
+    $('#fq-video').modal();
+    var vid = $(this).attr('data-vid');
+    if (vid > 0) {
+      var a = 'http://cloud.video.t';
+      var b = 'aobao.co';
+      var src = a + b + 'm/play/u/1/p/1/e/6/t/1/' + vid + '.mp4';
+      $('#video_url').attr('src', src);
+    }
+  })
+
+</script>
+</body>
+
+</html>

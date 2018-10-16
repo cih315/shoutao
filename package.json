@@ -21,6 +21,7 @@
     "koa-body": "^4.0.4",
     "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",
+    "koa-static": "^5.0.0",
     "mongoose": "^5.2.16",
     "qr-image": "^3.2.0",
     "tough-cookie": "^2.4.3"
