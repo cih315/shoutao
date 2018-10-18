@@ -10,11 +10,13 @@ const h5coupon = require('./h5coupon')
 const pid = 'mm_14942785_97600036_18176850324';
 const session = '7000010142156277b007a9d4746a5ea9911e21a5c13626f4e238ea754331766154d5397267987083';
 
-const date = '20181017'
+const date = '20181018'
 const prefix = date + '-1'
 const outputBase = __dirname + '/dd/' + date + '/'
 const tmpBase = __dirname + '/tmp'
 const htmlFile = outputBase + prefix + '.html'
+const mp_link = 'https://mp.weixin.qq.com/s/4r2TPQ_HaCf5yxAgop883w'
+const len = 30
 
 async function getMpHtml(url) {
     try {
@@ -128,7 +130,7 @@ function mkdirs(dirpath) {
         var ulands = []
         prepare()
         if (!fs.existsSync(outputBase + '/ulands.json')) {
-            let url = 'https://mp.weixin.qq.com/s/usFqFVv1odhEKaLJMGTXOQ'
+            let url = mp_link
             let array = await getMpHtml(url)
             console.log('download mp html with tkl size: ', array.length)
             let tkl_map = await tklParse(array)
@@ -244,7 +246,8 @@ function mkdirs(dirpath) {
         var tmp_list = [];
         var i = 1;
         do {
-            tmp_list = resultList.splice(0, 20)
+            
+            tmp_list = resultList.splice(0, len)
             let html = ejs.render(str, { list: tmp_list })
             var outFile = outputBase + date + (i++) + '.html'
             fs.writeFileSync(outFile, html, "utf-8")
