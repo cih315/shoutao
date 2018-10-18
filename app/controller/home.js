@@ -2,6 +2,10 @@ import ejs from 'ejs';
 import got from 'got';
 import qs from 'querystring';
 const view_path = __dirname + '/../views'
+const today_new = 'http://api.haodanku.com/app/get_new_fqcat_items'
+const cat_list = 'http://api.haodanku.com/app/get_fqcat_items'
+const deserve_new = 'http://api.haodanku.com/app/get_deserve_item_new'
+const classify_list = 'http://api.haodanku.com/app/get_classify'
 /**
  * home page
  */
@@ -23,21 +27,27 @@ class Home {
    */
   async index(ctx, next) {
     // 1.query cat list
-    var classify = got("http://api.haodanku.com/app/get_classify")
+    var classify = got(classify_list)
     // 2.query deserve list
-    var deserve = got("http://api.haodanku.com/app/get_deserve_item_new")
+    var deserve = got(deserve_new)
     // 3.query new item
     var body = {
       cid: 0,
       min_id: -1
     }
-    var items = got.post('http://api.haodanku.com/app/get_fqcat_items', {
+    var items = got.post(today_new, {
       body: qs.stringify(body)
     })
     var data = {};
     try {
       var results = await Promise.all([classify, deserve, items])
       data = { classify: JSON.parse(results[0].body), deserve: JSON.parse(results[1].body), items: JSON.parse(results[2].body) }
+
+      for (var i in data.items.data) {
+        if (!data.items.data[i].product_id) {
+          delete data.items.data[i]
+        }
+      }
     } catch (e) {
       console.error(e)
     }
@@ -66,13 +76,14 @@ class Home {
     }
     var res = { min_id: -1, data: [] }
     try {
-      res = await got.post('http://api.haodanku.com/app/get_fqcat_items', {
+      res = await got.post(cat_list, {
         body: qs.stringify(body),
         headers: {
           'content-type': 'application/x-www-form-urlencoded'
         }
       })
       res = JSON.parse(res.body)
+      
     } catch (e) {
       console.error('cat load error:', e)
     }
@@ -96,7 +107,8 @@ class Home {
     }
     var res = { min_id: -1, data: [] }
     try {
-      res = await got.post('http://api.haodanku.com/app/get_fqcat_items', {
+      let url = (cid == 0 ? today_new : cat_list)
+      res = await got.post(url, {
         body: qs.stringify(body),
         headers: {
           'content-type': 'application/x-www-form-urlencoded'
@@ -105,7 +117,15 @@ class Home {
     } catch (e) {
       console.error('cat load error:', e)
     }
-    ctx.body = res.body
+    body = JSON.parse(res.body)
+    if (cid == 0) {
+      for (var i in body.data) {
+        if (!body.data[i].product_id) {
+          delete body.data[i]
+        }
+      }
+    }
+    ctx.body = body
   }
 
   async item(ctx, next) {
