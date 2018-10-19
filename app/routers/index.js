@@ -6,13 +6,15 @@ router.get('/', home.index)
 
 router.get('/cat/list', home.cat_list)
 router.get('/cat/:id', home.list)
-
 router.get('/cat/:id/:page', home.cat)
 
 router.get('/item/:iid', home.item)
 router.get('/similar/:iid', home.similar)
+
 router.get('/search', home.search)
 router.get('/search/result', home.search_result)
-router.get('/go/:hashid', go.index)
+
+router.get('/go', go.index)
+router.get('/go/:itemid', go.item)
 
 export default router

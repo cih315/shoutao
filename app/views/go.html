@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>
+    <%=item.itemtitle%>
+  </title>
+  <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+</head>
+
+<body>
+  <script src="https://lib.baomitu.com/jquery/2.1.4/jquery.min.js"></script>
+  <script src="https://lib.baomitu.com/cookie.js/1.2.2/cookie.min.js"></script>
+  <script type="text/javascript">
+    var item_id = '<%=item.itemid%>';
+    var coupon_id = '<%=item.activityid%>';
+    var item_title = '<%=item.itemtitle%>';
+    var pid = "mm_14942785_97600036_18176850324";
+    var session = '7000010142156277b007a9d4746a5ea9911e21a5c13626f4e238ea754331766154d5397267987083';
+    var tklImg = 'https://gw.alicdn.com/tfs/TB1c.wHdh6I8KJjy0FgXXXXzVXa-580-327.png';
+    var tklTitle = '老王粉丝福利购';
+
+    var coupon_url = 'https://u' + 'land.t' + 'aob' + 'ao.com/coupon/edetail?';
+    coupon_url += (coupon_id == '' ? '' : 'activityId=' + coupon_id);
+    coupon_url += '&pid=' + pid + '&itemId=' + item_id;
+
+    var ua = navigator.userAgent.toLowerCase();
+    var isAndroid = ua.indexOf('android') > -1 || ua.indexOf('adr') > -1; //android终端
+    var isiOS = !!ua.match(/\(i[^;]+;( u;)? cpu.+mac os x/); //ios终端
+    if (ua.match(/MicroMessenger/i) == 'micromessenger' || ua.match(/Weibo/i) == 'weibo') {
+      function copyTklUrl(a, b) { var c = document.getElementById(a); c.select(), c.setSelectionRange(0, c.value.length), document.execCommand("copy"), b.innerHTML = '复制成功,打开👉手' + '机淘' + '宝👈即可' }
+      function getQueryValue(a, b) { var c, d; return b || (b = location.search), b = b.split("?")[1], void 0 == b ? null : (c = new RegExp("(^|&)" + a + "=([^&]*)(&|$)"), d = b.match(c), null != d ? decodeURIComponent(d[2]) : null) }
+      function html_tkl(tkl) {
+        var tips = '<p>如遇到无法购买，请加wx: <a>wayne185</a> 反馈</p>';
+        if (tkl || tips) {
+          var title = '';
+          if (tkl) title = item_title;
+          var url = window.location.href;
+          var html = '<table><tbody><tr><td class="uc-col"><div class="uc-box"><div class="uc-body">' + (tkl ? '<div class="uc-input"><textarea id="tkl-text" spellcheck="false" readonly="readonly">复制本条内容，打开👉手' + '机淘' + '宝👈抢购' + title + tkl + ' ' + '</textarea></div><h2 onClick="copyTklUrl(\'tkl-text\', this)" class="uc-tac uc-click">👉点击我复制淘' + '口' + '令👈</h2>' : '') + '<div class="uc-submit uc-tac">' + tips + '</div></div></div></td></tr></tbody></table>';
+          var op = document.createElement("div");
+          op.className = "uc-popup uc-popup-tkl";
+          op.innerHTML = html;
+          document.body.appendChild(op);
+        }
+      }
+      var _ua = 'android';
+      if (/iphone|ipad|ipod/.test(ua)) {
+        _ua = 'ios';
+      }
+      document.write('<link rel="stylesheet" href="/assets/css/weixin.css?v=20181019" type="text/css" media="all" /><div class="beatHeader ' + _ua + '" id="landingHeader"></div>');
+      var tkl = cookie.get('item_tkl:' + item_id);
+      if (!tkl) {
+        $.ajax({
+          type: 'post',
+          url: "https://api.chaozhi.hk/tb/ulandArray",
+          data: { 'urls': coupon_url, 'tklTitle': tklTitle, 'tklImg': tklImg, 'pid': pid, 'platform': true, 'isTkl': true, 'session': session }
+        }).done(function (res) {
+          if (res.error_code == 0) {
+            var tkl = res.data[0].tkl
+            window.tkl = tkl;
+            window.ulandResult = res.data[0].ulandResult;
+            cookie.set('item_tkl:' + item_id, tkl, { expires: 1, path: '/' })
+            html_tkl(tkl);
+          } else {
+            html_tkl('淘口令获取失败,请打开浏览器直接访问')
+          }
+        });
+      } else {
+        html_tkl(tkl);
+      }
+    } else {
+      document.write('<a href="https://uland.taobao.com/coupon/edetail?activityId=' + coupon_id + '&pid=' + pid + '&itemId=' + item_id + '&src=xkj" rel="nofollow" id="xkj"></a>');
+      function doClick(id) {
+        if (document.referrer && document.referrer.indexOf('//' + document.domain) >= 0 && window.history.replaceState) {
+          window.history.replaceState(null, null, document.referrer);
+        }
+        var comment = document.getElementById(id);
+        if (document.all) {
+          comment.click();
+        } else if (document.createEvent) {
+          var ev = document.createEvent('MouseEvents');
+          ev.initEvent('click', false, true);
+          comment.dispatchEvent(ev);
+        }
+      }
+      doClick('xkj');
+    }
+  </script>
+</body>
+
+</html>

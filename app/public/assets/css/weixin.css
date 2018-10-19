@@ -1,0 +1,28 @@
+html,body,div,p{margin:0;padding:0;}
+body{background:#F6F5F7}
+.beatHeader{height:120px;width:100%;position:relative;z-index:1;overflow:hidden}
+.ios{background:url('/assets/img/ios.png') no-repeat #494A4D;background-size:contain;background-position:50% 50%}
+.android{background:url('/assets/img/android.png') no-repeat #494A4D;background-size:contain;background-position:50% 50%}
+.uc-click{cursor:pointer}
+.uc-tac{text-align:center}
+.uc-popup{line-height:26px;color:#444;z-index:1000;position:fixed;vertical-align:middle;top:0;left:0;width:100%;height:100%}
+.uc-popup .uc-masking{z-index:-10;position:fixed;display:block;top:0;left:0;width:100%;height:100%;background-color:#111;opacity:.5;-ms-filter:"alpha(opacity=50)";filter:alpha(opacity=50)}
+.uc-popup table{width:100%;height:100%;background:transparent}
+.uc-popup table .uc-col{vertical-align:middle;background:transparent}
+.uc-popup table .uc-box{display:block;width:360px;margin-right:auto;margin-left:auto;position:relative;padding:5px;background-color:#fff;padding:4px 8px 8px 8px;font-size:12px;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px}
+.uc-popup table .uc-close{float:right;display:block;font-size:24px;color:#999;cursor:pointer;padding:0 5px}
+.uc-popup .uc-body{padding:0px 16px 10px;font-size:13px}
+.uc-popup table .uc-login-close:hover{filter:alpha(opacity=70);-moz-opacity:.7;opacity:.7}
+.uc-popup form{margin:0;padding:0}
+.uc-popup *{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;box-sizing:border-box}
+.uc-popup a{color:#2e9fff;text-decoration:none;-webkit-transition:color 0.2s;-moz-transition:color 0.2s;-ms-transition:color 0.2s;-o-transition:color 0.2s;transition:color 0.2s}
+.uc-popup a:hover{color:#0079e1;text-decoration:none}
+.uc-popup button{font-size:16px;line-height:26px}
+.uc-popup input,.uc-popup textarea{font-size:14px;width:100%;height:44px;line-height:22px;padding:6px;margin-bottom:20px;color:#546673;background:white;border:1px solid #f95c68;box-shadow:none;border-radius:3px;margin:0 auto !important;display:block !important}
+.uc-popup textarea{overflow: hidden;height:80px;padding-top:10px;resize:none}
+.uc-popup input:focus,.uc-popup textarea:focus{background:#fff;border-color:#f95c68;outline:medium none;-webkit-transition:0.5s background,0.5s border-color;-moz-transition:0.5s background,0.5s border-color;-ms-transition:0.5s background,0.5s border-color;-o-transition:0.5s background,0.5s border-color;transition:0.5s background,0.5s border-color}
+.uc-popup h2{font-size:20px;line-height:24px;color:#f95c68;font-weight:500;clear:both}
+.uc-input{position:relative;margin-top:20px}
+@media screen and (max-width:360px){
+.uc-popup table .uc-box{width:99%}
+}

@@ -1,10 +1,10 @@
 import ejs from 'ejs';
 import got from 'got';
 import qs from 'querystring';
-import NodeCache from 'node-cache'
+import my_cache from './cache'
 
 const view_path = __dirname + '/../views'
-const my_cache = new NodeCache();
+
 const ttl_item_list = 60 * 3
 const ttl_classify_list = 60 * 60 * 24 * 7
 const ttl_deserve_list = 60 * 60 * 12
@@ -84,7 +84,7 @@ class Home {
         console.log('fetch api data error', e)
       }
     }
-    ejs.renderFile(view_path + '/index.html', data, { async: false }, (err, html) => {
+    ejs.renderFile(view_path + '/index.html', data, { async: false, cache: true, rmWhitespace: true }, (err, html) => {
       if (err) {
         console.error(err)
         ctx.body = 'server error'
@@ -122,7 +122,7 @@ class Home {
       console.error('cat load error:', e)
     }
     var data = { list: res, cid: cid }
-    ejs.renderFile(view_path + '/list.html', data, { async: false }, (err, html) => {
+    ejs.renderFile(view_path + '/list.html', data, { async: false, cache: true, rmWhitespace: true }, (err, html) => {
       if (err) {
         console.error(err)
         ctx.body = err
@@ -209,7 +209,7 @@ class Home {
         console.log('fetch item detail & likes error:', e)
       }
     }
-    ejs.renderFile(view_path + '/detail.html', data, { async: false }, (err, html) => {
+    ejs.renderFile(view_path + '/detail.html', data, { async: false, cache: false, rmWhitespace: true }, (err, html) => {
       if (err) {
         console.error(err)
         ctx.body = 'server error'
