@@ -1,11 +1,20 @@
 import ejs from 'ejs';
 import got from 'got';
 import qs from 'querystring';
+import NodeCache from 'node-cache'
+
 const view_path = __dirname + '/../views'
-const today_new = 'http://api.haodanku.com/app/get_new_fqcat_items'
-const cat_list = 'http://api.haodanku.com/app/get_fqcat_items'
-const deserve_new = 'http://api.haodanku.com/app/get_deserve_item_new'
-const classify_list = 'http://api.haodanku.com/app/get_classify'
+const my_cache = new NodeCache();
+const ttl_item_list = 60 * 3
+const ttl_classify_list = 60 * 60 * 24 * 7
+const ttl_deserve_list = 60 * 60 * 12
+const api_new_item_list = 'http://api.haodanku.com/app/get_new_fqcat_items'
+const api_cat_list = 'http://api.haodanku.com/app/get_fqcat_items'
+const api_deserve_list = 'http://api.haodanku.com/app/get_deserve_item_new'
+const api_classify_list = 'http://api.haodanku.com/app/get_classify'
+const api_item_detail = 'http://v2.api.haodanku.com/item_detail/apikey/lowangquan/itemid/'
+const api_item_similar = 'http://v2.api.haodanku.com/get_similar_info/apikey/lowangquan/itemid/'
+const api_search = 'http://api.haodanku.com/app/get_keyword_items_new'
 /**
  * home page
  */
@@ -26,35 +35,60 @@ class Home {
    * @param {*} next 
    */
   async index(ctx, next) {
+    var classify, p1
+    var deserve, p2
+    var items, p3
+    var p_arr = []
+    var body = { cid: 0, min_id: -1 }
     // 1.query cat list
-    var classify = got(classify_list)
-    // 2.query deserve list
-    var deserve = got(deserve_new)
-    // 3.query new item
-    var body = {
-      cid: 0,
-      min_id: -1
+    classify = my_cache.get('classify_list')
+    if (!classify) {
+      p1 = got(api_classify_list)
+      p_arr.push(p1)
     }
-    var items = got.post(today_new, {
-      body: qs.stringify(body)
-    })
-    var data = {};
-    try {
-      var results = await Promise.all([classify, deserve, items])
-      data = { classify: JSON.parse(results[0].body), deserve: JSON.parse(results[1].body), items: JSON.parse(results[2].body) }
-
-      for (var i in data.items.data) {
-        if (!data.items.data[i].product_id) {
-          delete data.items.data[i]
+    // 2.query deserve list
+    deserve = my_cache.get('deserve_list')
+    if (!deserve) {
+      p2 = got(api_deserve_list)
+      p_arr.push(p2)
+    }
+    // 3.query new items
+    items = my_cache.get('item_list')
+    if (!items) {
+      p3 = got.post(api_new_item_list, { body: qs.stringify(body) })
+      p_arr.push(p3)
+    }
+    var data = { classify: classify, deserve: deserve, items: items }
+    if (p_arr.length > 0) {
+      try {
+        var ps = await Promise.all(p_arr)
+        var index = 0
+        if (!classify) {
+          data.classify = JSON.parse(ps[index++].body)
+          my_cache.set('classify_list', data.classify, ttl_classify_list)
         }
+        if (!deserve) {
+          data.deserve = JSON.parse(ps[index++].body)
+          my_cache.set('deserve_list', data.deserve, ttl_deserve_list)
+        }
+        if (!items) {
+          data.items = JSON.parse(ps[index++].body)
+          for (var i in data.items.data) {
+            if (!data.items.data[i].product_id) {
+              delete data.items.data[i]
+            }
+          }
+          my_cache.set('item_list', data.items, ttl_item_list)
+        }
+      } catch (e) {
+        console.log('fetch api data error', e)
       }
-    } catch (e) {
-      console.error(e)
     }
     ejs.renderFile(view_path + '/index.html', data, { async: false }, (err, html) => {
       if (err) {
         console.error(err)
-        ctx.body = err
+        ctx.body = 'server error'
+        ctx.status = 500
       } else {
         ctx.body = html
       }
@@ -76,14 +110,14 @@ class Home {
     }
     var res = { min_id: -1, data: [] }
     try {
-      res = await got.post(cat_list, {
+      res = await got.post(api_cat_list, {
         body: qs.stringify(body),
         headers: {
           'content-type': 'application/x-www-form-urlencoded'
         }
       })
       res = JSON.parse(res.body)
-      
+
     } catch (e) {
       console.error('cat load error:', e)
     }
@@ -107,7 +141,7 @@ class Home {
     }
     var res = { min_id: -1, data: [] }
     try {
-      let url = (cid == 0 ? today_new : cat_list)
+      let url = (cid == 0 ? api_new_item_list : api_cat_list)
       res = await got.post(url, {
         body: qs.stringify(body),
         headers: {
@@ -130,30 +164,64 @@ class Home {
 
   async item(ctx, next) {
     let iid = ctx.params.iid
-    let api1 = 'http://v2.api.haodanku.com/item_detail/apikey/lowangquan/itemid/' + iid
-    let api2 = 'http://v2.api.haodanku.com/get_similar_info/apikey/lowangquan/itemid/' + iid
-    let r1 = got.get(api1)
-    let r2 = got.get(api2)
-    var data = {}
-    try {
-      var results = await Promise.all([r1, r2])
-      data = { item: JSON.parse(results[0].body).data, likes: JSON.parse(results[1].body) }
-    } catch (e) {
-      console.error(e)
+    var item, p1
+    var likes, p2
+    var p_arr = []
+    var key_item_detail = 'item_detail:' + iid
+    var key_item_likes = 'item_likes:' + iid
+    item = my_cache.get(key_item_detail)
+    if (!item) {
+      let api1 = api_item_detail + iid
+      p1 = got.get(api1)
+      p_arr.push(p1)
+    }
+    likes = my_cache.get(key_item_likes)
+    if (!likes) {
+      let api2 = api_item_similar + iid
+      p2 = got.get(api2)
+      p_arr.push(p2)
+    }
+    var data = { item: item, likes: likes }
+    if (p_arr.length > 0) {
+      try {
+        var ps = await Promise.all(p_arr)
+        var index = 0
+        var ttl = 60 * 60
+        if (!item) {
+          data.item = JSON.parse(ps[index++].body).data
+          if (data.item.couponendtime) {
+            ttl = data.item.couponendtime - new Date().valueOf() / 1000
+            ttl = parseInt(ttl > 0 ? ttl : 1)
+          }
+          my_cache.set(key_item_detail, data.item, ttl)
+          console.log('item detail cache miss:' + key_item_detail)
+        } else {
+          if (data.item.couponendtime) {
+            ttl = data.item.couponendtime - new Date().valueOf() / 1000
+            ttl = ttl > 0 ? ttl : 1
+          }
+        }
+        if (!likes) {
+          data.likes = JSON.parse(ps[index++].body)
+          my_cache.set(key_item_likes, data.likes, ttl)
+        }
+      } catch (e) {
+        console.log('fetch item detail & likes error:', e)
+      }
     }
     ejs.renderFile(view_path + '/detail.html', data, { async: false }, (err, html) => {
       if (err) {
         console.error(err)
-        ctx.body = err
+        ctx.body = 'server error'
+        ctx.status = 500
       } else {
         ctx.body = html
       }
     })
-
   }
 
   async search(ctx, next) {
-    var api = 'http://api.haodanku.com/app/get_keyword_items_new'
+    var api = api_search
     var body = {
       is_coupon: ctx.query.is_coupon ? ctx.query.is_coupon : 0,
       is_tmall: ctx.query.is_tmall ? ctx.query.is_tmall : 0,
@@ -187,7 +255,7 @@ class Home {
   }
 
   async search_result(ctx, next) {
-    var api = 'http://api.haodanku.com/app/get_keyword_items_new'
+    var api = api_search
     var body = {
       is_coupon: ctx.query.is_coupon ? ctx.query.is_coupon : 0,
       is_tmall: ctx.query.is_tmall ? ctx.query.is_tmall : 0,
@@ -219,7 +287,7 @@ class Home {
 
   async similar(ctx, next) {
     let iid = ctx.params.iid
-    let api = 'http://v2.api.haodanku.com/get_similar_info/apikey/lowangquan/itemid/' + iid
+    let api = api_item_similar + iid
     try {
       let res = await got.get(api)
       let json = JSON.parse(res.body)
