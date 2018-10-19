@@ -7,7 +7,7 @@ const view_path = __dirname + '/../views'
 
 const ttl_item_list = 60 * 3
 const ttl_classify_list = 60 * 60 * 24 * 7
-const ttl_deserve_list = 60 * 60 * 12
+const ttl_deserve_list = 60 * 30
 const api_new_item_list = 'http://api.haodanku.com/app/get_new_fqcat_items'
 const api_cat_list = 'http://api.haodanku.com/app/get_fqcat_items'
 const api_deserve_list = 'http://api.haodanku.com/app/get_deserve_item_new'
