@@ -437,8 +437,9 @@
             } else if (type == 0) {
                 $('#fq-promotion-message').modal({ closeViaDimmer: 0 });
             }
-            window.tkl = cookie.get('item_tkl:' + item_id)
+            window.tkl = cookie.get('item_tkl_' + item_id)
             if (window.tkl) {
+                window.tkl = decodeURIComponent(window.tkl)
                 $('#copy_key_ios,#copy_key_ios1,#copy_key_ios2,#copy_key_ios3,#copy_key_ios4').text(tkl);
                 $('#copy_key_android,#copy_key_android1,#copy_key_android2,#copy_key_android3,#copy_key_android4').val(tkl);
                 $('.share').attr('data-words', tkl);
@@ -455,7 +456,7 @@
                     var tkl = res.data[0].tkl
                     window.tkl = tkl;
                     window.ulandResult = res.data[0].ulandResult;
-                    cookie.set('item_tkl:' + item_id, tkl, { expires: 1, path: '/' })
+                    cookie.set('item_tkl_' + item_id, encodeURIComponent(tkl), { expires: 1, path: '/' })
                     $('#copy_key_ios,#copy_key_ios1,#copy_key_ios2,#copy_key_ios3,#copy_key_ios4').text(tkl);
                     $('#copy_key_android,#copy_key_android1,#copy_key_android2,#copy_key_android3,#copy_key_android4').val(tkl);
                     $('.share').attr('data-words', tkl);

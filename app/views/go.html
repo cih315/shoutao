@@ -49,7 +49,7 @@
         _ua = 'ios';
       }
       document.write('<link rel="stylesheet" href="/assets/css/weixin.css?v=20181019" type="text/css" media="all" /><div class="beatHeader ' + _ua + '" id="landingHeader"></div>');
-      var tkl = cookie.get('item_tkl:' + item_id);
+      var tkl = cookie.get('item_tkl_' + item_id);
       if (!tkl) {
         $.ajax({
           type: 'post',
@@ -60,13 +60,14 @@
             var tkl = res.data[0].tkl
             window.tkl = tkl;
             window.ulandResult = res.data[0].ulandResult;
-            cookie.set('item_tkl:' + item_id, tkl, { expires: 1, path: '/' })
+            cookie.set('item_tkl_' + item_id, encodeURIComponent(tkl), { expires: 1, path: '/' })
             html_tkl(tkl);
           } else {
             html_tkl('淘口令获取失败,请打开浏览器直接访问')
           }
         });
       } else {
+        tkl = decodeURIComponent(tkl)
         html_tkl(tkl);
       }
     } else {
