@@ -14,6 +14,8 @@ router.get('/similar/:iid', home.similar)
 router.get('/search', home.search)
 router.get('/search/result', home.search_result)
 
+router.post('/uland', home.uland)
+
 router.get('/go', go.index)
 router.get('/go/:itemid', go.item)
 

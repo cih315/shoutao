@@ -297,6 +297,21 @@ class Home {
     }
   }
 
+  async uland(ctx, next) {
+    let body = ctx.request.body
+    try {
+      var res = await got.post('http://api.chaozhi.hk/tb/ulandArray', {
+        body: qs.stringify(body),
+        headers: {
+          'content-type': 'application/x-www-form-urlencoded'
+        }
+      })
+      ctx.body = JSON.parse(res.body)
+    } catch (e) {
+      console.error(e)
+      ctx.body = { "msg": e, "error_code": 102 }
+    }
+  }
 
 }
 

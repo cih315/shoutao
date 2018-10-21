@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
-    <link rel="shortcut icon" href="/asset/img/back.png" type="image/x-icon" />
+    <link rel="shortcut icon" href="/assets/img/back.png" type="image/x-icon" />
     <title>
         <%=item.itemtitle%>
     </title>
@@ -449,7 +449,7 @@
 
             $.ajax({
                 type: 'post', //TODO 改成post
-                url: "https://api.chaozhi.hk/tb/ulandArray",
+                url: "/uland",
                 data: { 'urls': url, 'tklTitle': tklTitle, 'tklImg': tklImg, 'pid': pid, 'platform': true, 'isTkl': true, 'session': session }
             }).done(function (res) {
                 if (res.error_code == 0) {
@@ -468,9 +468,9 @@
                 }
             }).fail(function () {
                 if (type == 1) {
-                    $('#copy_key_ios,#copy_key_ios1,#copy_key_ios2,#copy_key_ios3,#copy_key_ios4').text(words);
-                    $('#copy_key_android,#copy_key_android1,#copy_key_android2,#copy_key_android3,#copy_key_android4').val(words);
-                    $('.share').attr('data-words', words);
+                    $('#copy_key_ios,#copy_key_ios1,#copy_key_ios2,#copy_key_ios3,#copy_key_ios4').text('获取淘口令失败');
+                    $('#copy_key_android,#copy_key_android1,#copy_key_android2,#copy_key_android3,#copy_key_android4').val('获取淘口令失败');
+                    $('.share').attr('data-words', '获取淘口令失败');
                 } else {
                     $('#fq_alert_info').text('网络错误，请重试');
                     $('#fq_alert').modal();
