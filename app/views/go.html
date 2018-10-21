@@ -53,8 +53,8 @@
       if (!tkl) {
         $.ajax({
           type: 'post',
-          url: "https://api.chaozhi.hk/tb/ulandArray",
-          data: { 'urls': coupon_url, 'tklTitle': tklTitle, 'tklImg': tklImg, 'pid': pid, 'platform': true, 'isTkl': true, 'session': session }
+          url: "/uland",
+          data: {'item_id': item_id, 'urls': coupon_url, 'tklTitle': tklTitle, 'tklImg': tklImg, 'pid': pid, 'platform': true, 'isTkl': true, 'session': session }
         }).done(function (res) {
           if (res.error_code == 0) {
             var tkl = res.data[0].tkl

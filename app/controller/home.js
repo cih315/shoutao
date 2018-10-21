@@ -41,19 +41,19 @@ class Home {
     var p_arr = []
     var body = { cid: 0, min_id: -1 }
     // 1.query cat list
-    classify = my_cache.get('classify_list')
+    classify = await my_cache.get('classify_list')
     if (!classify) {
       p1 = got(api_classify_list)
       p_arr.push(p1)
     }
     // 2.query deserve list
-    deserve = my_cache.get('deserve_list')
+    deserve = await my_cache.get('deserve_list')
     if (!deserve) {
       p2 = got(api_deserve_list)
       p_arr.push(p2)
     }
     // 3.query new items
-    items = my_cache.get('item_list')
+    items = await my_cache.get('item_list')
     if (!items) {
       p3 = got.post(api_new_item_list, { body: qs.stringify(body) })
       p_arr.push(p3)
@@ -65,20 +65,22 @@ class Home {
         var index = 0
         if (!classify) {
           data.classify = JSON.parse(ps[index++].body)
-          my_cache.set('classify_list', data.classify, ttl_classify_list)
+          await my_cache.set('classify_list', data.classify, ttl_classify_list)
         }
         if (!deserve) {
           data.deserve = JSON.parse(ps[index++].body)
-          my_cache.set('deserve_list', data.deserve, ttl_deserve_list)
+          await my_cache.set('deserve_list', data.deserve, ttl_deserve_list)
         }
         if (!items) {
           data.items = JSON.parse(ps[index++].body)
-          for (var i in data.items.data) {
-            if (!data.items.data[i].product_id) {
-              delete data.items.data[i]
+          var tmp = data.items.data
+          data.items.data = []
+          for (var i in tmp) {
+            if (tmp[i].product_id) {
+              data.items.data.push(tmp[i])
             }
           }
-          my_cache.set('item_list', data.items, ttl_item_list)
+          await my_cache.set('item_list', data.items, ttl_item_list)
         }
       } catch (e) {
         console.log('fetch api data error', e)
@@ -153,9 +155,11 @@ class Home {
     }
     body = JSON.parse(res.body)
     if (cid == 0) {
-      for (var i in body.data) {
-        if (!body.data[i].product_id) {
-          delete body.data[i]
+      var tmp = body.data
+      body.data = []
+      for (var i in tmp) {
+        if (tmp[i].product_id) {
+          body.data.push(tmp[i])
         }
       }
     }
@@ -169,13 +173,13 @@ class Home {
     var p_arr = []
     var key_item_detail = 'item_detail:' + iid
     var key_item_likes = 'item_likes:' + iid
-    item = my_cache.get(key_item_detail)
+    item = await my_cache.get(key_item_detail)
     if (!item) {
       let api1 = api_item_detail + iid
       p1 = got.get(api1)
       p_arr.push(p1)
     }
-    likes = my_cache.get(key_item_likes)
+    likes = await my_cache.get(key_item_likes)
     if (!likes) {
       let api2 = api_item_similar + iid
       p2 = got.get(api2)
@@ -193,8 +197,8 @@ class Home {
             ttl = data.item.couponendtime - new Date().valueOf() / 1000
             ttl = parseInt(ttl > 0 ? ttl : 1)
           }
-          my_cache.set(key_item_detail, data.item, ttl)
-          console.log('item detail cache miss:' + key_item_detail)
+          await my_cache.set(key_item_detail, data.item, ttl)
+          console.log('cache miss:' + key_item_detail)
         } else {
           if (data.item.couponendtime) {
             ttl = data.item.couponendtime - new Date().valueOf() / 1000
@@ -203,7 +207,7 @@ class Home {
         }
         if (!likes) {
           data.likes = JSON.parse(ps[index++].body)
-          my_cache.set(key_item_likes, data.likes, ttl)
+          await my_cache.set(key_item_likes, data.likes, ttl)
         }
       } catch (e) {
         console.log('fetch item detail & likes error:', e)
@@ -299,17 +303,35 @@ class Home {
 
   async uland(ctx, next) {
     let body = ctx.request.body
-    try {
-      var res = await got.post('http://api.chaozhi.hk/tb/ulandArray', {
-        body: qs.stringify(body),
-        headers: {
-          'content-type': 'application/x-www-form-urlencoded'
+    let item_id = body.item_id
+    var key_item_tkl = 'item_tkl:' + item_id
+    var key_item_detail = 'item_detail:' + item_id
+    var tkl = await my_cache.get(key_item_tkl)
+    if (!tkl) {
+      console.log('cache miss:' + key_item_tkl)
+      try {
+        var res = await got.post('http://api.chaozhi.hk/tb/ulandArray', {
+          body: qs.stringify(body),
+          headers: {
+            'content-type': 'application/x-www-form-urlencoded'
+          }
+        })
+        var json = JSON.parse(res.body)
+
+        var ttl = 60 * 60
+        var item = await my_cache.get(key_item_detail)
+        if (item && item.couponendtime) {
+          ttl = item.couponendtime - new Date().valueOf() / 1000
+          ttl = ttl > 0 ? ttl : 1
         }
-      })
-      ctx.body = JSON.parse(res.body)
-    } catch (e) {
-      console.error(e)
-      ctx.body = { "msg": e, "error_code": 102 }
+        await my_cache.set(key_item_tkl, json, ttl)
+        ctx.body = json
+      } catch (e) {
+        console.error(e)
+        ctx.body = { "msg": e, "error_code": 102 }
+      }
+    } else {
+      ctx.body = tkl
     }
   }
 

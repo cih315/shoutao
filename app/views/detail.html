@@ -450,7 +450,7 @@
             $.ajax({
                 type: 'post', //TODO 改成post
                 url: "/uland",
-                data: { 'urls': url, 'tklTitle': tklTitle, 'tklImg': tklImg, 'pid': pid, 'platform': true, 'isTkl': true, 'session': session }
+                data: { 'item_id': item_id, 'urls': url, 'tklTitle': tklTitle, 'tklImg': tklImg, 'pid': pid, 'platform': true, 'isTkl': true, 'session': session }
             }).done(function (res) {
                 if (res.error_code == 0) {
                     var tkl = res.data[0].tkl
