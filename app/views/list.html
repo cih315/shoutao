@@ -14,6 +14,7 @@
   <script type="text/javascript" src="https://lib.baomitu.com/jquery/2.2.4/jquery.min.js"></script>
   <script type="text/javascript" src="https://lib.baomitu.com/amazeui/2.7.2/js/amazeui.min.js"></script>
   <script type="text/javascript" src="https://lib.baomitu.com/clipboard.js/1.6.1/clipboard.min.js"></script>
+  <script type="text/javascript" src="https://cmsstatic.dataoke.com//wap_new/lib/lazyload.js?v=201810191001"></script>
 </head>
 <style>
   .fq-search{position:fixed;right:10px;bottom:105px;z-index:99;width:40px;height:40px;background:#555;color:#fff}
@@ -117,7 +118,7 @@
         <li class="tobuy" data-pid="<%=item.product_id%>" data-iid="<%=item.itemid%>">
           <div class="goods-lists-goods">
             <div class="img-box">
-              <img class="fq-goods-img fq-left" src="<%=item.itempic.indexOf('310x310') > 0 ?item.itempic:item.itempic+'_310x310.jpg'%>" />
+              <img class="fq-goods-img fq-left lazy" data-original="<%=item.itempic.indexOf('310x310') > 0 ?item.itempic:item.itempic+'_310x310.jpg'%>" />
             </div>
             <div class="fq-goods-message tobuy" data-pid="<%=item.product_id%>" data-iid="<%=item.itemid%>">
               <div class="fq-goods-title">
@@ -636,6 +637,11 @@
           } else {
             isloading = true;
           }
+
+          $('img.lazy').lazyload({
+            effect: "fadeIn",
+            placeholder: "https://cmsstatic.dataoke.com/web/images/rolling.gif"
+          });
         }).fail(function () {
           isloading = true;
         });
@@ -664,9 +670,9 @@
         }
         html += '<div class="goods-lists-goods">';
         html += '<div class="img-box">';
-        html += '<img src="';
+        html += '<img data-original="';
         html += goods[i]['itempic'].indexOf('_310x310.jpg') == -1 ? goods[i]['itempic'] + '_310x310.jpg"' : goods[i]['itempic'] + '"';
-        html += ' class="fq-goods-img fq-left">';
+        html += ' class="fq-goods-img fq-left lazy">';
         if ("" == 3) {
           html += '<a class="fq-icon-play am-padding-xs am-round am-icon-play click_video" data-vid="' + goods[i]['videoid'] + '"></a>';
         }
@@ -756,13 +762,19 @@
   </script>
   <script>
     var _hmt = _hmt || [];
-    (function() {
-        var hm = document.createElement("script");
-        hm.src = "https://hm.baidu.com/hm.js?46019f09c2a8a83142935b3974a7a60d";
-        var s = document.getElementsByTagName("script")[0]; 
-        s.parentNode.insertBefore(hm, s);
+    (function () {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?46019f09c2a8a83142935b3974a7a60d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
     })();
-</script>
+  </script>
+  <script>
+    $('img.lazy').lazyload({
+      effect: "fadeIn",
+      placeholder: "https://cmsstatic.dataoke.com/web/images/rolling.gif"
+    });
+  </script>
 </body>
 
 </html>

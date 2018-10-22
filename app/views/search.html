@@ -11,6 +11,7 @@
   <link rel="stylesheet" type="text/css" href="//asset.fqapps.com/style.css" />
   <script type="text/javascript" src="https://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
   <script type="text/javascript" src="https://lib.baomitu.com/amazeui/2.7.2/js/amazeui.min.js"></script>
+  <script type="text/javascript" src="https://cmsstatic.dataoke.com//wap_new/lib/lazyload.js?v=201810191001"></script>
 </head>
 <style>
   @media screen and (min-width: 640px) {
@@ -33,7 +34,7 @@
     //操作时间（添加代理、删除代理、修改比率等）
     var operating = window.localStorage.getItem('operating') || 0;
     var show_commission = '0';
-    var is_agent=0
+    var is_agent = 0
     //有变化，清空缓存
     if (generalize != '0' || operating != '') {
       window.localStorage.removeItem('adzone_pname');
@@ -178,11 +179,12 @@ header .fq-close{position:absolute;top:5px;right:1rem;color:#B2B2B2;font-size:20
             <a href="/item/<%=item.itemid%>" class="data_0 js_link" data-id="<%=item.itemid%>" data-price="29.9"
               data-tkrate="25.0">
               <div class="img-box">
-                <img class="fq-goods-img fq-left" src="<%=item.itempic.indexOf('310x310') > 0 ?item.itempic:item.itempic+'_310x310.jpg'%>" />
+                <img class="fq-goods-img fq-left lazy" data-original="<%=item.itempic.indexOf('310x310') > 0 ?item.itempic:item.itempic+'_310x310.jpg'%>" />
               </div>
               <div class="fq-goods-message tobuy">
                 <div class="fq-goods-title" data="haodanku">
-                 <img src="/assets/img/ic_celect.png" /> <%=item.itemtitle%>
+                  <img src="/assets/img/ic_celect.png" />
+                  <%=item.itemtitle%>
                 </div>
 
                 <div class="fq-goods-money">
@@ -336,7 +338,7 @@ header .fq-close{position:absolute;top:5px;right:1rem;color:#B2B2B2;font-size:20
               result += '<a href="' + a_link + '" class="js_link">';
 
               result += '<div class="img-box">';
-              result += '<img class="fq-goods-img  am-fl" src="' + picturl + '"/>';
+              result += '<img class="fq-goods-img  am-fl lazy" data-original="' + picturl + '"/>';
               result += '</div>';
 
               result += '<div class="fq-goods-message">';
@@ -375,6 +377,10 @@ header .fq-close{position:absolute;top:5px;right:1rem;color:#B2B2B2;font-size:20
               result += '</a></div></li>';
 
               $('.index-goods-lists').append(result);
+              $('img.lazy').lazyload({
+                effect: "fadeIn",
+                placeholder: "https://cmsstatic.dataoke.com/web/images/rolling.gif"
+              });
               result = '';
 
             }
@@ -454,10 +460,16 @@ header .fq-close{position:absolute;top:5px;right:1rem;color:#B2B2B2;font-size:20
   </script>
   <script>
     var _hmt = _hmt || [];
-    (function() {
-        var hm = document.createElement("script");
-        hm.src = "https://hm.baidu.com/hm.js?46019f09c2a8a83142935b3974a7a60d";
-        var s = document.getElementsByTagName("script")[0]; 
-        s.parentNode.insertBefore(hm, s);
+    (function () {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?46019f09c2a8a83142935b3974a7a60d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
     })();
-</script>
+  </script>
+  <script>
+    $('img.lazy').lazyload({
+      effect: "fadeIn",
+      placeholder: "https://cmsstatic.dataoke.com/web/images/rolling.gif"
+    });
+  </script>
