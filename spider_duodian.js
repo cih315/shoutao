@@ -10,12 +10,12 @@ const h5coupon = require('./h5coupon')
 const pid = 'mm_14942785_97600036_18176850324';
 const session = '7000010142156277b007a9d4746a5ea9911e21a5c13626f4e238ea754331766154d5397267987083';
 
-const date = '20181021'
+const date = '20181022'
 const prefix = date + '-1'
 const outputBase = __dirname + '/dd/' + date + '/'
 const tmpBase = __dirname + '/tmp'
 const htmlFile = outputBase + prefix + '.html'
-const mp_link = 'https://mp.weixin.qq.com/s/1SYTMTv76mtlljcJgcWb5g'
+const mp_link = 'https://mp.weixin.qq.com/s/OZlAET_5tTCqIA34AWXx6g'
 const len = 30
 
 async function getMpHtml(url) {
@@ -52,10 +52,10 @@ async function tklParse(array) {
             body: body,
             headers: {
                 'content-type': 'application/x-www-form-urlencoded',
-                'x-forwarded-for': '10.47.103.13,4.2.2.2,10.96.112.230',
-                'x-real-ip': '192.168.247.1',
-                'proxy-client-ip': '192.168.247.1',
-                'wl-proxy-client-ip': '192.168.247.1'
+                'x-forwarded-for': '4.2.2.2,10.96.112.230',
+                // 'x-real-ip': '192.168.247.1',
+                // 'proxy-client-ip': '192.168.247.1',
+                // 'wl-proxy-client-ip': '192.168.247.1'
             }
         });
         let json = JSON.parse(response.body)
@@ -65,7 +65,7 @@ async function tklParse(array) {
         } else {
             console.error(`${++i}/${size} tkl ${v} parse error: ${json.msg}`)
         }
-        await sleep(rand(2000, 2000))
+        await sleep(rand(5000, 5000))
 
     }
     return tkl_map
@@ -81,7 +81,7 @@ async function sleep(time) {
 }
 
 
-async function uland(url, pid, tklTitle = '老王券粉丝福利购', tklImg = 'https://gw.alicdn.com/tfs/TB1c.wHdh6I8KJjy0FgXXXXzVXa-580-327.png') {
+async function uland(url, pid, tklTitle = '选客家粉丝福利购', tklImg = 'https://gw.alicdn.com/tfs/TB1c.wHdh6I8KJjy0FgXXXXzVXa-580-327.png') {
     let api = 'http://api.chaozhi.hk/tb/ulandArray'
     let body = querystring.stringify({
         urls: url,
