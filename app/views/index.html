@@ -15,6 +15,7 @@
     <script type="text/javascript" src="https://lib.baomitu.com/jquery/2.2.4/jquery.min.js"></script>
     <script type="text/javascript" src="https://lib.baomitu.com/amazeui/2.7.2/js/amazeui.min.js"></script>
     <script type="text/javascript" src="https://lib.baomitu.com/clipboard.js/2.0.1/clipboard.min.js"></script>
+    <script type="text/javascript" src="https://cmsstatic.dataoke.com//wap_new/lib/lazyload.js?v=201810191001"></script>
     <meta http-equiv="Expires" content="0">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Cache-control" content="no-cache">
@@ -242,7 +243,7 @@
                 <li class="tobuy" data-pid="<%=item.product_id%>" data-iid="<%=item.itemid%>" data-min="<%=items.min_id%>">
                     <div class="goods-lists-goods">
                         <div class="img-box">
-                            <img class="fq-goods-img fq-left" src="<%=item.itempic%>" /></div>
+                            <img class="fq-goods-img fq-left lazy" data-original="<%=item.itempic%>" /></div>
                         <div class="fq-goods-message tobuy" data-pid="<%=item.product_id%>" data-iid="<%=item.itemid%>">
                             <div class="fq-goods-title">
                                 <%=item.itemtitle%>
@@ -752,6 +753,10 @@
                     } else {
                         isloading = true;
                     }
+                    $('img.lazy').lazyload({
+                        effect: "fadeIn",
+                        placeholder:"https://cmsstatic.dataoke.com/web/images/rolling.gif"
+                    });
                 }).fail(function () {
                     isloading = true;
                 });
@@ -766,7 +771,7 @@
 
         /* 返回顶部 */
         $('.index-app-top').click(function () { $('html,body').animate({ scrollTop: 0 }, 800); });
-        
+
         function goodsInfo(goods, len) {
             var html = '';
             for (var i = 0; i < len; i++) {
@@ -777,9 +782,9 @@
                 }
                 html += '<div class="goods-lists-goods">';
                 html += '<div class="img-box">';
-                html += '<img src="';
+                html += '<img data-original="';
                 html += goods[i]['itempic'].indexOf('_310x310.jpg') == -1 ? goods[i]['itempic'] + '_310x310.jpg"' : goods[i]['itempic'] + '"';
-                html += ' class="fq-goods-img fq-left">';
+                html += ' class="fq-goods-img fq-left lazy">';
                 if ("" == 3) {
                     html += '<a class="fq-icon-play am-padding-xs am-round am-icon-play click_video" data-vid="' + goods[i]['videoid'] + '"></a>';
                 }
@@ -857,14 +862,19 @@
     </script>
     <script>
         var _hmt = _hmt || [];
-        (function() {
+        (function () {
             var hm = document.createElement("script");
             hm.src = "https://hm.baidu.com/hm.js?46019f09c2a8a83142935b3974a7a60d";
-            var s = document.getElementsByTagName("script")[0]; 
+            var s = document.getElementsByTagName("script")[0];
             s.parentNode.insertBefore(hm, s);
         })();
     </script>
-        
+    <script>
+        $('img.lazy').lazyload({
+            effect: "fadeIn",
+            placeholder:"https://cmsstatic.dataoke.com/web/images/rolling.gif"
+        });
+    </script>
 </body>
 
 </html>
