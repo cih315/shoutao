@@ -631,14 +631,14 @@
           dataType: 'json'
         }).done(function (res) {
           var list_len = res.data.length;
-          $('#goods_list').append(goodsInfo(res.data, list_len)).attr('data-min', res.min_id);
+          $('#goods_list').append(goodsInfo(res.data, list_len, res.min_id)).attr('data-min', res.min_id);
           if (list_len < 20) {
             $(".loading").html('<span class="am-text-sm am-text-success">已加载完毕</span>');
           } else {
             isloading = true;
           }
 
-          $('img.lazy-more').lazyload({
+          $('img.lazy-more-' + res.min_id).lazyload({
             effect: "fadeIn",
             placeholder: "https://cmsstatic.dataoke.com/web/images/rolling.gif"
           });
@@ -660,7 +660,7 @@
       $('html,body').animate({ scrollTop: 0 }, 800);
     });
 
-    function goodsInfo(goods, len) {
+    function goodsInfo(goods, len, min_id) {
       var html = '';
       for (var i = 0; i < len; i++) {
         if ("" == 3) {
@@ -672,7 +672,7 @@
         html += '<div class="img-box">';
         html += '<img data-original="';
         html += goods[i]['itempic'].indexOf('_310x310.jpg') == -1 ? goods[i]['itempic'] + '_310x310.jpg"' : goods[i]['itempic'] + '"';
-        html += ' class="fq-goods-img fq-left lazy-more">';
+        html += ' class="fq-goods-img fq-left lazy-more-' + min_id + '">';
         if ("" == 3) {
           html += '<a class="fq-icon-play am-padding-xs am-round am-icon-play click_video" data-vid="' + goods[i]['videoid'] + '"></a>';
         }

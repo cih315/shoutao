@@ -14,6 +14,8 @@
     <script type="text/javascript" src="https://lib.baomitu.com/jquery/2.1.4/jquery.min.js"></script>
     <script type="text/javascript" src="https://lib.baomitu.com/amazeui/2.7.2/js/amazeui.min.js"></script>
     <script src="https://lib.baomitu.com/cookie.js/1.2.2/cookie.min.js"></script>
+    <link href="https://lib.baomitu.com/Swiper/4.4.1/css/swiper.min.css" rel="stylesheet">
+    <script src="https://lib.baomitu.com/Swiper/4.4.1/js/swiper.min.js"></script>
 </head>
 <style>
     @media screen and (min-width: 640px) {
@@ -77,54 +79,69 @@
     <!--视频展示-->
     <div class="main" id="mainall" style="max-width:640px">
 
-    <!-- 微信自定义接口 -->
-    <div class="fq-search fq-background-white am-text-center" data-status="">
-        <form action="/search" class="am-form am-padding-vertical-xs am-inline-block am-text-center">
-            <input id="key" name="keyword" type="text" class="am-radius am-padding-vertical-xs am-text-center am-fl"
-                placeholder="自由选品，选你想选" value="">
-            <i class="am-icon-search am-vertical-align-middle am-fr" onclick="search();"></i>
-        </form>
-    </div>
-    <a href="javascript:void(0);" onclick="back();">
-        <img src="/assets/img/back.png" class="fq-return am-margin-top-sm am-margin-left-sm" style="z-index:99;position: fixed;">
-    </a>
-    <div class="fq-searchbox fq-text-white am-inline-block am-vertical-align am-text-center am-round am-margin-top-sm am-margin-right-sm"
-        style="z-index:99;position: fixed;">
-        <i class="am-icon-search am-vertical-align-middle"></i>
-    </div>
-    <a href="javascript:void(0);" onclick="rehome();">
-        <img src="/assets/img/rehome.png" class="fq-rehome am-margin-top-sm am-margin-right-sm" style="z-index:99;top:53px;right:0;width: 36px;height: 36px;position: fixed;">
-    </a>
-    <script>
-        function back() {
-            var last_page_url = (document.referrer);
-            if (last_page_url) {
-                window.history.back(-1);
-            } else {
+        <!-- 微信自定义接口 -->
+        <div class="fq-search fq-background-white am-text-center" data-status="">
+            <form action="/search" class="am-form am-padding-vertical-xs am-inline-block am-text-center">
+                <input id="key" name="keyword" type="text" class="am-radius am-padding-vertical-xs am-text-center am-fl"
+                    placeholder="自由选品，选你想选" value="">
+                <i class="am-icon-search am-vertical-align-middle am-fr" onclick="search();"></i>
+            </form>
+        </div>
+        <a href="javascript:void(0);" onclick="back();">
+            <img src="/assets/img/back.png" class="fq-return am-margin-top-sm am-margin-left-sm" style="z-index:99;position: fixed;">
+        </a>
+        <div class="fq-searchbox fq-text-white am-inline-block am-vertical-align am-text-center am-round am-margin-top-sm am-margin-right-sm"
+            style="z-index:99;position: fixed;">
+            <i class="am-icon-search am-vertical-align-middle"></i>
+        </div>
+        <a href="javascript:void(0);" onclick="rehome();">
+            <img src="/assets/img/rehome.png" class="fq-rehome am-margin-top-sm am-margin-right-sm" style="z-index:99;top:53px;right:0;width: 36px;height: 36px;position: fixed;">
+        </a>
+        <script>
+            function back() {
+                var last_page_url = (document.referrer);
+                if (last_page_url) {
+                    window.history.back(-1);
+                } else {
+                    window.location.href = '/';
+                }
+            }
+            function rehome() {
                 window.location.href = '/';
             }
-        }
-        function rehome(){
-            window.location.href = '/';
-        }
-        $(".fq-searchbox").click(function () {
-            if ($(".fq-search").is(":hidden")) {
-                $(".fq-search").show();
-                $(".fq-return").css("top", "53px");
-                $(".fq-searchbox").css("top", "53px"); //如果元素为隐藏,则将它显现
-                $(".fq-rehome").css("top","106px");
-            } else {
-                $(".fq-search").hide();
-                $(".fq-return").css("top", "0");
-                $(".fq-searchbox").css("top", "0");    //如果元素为显现,则将其隐藏
-                $(".fq-rehome").css("top","53px");
-            }
-        })
-    </script>
-    <div class="fq-whole am-text-sm">
-        <div class="fq-subject">
-            <div>
-                <% if(item.taobao_image){%>
+            $(".fq-searchbox").click(function () {
+                if ($(".fq-search").is(":hidden")) {
+                    $(".fq-search").show();
+                    $(".fq-return").css("top", "53px");
+                    $(".fq-searchbox").css("top", "53px"); //如果元素为隐藏,则将它显现
+                    $(".fq-rehome").css("top", "106px");
+                } else {
+                    $(".fq-search").hide();
+                    $(".fq-return").css("top", "0");
+                    $(".fq-searchbox").css("top", "0");    //如果元素为显现,则将其隐藏
+                    $(".fq-rehome").css("top", "53px");
+                }
+            })
+        </script>
+        <div class="fq-whole am-text-sm">
+            <div class="fq-subject">
+                <div>
+                    <% if(item.taobao_image){%>
+                    <div class="swiper-container am-avg-sm-1 am-padding-0 am-slider">
+                        <div class="swiper-wrapper">
+                            <% item.taobao_image.split(',').forEach(function(img){%>
+                            <div class="swiper-slide">
+                                <li>
+                                    <img src="<%=img%>_600x600.jpg">
+                                </li>
+                            </div>
+                            <% }); %>
+                        </div>
+                        <!-- 如果需要分页器 -->
+                        <div class="swiper-pagination"></div>
+                        <!-- 如果需要导航按钮 -->
+                    </div>
+                <!-- 
                 <div data-am-widget="slider" class="am-slider am-slider-a1 am-avg-sm-1 am-padding-0" data-am-slider='{}'>
                     <ul class="am-slides">
                         <% item.taobao_image.split(',').forEach(function(img){%>
@@ -134,250 +151,280 @@
                         <% }); %>
                     </ul>
                 </div>
-                <% } else { %>
-                <ul data-am-widget="gallery" class="am-gallery am-avg-sm-1 am-gallery-default am-padding-0"
-                    data-am-gallery="{ pureview: true }">
-                    <li class="am-padding-0">
-                        <div class="am-gallery-item" style="position:relative">
-                            <a href="<%=item.itempic%>_600x600.jpg">
-                                <img src="<%=item.itempic%>_600x600.jpg">
-                            </a>
-                        </div>
-                    </li>
-                </ul>
-                <% } %>
-                <!---->
-                <div class="fq-grandeur-title fq-background-white am-padding-xs">
-                    <!--收藏-->
-                    <div class="fq-collect">
-                        <strong class="am-block am-text-sm">
-                            <%=item.itemtitle%></strong>
-                    </div>
-                    <strong class="fq-price am-text-sm" data="0">券后包邮<span class="am-text-xl am-margin-left-xs">￥
-                            <%=item.itemendprice%></span></strong>
-                </div>
-                <div class="fq-grandeur-price fq-background-white am-padding-vertical-sm am-padding-horizontal-xs">
-                    <ul class="am-avg-sm-3 am-text-sm">
-                        <li>
-                            <del>在售价：￥
-                                <%=item.itemprice%></del>
-                        </li>
-                        <li class="am-text-center"><i class="icon-quan2 iconfont am-margin-right-xs"></i>
-                            <%=item.couponmoney%>元</li>
-                        <li class="am-text-center">销量<span class="am-margin-left-xs">
-                                <%=item.itemsale%></span></li>
-                    </ul>
-                </div>
-                <div class="fq-reason fq-background-white am-padding-horizontal-xs am-padding-vertical-sm am-text-sm">
-                    <strong>推荐理由</strong>
-                    <br />
-                    <div class="am-margin-top-xs">
-                        <%=item.guide_article%>
-                    </div>
-                </div>
-            </div>
-            <!--商品图文详情-->
-            <div class="am-panel-group am-margin-vertical-sm" id="accordion">
-                <div class="am-panel am-padding-horizontal-xs">
-                    <div class="am-panel-hd am-padding-left-0 am-padding-right-0 am-padding-vertical-sm ">
-                        <h4 class="am-panel-title" data-am-collapse="{parent: '#accordion', target: '#product-details'}"
-                            data-iid="<%=item.itemid%>">
-                            商品图文详情<span class="am-text-xs am-text-primary">（点击展开）</span>
-                            <i class="am-icon-angle-right am-fr am-icon-sm" id="change_icon"></i>
-                        </h4>
-                    </div>
-                    <div id="product-details" class="am-panel-collapse am-collapse">
-                        <div class="am-panel-bd am-padding-0" style="border-top: 0">
-                            <div class="am-tab-panel am-fade am-in am-active" id="tab1">
-                                <div class="am-padding-top-sm" style="width:100%;overflow:auto;"></div>
+                -->
+                    <% } else { %>
+                    <ul data-am-widget="gallery" class="am-gallery am-avg-sm-1 am-gallery-default am-padding-0"
+                        data-am-gallery="{ pureview: true }">
+                        <li class="am-padding-0">
+                            <div class="am-gallery-item" style="position:relative">
+                                <a href="<%=item.itempic%>_600x600.jpg">
+                                    <img src="<%=item.itempic%>_600x600.jpg">
+                                </a>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--商品图文详情-->
-            <!--更多商品-->
-            <div class="fq-grandeur-like am-text-sm am-text-center am-margin-vertical-xs"><i class="am-icon-heart-o am-margin-right-xs"></i>猜您喜欢</div>
-            <!--商品轮播-->
-            <div data-am-widget="slider" class="guess-like am-slider am-slider-a1" data-am-slider='{&quot;directionNav&quot;:false}'>
-                <ul class="am-slides">
-                    <% likes.data.forEach(function(like,idx){ %>
-                    <% if(idx % 3 == 0){ %>
-                    <li>
-                        <ul class="am-avg-sm-3">
-                            <% } %>
-                            <li class="fq-goods fq-background-white am-text-center">
-                                <a class="am-block" href="/item/<%=like.itemid%>">
-                                    <img class="am-thumbnail am-margin-bottom-0 am-block" src="<%=like.itempic%>_310x310.jpg" /></a>
-                                <a class="fq-title am-block am-text-xs am-text-truncate am-padding-left-xs">
-                                    <span data-id="6972934">
-                                        <%=like.itemtitle%></span></a>
-                                <div class="am-cf am-text-left am-padding-left-xs">
-                                    <div class="fq-price am-text-xs">
-                                        <span>券后</span>
-                                        <strong>￥
-                                            <%=like.itemendprice%></strong></div>
-                                </div>
-                            </li>
-                            <% if( (idx+1) % 3 == 0 ){ %>
-                        </ul>
-                    </li>
+                        </li>
+                    </ul>
                     <% } %>
-                    <% }); %>
-                </ul>
-            </div>
-            <!--更多商品-->
-            <div data-am-widget="gotop" class="am-gotop am-gotop-fixed" style="margin-bottom:50px;">
-                <a href="#top">
-                    <i class="am-gotop-icon am-icon-chevron-up am-round"></i>
-                </a>
-            </div>
-            <!--底部菜单-->
-            <div class="fq-grandeur-menu fq-background-white">
-                <ul class="am-avg-sm-2">
-
-                    <li class="">
-                        <ul class="am-avg-sm-2 am-padding-left-xs">
-                            <li class="am-text-center">
-                                <a href="/" class="am-padding-vertical-sm am-block">
-                                    <i class="icon-shouye iconfont am-text-center am-vertical-align-middle"></i>
-                                    <span class="fq-grandeur-index am-text-sm am-text-center am-vertical-align-middle">首页</span>
-                                </a>
-                            </li>
-                            <li class="am-text-center">
-                                <div class="am-inline-block " data-am-modal="{target:'#qrcode_large'}" style="cursor: pointer">
-                                    <a class="am-padding-vertical-sm am-block">
-                                        <i class="icon-liaotiankefu iconfont am-text-center am-vertical-align-middle"></i>
-                                        <span class="fq-grandeur-service am-text-sm am-text-center am-vertical-align-middle">客服</span>
-                                    </a>
-                                </div>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li>
-
-
-                        <ul class="am-avg-sm-1 am-text-center button_type">
-
-                            <li class="am-hide direct_buy">
-                                <button data-aa="0" type="button" class="fq-browser fq-text-white am-btn am-padding-horizontal-xs am-text-sm"
-                                    id="js_browser_link" style="color:#FFFFFF;">直接购买</button>
-                            </li>
-                            <li>
-                                <button type="button" class="fq-amoy fq-text-white am-btn am-padding-horizontal-xs am-text-sm"
-                                    id="js_buy_words" data-am-modal="{target: '#doc-modal-1', closeViaDimmer: 0}">
-                                    口令购买
-                                </button> </li>
-
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-            <!--底部菜单-->
-            <div class="fq-amoy-buy am-modal am-modal-no-btn" tabindex="-1" id="doc-modal-1">
-                <div class="fq-background-white am-modal-dialog">
-                    <div class="am-modal-hd">
-                        口令购买
-                        <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+                    <!---->
+                    <div class="fq-grandeur-title fq-background-white am-padding-xs">
+                        <!--收藏-->
+                        <div class="fq-collect">
+                            <strong class="am-block am-text-sm">
+                                <%=item.itemtitle%></strong>
+                        </div>
+                        <strong class="fq-price am-text-sm" data="0">券后包邮<span class="am-text-xl am-margin-left-xs">￥
+                                <%=item.itemendprice%></span></strong>
                     </div>
-                    <div class="am-modal-bd am-padding-0">
-                        <!--二合一口令开始-->
-                        <div class="am-margin-vertical am-margin-horizontal-lg">
-                            <div class="fq-goods-border fq-background-white am-text-center am-margin-top am-padding-vertical am-padding-horizontal-sm">
-                                <div class="fq-explain am-center am-text-center">
-                                    <span class="fq-nowrap fq-text-white am-padding-horizontal-sm">长按框内 > 全选 > 复制</span>
-                                </div>
-                                <span id="copy_key_ios"></span>
-                                <textarea style="display: none;height:40px" id="copy_key_android" type="text" class="am-form-field am-text-center am-text-sm"
-                                    oninput="regain();"></textarea>
-                            </div>
-                        </div>
-                        <!--二合一口令结束-->
-
-                        <div class="copy_words am-margin-bottom" style="display:none;">
-
-                            <div class="am-text-center am-margin-top-sm">
-
-                                <a class="js_copy_words js_copy_words1 am-padding-vertical-xs am-padding-horizontal-lg am-round am-inline-block share"
-                                    data-words="" style="background:#f54d23;color:#FFFFFF;">
-                                    一键复制
-                                </a>
-                                <div class="am-margin-top-sm am-text-xs am-text-primary am-margin-horizontal-sm words_tips am-inline-block">注：若复制失败，请手动复制口令
-                                </div>
-                            </div>
-                        </div>
-                        <div class="fq-instructions am-text-left am-text-xs am-padding-vertical-sm am-padding-horizontal-lg words_tips am-inline-block">
-                            <span>
-                                <span>使用说明：</span>
-                                <span>复制口令后打开手机【<img src="/assets/img/tb.jpg" style="width:20px;height:20px;border-radius: 4px;position: relative;top: -2px;">】即可领取秘券购买！</span>
-                            </span>
+                    <div class="fq-grandeur-price fq-background-white am-padding-vertical-sm am-padding-horizontal-xs">
+                        <ul class="am-avg-sm-3 am-text-sm">
+                            <li>
+                                <del>在售价：￥
+                                    <%=item.itemprice%></del>
+                            </li>
+                            <li class="am-text-center"><i class="icon-quan2 iconfont am-margin-right-xs"></i>
+                                <%=item.couponmoney%>元</li>
+                            <li class="am-text-center">销量<span class="am-margin-left-xs">
+                                    <%=item.itemsale%></span></li>
+                        </ul>
+                    </div>
+                    <div class="fq-reason fq-background-white am-padding-horizontal-xs am-padding-vertical-sm am-text-sm">
+                        <strong>推荐理由</strong>
+                        <br />
+                        <div class="am-margin-top-xs">
+                            <%=item.guide_article%>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="copy_word_content am-margin-bottom am-badge-success am-badge" id="copy_word_content"></div>
-            <div class="fq-service-wechat am-modal am-modal-no-btn" tabindex="-1" id="qrcode_large">
-                <div class="am-modal-dialog">
-                    <div class="am-modal-hd">
-                        <span class="am-text-sm">点击二维码放大后长按关注</span>
-                        <a href="javascript: void(0)" class="am-close" data-am-modal-close>&times;</a>
-                    </div>
-                    <ul data-am-widget="gallery" class="am-gallery am-avg-sm-1 am-gallery-default" data-am-gallery="{pureview: 1}">
-                        <li>
-                            <div class="am-gallery-item">
+                <!--商品图文详情-->
+                <div class="am-panel-group am-margin-vertical-sm" id="accordion">
+                    <div class="am-panel am-padding-horizontal-xs">
+                        <div class="am-panel-hd am-padding-left-0 am-padding-right-0 am-padding-vertical-sm ">
+                            <h4 class="am-panel-title" data-am-collapse="{parent: '#accordion', target: '#product-details'}"
+                                data-iid="<%=item.itemid%>">
+                                商品图文详情<span class="am-text-xs am-text-primary">（点击展开）</span>
+                                <i class="am-icon-angle-right am-fr am-icon-sm" id="change_icon"></i>
+                            </h4>
+                        </div>
+                        <div id="product-details" class="am-panel-collapse am-collapse">
+                            <div class="am-panel-bd am-padding-0" style="border-top: 0">
+                                <div class="am-tab-panel am-fade am-in am-active" id="tab1">
+                                    <div class="am-padding-top-sm" style="width:100%;overflow:auto;"></div>
+                                </div>
                             </div>
-                            <div class="am-margin-bottom">建设中 敬请期待</div>
+                        </div>
+                    </div>
+                </div>
+                <!--商品图文详情-->
+                <!--更多商品-->
+                <div class="fq-grandeur-like am-text-sm am-text-center am-margin-vertical-xs"><i class="am-icon-heart-o am-margin-right-xs"></i>猜您喜欢</div>
+                <!--商品轮播
+                <div data-am-widget="slider" class="guess-like am-slider am-slider-a1" data-am-slider='{&quot;directionNav&quot;:false}'>
+                    <ul class="am-slides">
+                        <% likes.data.forEach(function(like,idx){ %>
+                        <% if(idx % 3 == 0){ %>
+                        <li>
+                            <ul class="am-avg-sm-3">
+                                <% } %>
+                                <li class="fq-goods fq-background-white am-text-center">
+                                    <a class="am-block" href="/item/<%=like.itemid%>">
+                                        <img class="am-thumbnail am-margin-bottom-0 am-block" src="<%=like.itempic%>_310x310.jpg" /></a>
+                                    <a class="fq-title am-block am-text-xs am-text-truncate am-padding-left-xs">
+                                        <span data-id="6972934">
+                                            <%=like.itemtitle%></span></a>
+                                    <div class="am-cf am-text-left am-padding-left-xs">
+                                        <div class="fq-price am-text-xs">
+                                            <span>券后</span>
+                                            <strong>￥
+                                                <%=like.itemendprice%></strong></div>
+                                    </div>
+                                </li>
+                                <% if( (idx+1) % 3 == 0 ){ %>
+                            </ul>
+                        </li>
+                        <% } %>
+                        <% }); %>
+                    </ul>
+                </div>
+                -->
+                <div class="swiper-container guess-like" data-am-slider='{&quot;directionNav&quot;:false}'>
+                    <div class="swiper-wrapper">
+                        <% likes.data.forEach(function(like,idx){ %>
+                        <% if(idx % 3 == 0){ %>
+                        <li class="swiper-slide">
+                            <ul class="am-avg-sm-3">
+                                <% } %>
+                                <li class="fq-goods fq-background-white am-text-center">
+                                    <a class="am-block" href="/item/<%=like.itemid%>">
+                                        <img class="am-thumbnail am-margin-bottom-0 am-block" src="<%=like.itempic%>_310x310.jpg" /></a>
+                                    <a class="fq-title am-block am-text-xs am-text-truncate am-padding-left-xs">
+                                        <span data-id="6972934">
+                                            <%=like.itemtitle%></span></a>
+                                    <div class="am-cf am-text-left am-padding-left-xs">
+                                        <div class="fq-price am-text-xs">
+                                            <span>券后</span>
+                                            <strong>￥
+                                                <%=like.itemendprice%></strong></div>
+                                    </div>
+                                </li>
+                                <% if( (idx+1) % 3 == 0 ){ %>
+                            </ul>
+                        </li>
+                        <% } %>
+                        <% }); %>
+                    </div>
+                </div>
+
+                <!--更多商品-->
+                <div data-am-widget="gotop" class="am-gotop am-gotop-fixed" style="margin-bottom:50px;">
+                    <a href="#top">
+                        <i class="am-gotop-icon am-icon-chevron-up am-round"></i>
+                    </a>
+                </div>
+                <!--底部菜单-->
+                <div class="fq-grandeur-menu fq-background-white">
+                    <ul class="am-avg-sm-2">
+
+                        <li class="">
+                            <ul class="am-avg-sm-2 am-padding-left-xs">
+                                <li class="am-text-center">
+                                    <a href="/" class="am-padding-vertical-sm am-block">
+                                        <i class="icon-shouye iconfont am-text-center am-vertical-align-middle"></i>
+                                        <span class="fq-grandeur-index am-text-sm am-text-center am-vertical-align-middle">首页</span>
+                                    </a>
+                                </li>
+                                <li class="am-text-center">
+                                    <div class="am-inline-block " data-am-modal="{target:'#qrcode_large'}" style="cursor: pointer">
+                                        <a class="am-padding-vertical-sm am-block">
+                                            <i class="icon-liaotiankefu iconfont am-text-center am-vertical-align-middle"></i>
+                                            <span class="fq-grandeur-service am-text-sm am-text-center am-vertical-align-middle">客服</span>
+                                        </a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li>
+
+
+                            <ul class="am-avg-sm-1 am-text-center button_type">
+
+                                <li class="am-hide direct_buy">
+                                    <button data-aa="0" type="button" class="fq-browser fq-text-white am-btn am-padding-horizontal-xs am-text-sm"
+                                        id="js_browser_link" style="color:#FFFFFF;">直接购买</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="fq-amoy fq-text-white am-btn am-padding-horizontal-xs am-text-sm"
+                                        id="js_buy_words" data-am-modal="{target: '#doc-modal-1', closeViaDimmer: 0}">
+                                        口令购买
+                                    </button> </li>
+
+                            </ul>
                         </li>
                     </ul>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <!--<div id="base64Img"></div> -->
-
-    <button type="button" class="fq-promotion am-text-lg am-text-center am-round am-btn am-padding-horizontal-0 am-padding-0"
-        id="js_generalize" style="display:none;">
-        推
-    </button>
-
-    <div class="fq-amoy-buy am-modal am-modal-no-btn" tabindex="-1" id="fq-promotion-message">
-        <div class="fq-background-white am-modal-dialog">
-            <div class="am-modal-hd">
-                &nbsp;
-                <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
-            </div>
-            <div class="am-modal-bd am-padding-0">
-                <!--口令-->
-
-                <!--二合一口令开始-->
-                <div class="am-margin-vertical am-margin-horizontal-sm">
-                    <div class="fq-goods-border fq-background-white am-text-sm am-text-left am-padding-vertical am-padding-horizontal-xs">
-                        <div class="fq-explain am-center am-text-center">
-                            <span class="fq-nowrap fq-text-white am-padding-horizontal-sm">长按框内 > 全选 > 复制</span>
+                <!--底部菜单-->
+                <div class="fq-amoy-buy am-modal am-modal-no-btn" tabindex="-1" id="doc-modal-1">
+                    <div class="fq-background-white am-modal-dialog">
+                        <div class="am-modal-hd">
+                            口令购买
+                            <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
                         </div>
-                        <span id="copy_key_ios5"></span>
-                        <textarea id="copy_key_android5" type="text" class="am-form-field am-text-left am-text-sm"
-                            oninput="regain5();"></textarea>
+                        <div class="am-modal-bd am-padding-0">
+                            <!--二合一口令开始-->
+                            <div class="am-margin-vertical am-margin-horizontal-lg">
+                                <div class="fq-goods-border fq-background-white am-text-center am-margin-top am-padding-vertical am-padding-horizontal-sm">
+                                    <div class="fq-explain am-center am-text-center">
+                                        <span class="fq-nowrap fq-text-white am-padding-horizontal-sm">长按框内 > 全选 > 复制</span>
+                                    </div>
+                                    <span id="copy_key_ios"></span>
+                                    <textarea style="display: none;height:40px" id="copy_key_android" type="text" class="am-form-field am-text-center am-text-sm"
+                                        oninput="regain();"></textarea>
+                                </div>
+                            </div>
+                            <!--二合一口令结束-->
+
+                            <div class="copy_words am-margin-bottom" style="display:none;">
+
+                                <div class="am-text-center am-margin-top-sm">
+
+                                    <a class="js_copy_words js_copy_words1 am-padding-vertical-xs am-padding-horizontal-lg am-round am-inline-block share"
+                                        data-words="" style="background:#f54d23;color:#FFFFFF;">
+                                        一键复制
+                                    </a>
+                                    <div class="am-margin-top-sm am-text-xs am-text-primary am-margin-horizontal-sm words_tips am-inline-block">注：若复制失败，请手动复制口令
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="fq-instructions am-text-left am-text-xs am-padding-vertical-sm am-padding-horizontal-lg words_tips am-inline-block">
+                                <span>
+                                    <span>使用说明：</span>
+                                    <span>复制口令后打开手机【<img src="/assets/img/tb.jpg" style="width:20px;height:20px;border-radius: 4px;position: relative;top: -2px;">】即可领取秘券购买！</span>
+                                </span>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
-
-                <div class="copy_words am-margin-bottom" style="display:none;">
-                    <!-- <div class="share_generalize_content am-margin-bottom am-badge-success am-badge"></div> -->
-                    <div class="am-text-center am-margin-top-sm">
-                        <a class="js_copy_words share_generalize am-padding-vertical-xs am-padding-horizontal-lg am-round am-inline-block"
-                            id="js_my_share" style="background: #f54d23; color: white;" data-words="" data-content="">
-                            一键复制
-                        </a>
-                        <div class="am-margin-top-sm am-text-xs am-text-primary am-margin-horizontal-sm">点击复制后，请打开【<img
-                                src="/assets/img/tb.jpg" style="width:20px;height:20px;border-radius: 4px;position: relative;top: -2px;">】购买！</div>
+                <div class="copy_word_content am-margin-bottom am-badge-success am-badge" id="copy_word_content"></div>
+                <div class="fq-service-wechat am-modal am-modal-no-btn" tabindex="-1" id="qrcode_large">
+                    <div class="am-modal-dialog">
+                        <div class="am-modal-hd">
+                            <span class="am-text-sm">点击二维码放大后长按关注</span>
+                            <a href="javascript: void(0)" class="am-close" data-am-modal-close>&times;</a>
+                        </div>
+                        <ul data-am-widget="gallery" class="am-gallery am-avg-sm-1 am-gallery-default" data-am-gallery="{pureview: 1}">
+                            <li>
+                                <div class="am-gallery-item">
+                                </div>
+                                <div class="am-margin-bottom">建设中 敬请期待</div>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+
+        <!--<div id="base64Img"></div> -->
+
+        <button type="button" class="fq-promotion am-text-lg am-text-center am-round am-btn am-padding-horizontal-0 am-padding-0"
+            id="js_generalize" style="display:none;">
+            推
+        </button>
+
+        <div class="fq-amoy-buy am-modal am-modal-no-btn" tabindex="-1" id="fq-promotion-message">
+            <div class="fq-background-white am-modal-dialog">
+                <div class="am-modal-hd">
+                    &nbsp;
+                    <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+                </div>
+                <div class="am-modal-bd am-padding-0">
+                    <!--口令-->
+
+                    <!--二合一口令开始-->
+                    <div class="am-margin-vertical am-margin-horizontal-sm">
+                        <div class="fq-goods-border fq-background-white am-text-sm am-text-left am-padding-vertical am-padding-horizontal-xs">
+                            <div class="fq-explain am-center am-text-center">
+                                <span class="fq-nowrap fq-text-white am-padding-horizontal-sm">长按框内 > 全选 > 复制</span>
+                            </div>
+                            <span id="copy_key_ios5"></span>
+                            <textarea id="copy_key_android5" type="text" class="am-form-field am-text-left am-text-sm"
+                                oninput="regain5();"></textarea>
+                        </div>
+                    </div>
+
+
+                    <div class="copy_words am-margin-bottom" style="display:none;">
+                        <!-- <div class="share_generalize_content am-margin-bottom am-badge-success am-badge"></div> -->
+                        <div class="am-text-center am-margin-top-sm">
+                            <a class="js_copy_words share_generalize am-padding-vertical-xs am-padding-horizontal-lg am-round am-inline-block"
+                                id="js_my_share" style="background: #f54d23; color: white;" data-words="" data-content="">
+                                一键复制
+                            </a>
+                            <div class="am-margin-top-sm am-text-xs am-text-primary am-margin-horizontal-sm">点击复制后，请打开【<img
+                                    src="/assets/img/tb.jpg" style="width:20px;height:20px;border-radius: 4px;position: relative;top: -2px;">】购买！</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <!--图文详情合成-->
 
@@ -925,13 +972,34 @@
     </script>
     <script>
         var _hmt = _hmt || [];
-        (function() {
+        (function () {
             var hm = document.createElement("script");
             hm.src = "https://hm.baidu.com/hm.js?46019f09c2a8a83142935b3974a7a60d";
-            var s = document.getElementsByTagName("script")[0]; 
+            var s = document.getElementsByTagName("script")[0];
             s.parentNode.insertBefore(hm, s);
         })();
     </script>
+    <script>
+        var mySwiper = new Swiper('.swiper-container.am-slider', {
+            direction: 'horizontal', // 垂直切换选项
+            loop: true, // 循环模式选项
+            autoplay:true,
+            // 如果需要分页器
+            pagination: {
+                el: '.swiper-pagination',
+            }
+        });
+        var mySwiper2 = new Swiper('.swiper-container.guess-like', {
+            direction: 'horizontal', // 垂直切换选项
+            loop: true, // 循环模式选项
+            autoplay:true
+        })    
+    </script>
+    <style>
+        .swiper-container-horizontal>.swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction {bottom: 0px;}
+        .swiper-slide img {width: 100%;}
+        .swiper-pagination-bullet-active {background:#f54d23;}
+    </style>
 </body>
 
 </html>

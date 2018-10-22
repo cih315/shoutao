@@ -338,7 +338,7 @@ header .fq-close{position:absolute;top:5px;right:1rem;color:#B2B2B2;font-size:20
               result += '<a href="' + a_link + '" class="js_link">';
 
               result += '<div class="img-box">';
-              result += '<img class="fq-goods-img  am-fl lazy-more" data-original="' + picturl + '"/>';
+              result += '<img class="fq-goods-img  am-fl lazy-more-' + res.min_id + '" data-original="' + picturl + '"/>';
               result += '</div>';
 
               result += '<div class="fq-goods-message">';
@@ -377,7 +377,7 @@ header .fq-close{position:absolute;top:5px;right:1rem;color:#B2B2B2;font-size:20
               result += '</a></div></li>';
 
               $('.index-goods-lists').append(result);
-              $('img.lazy-more').lazyload({
+              $('img.lazy-more-' + res.min_id).lazyload({
                 effect: "fadeIn",
                 placeholder: "https://cmsstatic.dataoke.com/web/images/rolling.gif"
               });
