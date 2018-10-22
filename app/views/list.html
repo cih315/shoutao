@@ -638,7 +638,7 @@
             isloading = true;
           }
 
-          $('img.lazy').lazyload({
+          $('img.lazy-more').lazyload({
             effect: "fadeIn",
             placeholder: "https://cmsstatic.dataoke.com/web/images/rolling.gif"
           });
@@ -672,7 +672,7 @@
         html += '<div class="img-box">';
         html += '<img data-original="';
         html += goods[i]['itempic'].indexOf('_310x310.jpg') == -1 ? goods[i]['itempic'] + '_310x310.jpg"' : goods[i]['itempic'] + '"';
-        html += ' class="fq-goods-img fq-left lazy">';
+        html += ' class="fq-goods-img fq-left lazy-more">';
         if ("" == 3) {
           html += '<a class="fq-icon-play am-padding-xs am-round am-icon-play click_video" data-vid="' + goods[i]['videoid'] + '"></a>';
         }
