@@ -75,6 +75,7 @@
 
     <!--视频展示-->
     <!--视频展示-->
+    <div class="main" id="mainall" style="max-width:640px">
 
     <!-- 微信自定义接口 -->
     <div class="fq-search fq-background-white am-text-center" data-status="">
@@ -85,30 +86,38 @@
         </form>
     </div>
     <a href="javascript:void(0);" onclick="back();">
-        <img src="/assets/img/back.png" class="fq-return am-margin-top-sm am-margin-left-sm" style="z-index:99">
+        <img src="/assets/img/back.png" class="fq-return am-margin-top-sm am-margin-left-sm" style="z-index:99;position: fixed;">
     </a>
     <div class="fq-searchbox fq-text-white am-inline-block am-vertical-align am-text-center am-round am-margin-top-sm am-margin-right-sm"
-        style="z-index:99">
+        style="z-index:99;position: fixed;">
         <i class="am-icon-search am-vertical-align-middle"></i>
     </div>
+    <a href="javascript:void(0);" onclick="rehome();">
+        <img src="/assets/img/rehome.png" class="fq-rehome am-margin-top-sm am-margin-right-sm" style="z-index:99;top:53px;right:0;width: 36px;height: 36px;position: fixed;">
+    </a>
     <script>
         function back() {
             var last_page_url = (document.referrer);
             if (last_page_url) {
                 window.history.back(-1);
             } else {
-                window.location.href = '/index.html';
+                window.location.href = '/';
             }
+        }
+        function rehome(){
+            window.location.href = '/';
         }
         $(".fq-searchbox").click(function () {
             if ($(".fq-search").is(":hidden")) {
                 $(".fq-search").show();
                 $(".fq-return").css("top", "53px");
                 $(".fq-searchbox").css("top", "53px"); //如果元素为隐藏,则将它显现
+                $(".fq-rehome").css("top","106px");
             } else {
                 $(".fq-search").hide();
                 $(".fq-return").css("top", "0");
                 $(".fq-searchbox").css("top", "0");    //如果元素为显现,则将其隐藏
+                $(".fq-rehome").css("top","53px");
             }
         })
     </script>
@@ -369,7 +378,7 @@
             </div>
         </div>
     </div>
-
+    </div>
     <!--图文详情合成-->
 
     <div id="coupon_url" class="am-hide"></div>
