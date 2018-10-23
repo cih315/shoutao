@@ -10,13 +10,13 @@ const h5coupon = require('./h5coupon')
 const pid = 'mm_14942785_97600036_18176850324';
 const session = '7000010142156277b007a9d4746a5ea9911e21a5c13626f4e238ea754331766154d5397267987083';
 
-const date = '20181022'
+const date = '20181023'
 const prefix = date + '-1'
 const outputBase = __dirname + '/dd/' + date + '/'
 const tmpBase = __dirname + '/tmp'
 const htmlFile = outputBase + prefix + '.html'
-const mp_link = 'https://mp.weixin.qq.com/s/OZlAET_5tTCqIA34AWXx6g'
-const len = 30
+const mp_link = 'https://mp.weixin.qq.com/s/uMGU-WZYr4qqnH0ft9VInw'
+const len = 35
 
 async function getMpHtml(url) {
     try {
@@ -210,6 +210,7 @@ function mkdirs(dirpath) {
                         //
                         item.uland = item.ulandResult
                         item.hashid = hashids.encode(item.GoodsId)
+                        item.go = 'https://www.xuankejia.cn/go/'+item.GoodsId
                         dataList.push(item)
                         console.log(`${(++i)}/${size} parse item success : ${item.GoodsId}, effect:${begin_date}-${end_date}`)
                     } else {

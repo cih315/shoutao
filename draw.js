@@ -341,7 +341,7 @@ async function fillText(context) {
     ctx.fillStyle = strokeStyle
     ctx.fillText('长按识别二维码', 535, 1095)
   }
-  const qrUrl = context.item.uland
+  const qrUrl = context.item.go
   let buffer = qr.imageSync(qrUrl, { type: 'png' })
   return new Promise((res, rej) => {
     let qrImg = new Canvas.Image()

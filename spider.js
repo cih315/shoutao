@@ -43,6 +43,7 @@ async function loadItem() {
       for (i in dataList) {
         var item = dataList[i];
         item.hashid = hashids.encode(item.GoodsId)
+        item.go = 'https://www.xuankejia.cn/go/'+item.GoodsId
         url.push(item.GoodsLink + '|' + item.ActLink);
         num++;
         if (num % 40 == 0) {
