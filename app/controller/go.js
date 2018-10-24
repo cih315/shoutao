@@ -72,8 +72,10 @@ class Go {
               ttl = data.item.couponendtime - new Date().valueOf() / 1000
               ttl = parseInt(ttl > 0 ? ttl : 1)
             }
-            await my_cache.set(key_item_detail, data.item, ttl)
-            console.log('item detail cache miss:' + key_item_detail)
+            if (data.item.itemid) {
+              await my_cache.set(key_item_detail, data.item, ttl)
+              console.log('item detail cache miss:' + key_item_detail)
+            }
           } else {
             if (data.item.couponendtime) {
               ttl = data.item.couponendtime - new Date().valueOf() / 1000
@@ -94,6 +96,7 @@ class Go {
       return
     }
     data.cfg = pid_cfg
+    data.iid = item_id
     ejs.renderFile(view_path + '/go.html', data, { async: false, cache: true, rmWhitespace: true }, (err, html) => {
       if (err) {
         console.error(err)

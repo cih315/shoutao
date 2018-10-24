@@ -13,6 +13,7 @@
   <script src="https://lib.baomitu.com/jquery/2.1.4/jquery.min.js"></script>
   <script src="https://lib.baomitu.com/cookie.js/1.2.2/cookie.min.js"></script>
   <script type="text/javascript">
+    var iid = '<%=iid%>'
     var item_id = '<%=item.itemid%>';
     var coupon_id = '<%=item.activityid%>';
     var item_title = '<%=item.itemtitle%>';
@@ -37,7 +38,12 @@
           var title = '';
           if (tkl) title = item_title;
           var url = window.location.href;
-          var html = '<table><tbody><tr><td class="uc-col"><div class="uc-box"><div class="uc-body">' + (tkl ? '<div class="uc-input"><textarea id="tkl-text" spellcheck="false" readonly="readonly">复制本条内容，打开👉手' + '机淘' + '宝👈抢购' + title + tkl + ' ' + '</textarea></div><h2 onClick="copyTklUrl(\'tkl-text\', this)" class="uc-tac uc-click">👉点击我复制淘' + '口' + '令👈</h2>' : '') + '<div class="uc-submit uc-tac">' + tips + '</div></div></div></td></tr></tbody></table>';
+          var html;
+          if (tkl.indexOf('浏览器') == -1) {
+            html = '<table><tbody><tr><td class="uc-col"><div class="uc-box"><div class="uc-body">' + (tkl ? '<div class="uc-input"><textarea id="tkl-text" spellcheck="false" readonly="readonly">复制本条内容，打开👉手' + '机淘' + '宝👈抢购' + title + tkl + ' ' + '</textarea></div><h2 onClick="copyTklUrl(\'tkl-text\', this)" class="uc-tac uc-click">👉点击我复制淘' + '口' + '令👈</h2>' : '') + '<div class="uc-submit uc-tac">' + tips + '</div></div></div></td></tr></tbody></table>';
+          } else {
+            html = '<table><tbody><tr><td class="uc-col"><div class="uc-box"><div class="uc-body">' + (tkl ? '<div class="uc-input"><textarea id="tkl-text" spellcheck="false" readonly="readonly">' + tkl + ' ' + '</textarea></div><h2 onClick="copyTklUrl(\'tkl-text\', this)" class="uc-tac uc-click"></h2>' : '') + '<div class="uc-submit uc-tac">' + tips + '</div></div></div></td></tr></tbody></table>';
+          }
           var op = document.createElement("div");
           op.className = "uc-popup uc-popup-tkl";
           op.innerHTML = html;
@@ -50,28 +56,36 @@
       }
       document.write('<link rel="stylesheet" href="/assets/css/weixin.css?v=20181019" type="text/css" media="all" /><div class="beatHeader ' + _ua + '" id="landingHeader"></div>');
       var tkl = cookie.get('item_tkl_' + item_id + '_' + pid);
-      if (!tkl) {
-        $.ajax({
-          type: 'post',
-          url: "/uland",
-          data: { 'item_id': item_id, 'urls': coupon_url, 'tklTitle': tklTitle, 'tklImg': tklImg, 'pid': pid, 'platform': true, 'isTkl': true, 'session': session }
-        }).done(function (res) {
-          if (res.error_code == 0) {
-            var tkl = res.data[0].tkl
-            window.tkl = tkl;
-            window.ulandResult = res.data[0].ulandResult;
-            cookie.set('item_tkl_' + item_id + '_' + pid, encodeURIComponent(tkl), { expires: 1, path: '/' })
-            html_tkl(tkl);
-          } else {
-            html_tkl('淘口令获取失败,请打开浏览器直接访问')
-          }
-        });
+      if (item_id) {
+        if (!tkl) {
+          $.ajax({
+            type: 'post',
+            url: "/uland",
+            data: { 'item_id': item_id, 'urls': coupon_url, 'tklTitle': tklTitle, 'tklImg': tklImg, 'pid': pid, 'platform': true, 'isTkl': true, 'session': session }
+          }).done(function (res) {
+            if (res.error_code == 0) {
+              var tkl = res.data[0].tkl
+              window.tkl = tkl;
+              window.ulandResult = res.data[0].ulandResult;
+              cookie.set('item_tkl_' + item_id + '_' + pid, encodeURIComponent(tkl), { expires: 1, path: '/' })
+              html_tkl(tkl);
+            } else {
+              html_tkl('淘口令获取失败,请打开浏览器直接访问')
+            }
+          });
+        } else {
+          html_tkl('请按上方提示打开浏览器中购买');
+        }
       } else {
-        tkl = decodeURIComponent(tkl)
-        html_tkl(tkl);
+        html_tkl('请按上方提示打开浏览器中购买');
       }
     } else {
-      document.write('<a href="https://uland.t' + 'ao' + 'ba' + 'o.com/coupon/edetail?activityId=' + coupon_id + '&pid=' + pid + '&itemId=' + item_id + '&src=xkj" rel="nofollow" id="xkj"></a>');
+      //ali_trackid=2:mm_14942785_97600036_18176850324:1540358740_123_863241304
+      var link = 'https://uland.t' + 'ao' + 'ba' + 'o.com/coupon/edetail?activityId=' + coupon_id + '&pid=' + pid + '&itemId=' + item_id + '&src=xkj';
+      if (iid && !item_id) {
+        link = 'https://item.ta' + 'ob' + 'ao.com/item.htm?id=' + iid + '&ali_trackid=2:mm_14942785_97600036_18176850324:' + parseInt(new Date().valueOf() / 1000) + '_123_863241304'
+      }
+      document.write('<a href="' + link + '" rel="nofollow" id="xkj"></a>');
       function doClick(id) {
         if (document.referrer && document.referrer.indexOf('//' + document.domain) >= 0 && window.history.replaceState) {
           window.history.replaceState(null, null, document.referrer);
