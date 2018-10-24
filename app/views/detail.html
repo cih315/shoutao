@@ -16,6 +16,7 @@
     <script src="https://lib.baomitu.com/cookie.js/1.2.2/cookie.min.js"></script>
     <link href="https://lib.baomitu.com/Swiper/4.4.1/css/swiper.min.css" rel="stylesheet">
     <script src="https://lib.baomitu.com/Swiper/4.4.1/js/swiper.min.js"></script>
+    <script src="https://static.runoob.com/assets/qrcode/qrcode.min.js"></script>
 </head>
 <style>
     @media screen and (min-width: 640px) {
@@ -97,6 +98,9 @@
         <a href="javascript:void(0);" onclick="rehome();">
             <img src="/assets/img/rehome.png" class="fq-rehome am-margin-top-sm am-margin-right-sm" style="z-index:99;top:53px;right:0;width: 36px;height: 36px;position: fixed;">
         </a>
+        <a href="javascript:void(0);" onclick="repic();">
+            <img src="/assets/img/repic.png" class="fq-repic am-margin-top-sm am-margin-right-sm" style="z-index:99;top:106px;right:0;width: 36px;height: 36px;position: fixed;">
+        </a>
         <script>
             function back() {
                 var last_page_url = (document.referrer);
@@ -109,17 +113,58 @@
             function rehome() {
                 window.location.href = '<%=cfg.home%>';
             }
+            function repic() {
+                $.getJSON('/short/<%=item.itemid%><%=cfg.suffix%>', function (json) {
+                    window.url_short = json.url_short
+                    var img_src = $('.swiper-slide-active img').attr('src')
+                    if (window.img_src != img_src) {
+                        draw(function () {
+
+                        });
+                        window.img_src = img_src;
+                        var clipboard = new Clipboard('#copy-remark', {
+                            target: function () {
+                                return document.querySelector('#item-remark');
+                            }
+                        });
+                        clipboard.on('success', function (e) {
+                            $('#copy-remark').removeClass('am-btn-secondary').addClass('am-btn-success').text('复制成功');
+                            $('#copy-remark').popover({ content: '文案复制成功,长按图片即可分享给您的朋友', theme: 'success' });
+                            $('#copy-remark').popover('open');
+                            setTimeout(function () {
+                                $('#copy-remark').removeClass('am-btn-success').addClass('am-btn-secondary').text('复制文案');
+                                $('#copy-remark').popover('close');
+                            }, 3000);
+                        });
+                        clipboard.on('error', function (e) {
+                            $('#copy-remark').removeClass('am-btn-secondary').addClass('am-btn-danger').text('复制失败');
+                            $('#copy-remark').popover({ content: '文案复制失败,长按图片也可分享给您的朋友', theme: 'danger' });
+                            $('#copy-remark').popover('open');
+                            setTimeout(function () {
+                                $('#copy-remark').removeClass('am-btn-danger').addClass('am-btn-secondary').text('复制文案');
+                                $('#copy-remark').popover('close');
+                            }, 3000);
+                        });
+                    }
+                    $('#qrcode-modal').modal({
+                        relatedTarget: this,
+                        closeViaDimmer: 0
+                    });
+                })
+            }
             $(".fq-searchbox").click(function () {
                 if ($(".fq-search").is(":hidden")) {
                     $(".fq-search").show();
                     $(".fq-return").css("top", "53px");
                     $(".fq-searchbox").css("top", "53px"); //如果元素为隐藏,则将它显现
                     $(".fq-rehome").css("top", "106px");
+                    $(".fq-repic").css("top", "159px");
                 } else {
                     $(".fq-search").hide();
                     $(".fq-return").css("top", "0");
                     $(".fq-searchbox").css("top", "0");    //如果元素为显现,则将其隐藏
                     $(".fq-rehome").css("top", "53px");
+                    $(".fq-repic").css("top", "106px");
                 }
             })
         </script>
@@ -133,7 +178,7 @@
                             <% item.taobao_image.split(',').forEach(function(img){%>
                             <div class="swiper-slide">
                                 <li>
-                                    <img src="<%=img%>_600x600.jpg">
+                                    <img class="slide-img" src="<%=img%>">
                                 </li>
                             </div>
                             <% }); %>
@@ -147,8 +192,8 @@
                         data-am-gallery="{ pureview: true }">
                         <li class="am-padding-0">
                             <div class="am-gallery-item" style="position:relative">
-                                <a href="<%=item.itempic%>_600x600.jpg">
-                                    <img src="<%=item.itempic%>_600x600.jpg">
+                                <a href="<%=item.itempic%>">
+                                    <img class="slide-img" src="<%=item.itempic%>">
                                 </a>
                             </div>
                         </li>
@@ -184,7 +229,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!--商品图文详情-->
                 <div class="am-panel-group am-margin-vertical-sm" id="accordion">
                     <div class="am-panel am-padding-horizontal-xs">
@@ -208,8 +253,7 @@
                 <div class="am-panel-group am-margin-vertical-sm" id="accordion">
                     <div class="am-panel am-padding-horizontal-xs">
                         <div class="am-panel-hd am-padding-left-0 am-padding-right-0 am-padding-vertical-sm ">
-                            <h4 class="am-panel-title  am-text-center"
-                                data-iid="<%=item.itemid%>">
+                            <h4 class="am-panel-title  am-text-center" data-iid="<%=item.itemid%>">
                                 商品信息不存在,给您推荐以下商品<span class="am-text-xs am-text-primary"></span>
                             </h4>
                         </div>
@@ -353,10 +397,39 @@
                             <li>
                                 <div class="am-gallery-item">
                                 </div>
-                                <div class="am-margin-bottom">建设中 敬请期待</div>
+                                <div class="am-margin-bottom">选客家</div>
                             </li>
                         </ul>
                     </div>
+                </div>
+
+                <div class="fq-service-wechat am-modal am-modal-no-btn" tabindex="-1" id="qrcode-modal">
+                    <div class="am-modal-dialog">
+                        <div class="am-modal-hd">
+                            <span class="am-text-sm">长按图片分享给您的朋友</span>
+                            <a href="javascript: void(0)" class="am-close" data-am-modal-close>&times;</a>
+                        </div>
+                        <ul data-am-widget="gallery" class="am-gallery am-avg-sm-1 am-gallery-default" data-am-gallery="{pureview: 0}">
+                            <li>
+                                <div class="am-gallery-item">
+                                    <img id="qrcode-img" src="https://cmsstatic.dataoke.com/web/images/rolling.gif">
+                                </div>
+                            </li>
+                        </ul>
+                        <div>
+                            <div id="item-remark" style="position: fixed;top: -100000px;">【商品名】：
+                                <%=item.itemtitle%><br />【在售价】：
+                                <%=item.itemprice%>元<br />【优惠券】：
+                                <%=item.couponmoney%>元<br />【券后价】：
+                                <%=item.itemendprice%>元<br />【推荐语】：
+                                <%=item.guide_article%>
+                            </div>
+                            <button type="button" id="copy-remark" class="am-btn am-btn-secondary am-round am-btn-xs">复制文案</button>
+                            <button type="button" id="desc-remark" class="am-btn am-btn-warning am-round am-btn-xs"
+                                data-am-popover="{content: '点击[复制文案],长按图片即可分享给您的朋友',trigger: 'hover focus',theme:'warning'}">操作说明</button>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -910,30 +983,6 @@
         }	
     </script>
 
-    <script type="text/javascript">
-
-        $(".imgData").click(function () {
-            src = $(".imgData").attr("src");
-            if (navigator.userAgent.toLowerCase().match(/platform\/ios/i)) {
-                window.webkit.messageHandlers.showImage.postMessage({ methodName: "showImage", "imageUrl": src });
-                return;
-            } else if (navigator.userAgent.toLowerCase().match(/iphone/i) == "iphone") {
-                showImage(src);
-                return;
-            }
-            window.android.getImage(src);
-        });
-
-        // 是否短链接海报
-        var hasPoster = 0, itemDetail = { "id": "6978626", "tb_itemid": "577692013833", "title": "\u6b27\u4e3d\u6e90\u72d0\u81ed\u814b\u81ed\u51c0\u5473\u6c34\u9664\u6b62\u6c57\u9732\u9999\u4f53\u814b\u4e0b\u55b7\u96fe\u6db2\u6839\u7537\u72d0\u81ed\u51c0\u5973\u6b63\u54c1", "image": "https:\/\/img.alicdn.com\/imgextra\/i4\/1735868976\/O1CN012GB3Xxm8JjYHwpM_!!1735868976.jpg", "price": "39.90", "end_price": "29.90", "sales": "55144", "category": "4", "recommended": "\u4e13\u6ce8\u51c0\u5473\uff0c\u6e29\u548c\u690d\u7269\u914d\u65b9\uff0c\u7537\u5973\u53ef\u7528\uff0c\u6e05\u65b0\uff0c\u5feb\u901f\u51c0\u5473\u6b62\u6c57\uff0c\u4e0d\u4f24\u80a4\uff0c\u4e0d\u6cbe\u67d3\u8863\u7269\uff0c\u643a\u5e26\u65b9\u4fbf\uff0c\u8ba9\u60a8\u8f7b\u677e\u89e3\u51b3\u72d0\u81ed\uff0c\u814b\u81ed\uff0c\u5f02\u5473\u95ee\u9898\uff0c\u53e3\u7891\u529b\u8350~", "couponslink": "http:\/\/uland.ta-ob-a-o.com\/quan\/detail?sellerId=3301614508&activityId=c45d1b697ff8457a907ce0b1c65042a4", "coupons": "10", "clickurl": "https:\/\/detail.t-m-a-l-l.com\/item.htm?id=577692013833", "bc_type": "B", "tktype": "\u901a\u7528\u8ba1\u5212", "tkrates": "20.00", "videoid": "0", "itemsale2": "0" }, actionName = 'details';
-        var super_search = '', id = itemDetail['id'];
-        var posterPname = window.localStorage.getItem('adzone_pname') || '';
-        var pushType = '' == 1 ? 1 : 0;
-        var guanFang = '', bannerMid = '';
-        var posterRid = window.localStorage.getItem('relation_id') || 0;
-    </script>
-    <script type="text/javascript" src="/assets/js/poster-test.js?v=20181015"></script>
-
     <div class="am-hide"></div>
 
     <script>
@@ -990,5 +1039,282 @@
         }
     </style>
 </body>
+
+<script>
+    function drawRoundRect(ctx, x, y, width, height, radius) {
+        drawRoundRect(ctx, x, y, width, height, radius)
+    }
+    function drawRoundRect(ctx, x, y, width, height, radius, fillStyle) {
+        drawRoundRect(ctx, x, y, width, height, radius, fillStyle, fillStyle)
+    }
+    function drawRoundRect(ctx, x, y, width, height, radius, fillStyle, strokeStyle) {
+        if (strokeStyle) {
+            ctx.strokeStyle = strokeStyle
+        }
+        ctx.beginPath();
+        ctx.arc(x + radius, y + radius, radius, Math.PI, Math.PI * 3 / 2);
+        ctx.lineTo(width - radius + x, y);
+        ctx.arc(width - radius + x, radius + y, radius, Math.PI * 3 / 2, Math.PI * 2);
+        ctx.lineTo(width + x, height + y - radius);
+        ctx.arc(width - radius + x, height - radius + y, radius, 0, Math.PI * 1 / 2);
+        ctx.lineTo(radius + x, height + y);
+        ctx.arc(radius + x, height - radius + y, radius, Math.PI * 1 / 2, Math.PI);
+        ctx.lineTo(x, y + radius);
+        ctx.stroke()
+        if (fillStyle) {
+            ctx.fillStyle = fillStyle
+            ctx.fill()
+        }
+        ctx.closePath()
+    }
+    function drawRoundRect2(ctx, x, y, width, height, radius, fillStyle, strokeStyle) {
+        if (strokeStyle) {
+            ctx.strokeStyle = strokeStyle
+            ctx.lineWidth = 3
+        }
+        ctx.beginPath();
+        ctx.arc(x + radius, y + radius, radius, Math.PI, Math.PI * 3 / 2);
+        ctx.lineTo(width - radius + x - 230, y);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.lineTo(width - radius + x - 30, y);
+        ctx.lineTo(width - radius + x, y);
+        ctx.stroke();
+
+        ctx.beginPath()
+        ctx.arc(width - radius + x, radius + y, radius, Math.PI * 3 / 2, Math.PI * 2);
+        ctx.lineTo(width + x, height + y - radius - 230);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.lineTo(width + x, height + y - radius - 30);
+        ctx.lineTo(width + x, height + y - radius);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(width - radius + x, height - radius + y, radius, 0, Math.PI * 1 / 2);
+        ctx.lineTo(radius + x + 230, height + y);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.lineTo(radius + x + 30, height + y);
+        ctx.lineTo(radius + x, height + y);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(radius + x, height - radius + y, radius, Math.PI * 1 / 2, Math.PI);
+        ctx.lineTo(x, y + radius + 230);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.lineTo(x, y + radius + 30);
+        ctx.lineTo(x, y + radius);
+        ctx.stroke();
+
+        if (fillStyle) {
+            ctx.fillStyle = fillStyle;
+            ctx.fill();
+        }
+        ctx.closePath();
+    }
+
+    function draw(cb) {
+        var c = document.createElement('canvas')
+        window.c = c
+        c.width = 800
+        c.height = 1144
+        var ctx = c.getContext('2d')
+        ctx.rect(0, 0, 800, 1144)
+        ctx.fillStyle = '#fff'
+        ctx.fill()
+        ctx.font = '30px msyh'
+        ctx.fillStyle = '#4D4D4D'
+        var img = new Image()
+        img.setAttribute('crossorigin', 'anonymous');
+        window.img_src = $('.swiper-slide-active img').attr('src')
+        img.src = window.img_src
+        img.onload = function () {
+            do_draw(ctx, img, cb)
+        }.bind(this)
+    }
+    function do_draw(ctx, img, cb) {
+        ctx.drawImage(img, 0, 0);
+        var context = {
+            ctx: ctx,
+            item: {
+                GoodsId: '<%=item.itemid%>',
+                GoodsName: '<%=item.itemtitle%>',
+                ActMoney: parseFloat('<%=item.couponmoney%>'),
+                GoodsPrice: parseFloat('<%=item.itemprice%>'),
+                LastPrice: parseFloat('<%=item.itemendprice%>'),
+                BeginDate: '<%=item.couponstarttime%>',
+                EndDate: '<%=item.couponendtime%>',
+                SaleCount: '<%=item.itemsale%>',
+                TKMoneyRate: '<%=item.tkrates%>',
+                TjRemark: '',
+                Coupon_Count: '<%=item.couponnum%>',
+                Coupon_SaleCount: '<%=item.couponreceive%>',
+                ly: 1,
+                //go: window.location.protocol + '//' + window.location.host + '/item/<%=item.itemid%><%=cfg.suffix%>'
+                go: url_short
+            }
+        };
+        var ctx = context.ctx;
+        let str = context.item.GoodsName + '，' + context.item.TjRemark;
+        var goodsPrice = context.item.GoodsPrice;
+        var actMoney = context.item.ActMoney;
+        var lastPrice = context.item.LastPrice;
+        var mallType = context.item.ly;
+        ctx.font = '30px msyh';
+        ctx.fillStyle = '#4D4D4D';
+        let txt = '';
+        let line = 1;
+        let idx = 0;
+        str = str.replace(/\ +/g, "").replace(/[ ]/g, "").replace(/[\r\n]/g, "");
+        while (line <= 3) {
+            if (line == 1) {
+                idx = 0;
+                while (idx < str.length) {
+                    txt = str.substring(0, idx++)
+                    let pix = ctx.measureText(txt)
+                    if (pix.width > 340) {
+                        break;
+                    }
+                }
+                //console.log(txt + ' line:' + line)
+                ctx.fillText(txt, 110, 875)
+                str = str.substring(idx - 1)
+                line++
+            } else if (line == 2) {
+                idx = 0;
+                while (idx < str.length) {
+                    txt = str.substring(0, idx++)
+                    let pix = ctx.measureText(txt)
+                    if (pix.width > 425) {
+                        break;
+                    }
+                }
+                //console.log(txt + ' line:' + line)
+                ctx.fillText(txt, 25, 920)
+                str = str.substring(idx - 1)
+                line++
+            } else if (line == 3) {
+                idx = 0;
+                while (idx < str.length) {
+                    txt = str.substring(0, idx++)
+                    let pix = ctx.measureText(txt)
+                    if (pix.width > 425) {
+                        break;
+                    }
+                }
+                //console.log(txt + ' line:' + line)
+                ctx.fillText(txt, 25, 965)
+                str = str.substring(idx - 1)
+                line++
+                break
+            }
+        }
+
+        //价格25,1010
+        const nowPriceStr = '现价 ￥' + goodsPrice.toFixed(2);
+        const lastPriceTxt = '券后价 ';
+        const lastPriceMoneyTxt = '￥' + lastPrice.toFixed(2);
+
+        ctx.fillStyle = '#949494'
+        ctx.fillText(nowPriceStr, 25, 1030)
+        //划线价格
+        ctx.strokeStyle = 'rgba(0,0,0,0.8)'
+        let pix = ctx.measureText(nowPriceStr)
+        ctx.beginPath()
+        ctx.lineTo(100, 1020)
+        ctx.lineTo(95 + pix.width - 70, 1020)
+        ctx.stroke()
+        ctx.closePath()
+        //券后价
+        ctx.fillStyle = '#949494'
+        ctx.fillText(lastPriceTxt, 170, 1084)
+        pix = ctx.measureText(lastPriceTxt);
+        //券后价格
+        ctx.font = '38px msyh'
+        if (mallType == 2) {
+            ctx.fillStyle = '#FF5000'
+        } else if (mallType == 1) {
+            ctx.fillStyle = '#FF0036'
+        }
+        ctx.fillText(lastPriceMoneyTxt, 170 + pix.width - 5, 1086)
+
+        //券(图标)
+        if (mallType == 2) {
+            drawRoundRect(ctx, 25, 1055, 35, 40, 5, '#FF5000', '#FF5000');
+        } else if (mallType == 1) {
+            drawRoundRect(ctx, 25, 1055, 35, 40, 5, '#FF0036', '#FF0036');
+        }
+        ctx.font = '30px msyh'
+        ctx.fillStyle = '#fff'
+        ctx.fillText('券', 28, 1084)
+        //优惠价格
+        let quan = actMoney + '元'
+        pix = ctx.measureText(quan)
+        drawRoundRect(ctx, 25, 1055, 35 + pix.width + 10, 40, 5);
+        ctx.font = '30px msyh'
+        if (mallType == 2) {
+            ctx.fillStyle = '#FF5000'
+        } else if (mallType == 1) {
+            ctx.fillStyle = '#FF0036'
+        }
+        ctx.fillText(quan, 65, 1084)
+
+        //25,850
+        if (mallType == 2) {
+            const strokeStyle = '#FF5000'
+            const filleStyle = '#FF5000'
+            //taobao FE5406
+            drawRoundRect(ctx, 25, 850, 70, 35, 5, filleStyle, strokeStyle)
+            ctx.font = 'bold 28px msyh'
+            ctx.fillStyle = '#fff'
+            ctx.fillText('淘宝', 32, 876)
+            //qr code circle
+            drawRoundRect2(ctx, 490, 835, 750 - 490, 1085 - 825, 5, null, strokeStyle)
+            ctx.font = 'bold 24px msyh'
+            ctx.fillStyle = strokeStyle
+            ctx.fillText('长按识别二维码', 535, 1097)
+        } else if (mallType == 1) {
+            const strokeStyle = '#FF0036'
+            const filleStyle = '#FF0036'
+            //tmall #FF0036
+            drawRoundRect(ctx, 25, 850, 70, 35, 5, filleStyle, strokeStyle);
+            ctx.font = 'bold 28px msyh'
+            ctx.fillStyle = '#fff'
+            ctx.fillText('天猫', 32, 876)
+            //qr code circle
+            drawRoundRect2(ctx, 490, 835, 750 - 490, 1085 - 825, 5, null, strokeStyle)
+            ctx.font = 'bold 24px msyh'
+            ctx.fillStyle = strokeStyle
+            ctx.fillText('长按识别二维码', 535, 1097)
+        }
+        const qrUrl = context.item.go
+        var q = document.createElement('div')
+        q.id = 'qr-code'
+        q.style.display = 'none'
+        q.width = 200;
+        q.height = 200;
+        $('body').append(q)
+        var qrcode = new QRCode(q, {
+            width: 200,
+            height: 200
+        });
+        qrcode.makeCode(qrUrl)
+        //var src = $('#qr-code img').attr('src')
+        var src = $('#qr-code canvas')[0].toDataURL('image/png')
+        var qr_img = new Image(200, 200)
+        qr_img.src = src
+        qr_img.onload = function () {
+            ctx.drawImage(qr_img, 520, 860, 200, 200)
+            $('#qrcode-img').attr('src', c.toDataURL('images/jpeg'))
+            cb && cb()
+        }
+    }
+</script>
 
 </html>

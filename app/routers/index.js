@@ -11,6 +11,8 @@ router.get('/go', go.index)
 router.get('/go/:itemid', go.item)
 router.get('/go/:itemid/:pid', go.item)
 
+router.get('/short/:itemid/:pid', go.short)
+
 router.get('/:pid', home.index)
 
 router.get('/cat/list', home.cat_list)

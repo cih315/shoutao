@@ -14,12 +14,32 @@ class Go {
   constructor() {
     this.index = this.index.bind(this);
     this.item = this.item.bind(this)
+    this.short = this.short.bind(this)
   }
 
 
   async index(ctx, next) {
     ctx.redirect('/')
   }
+
+
+  async short(ctx, next) {
+    var pid_cfg = await this.pid(ctx, next)
+    var item_id = ctx.params.itemid
+    var url = 'https://www.xuankejia.cn/item/' + item_id + pid_cfg.suffix
+    var api = 'http://api.weibo.com/2/short_url/shorten.json?source=2849184197&url_long=' + encodeURIComponent(url)
+    try {
+      var json = await got.get(api, {
+        timeout: 5000
+      });
+      json = JSON.parse(json.body)
+      url = json.urls[0].url_short
+    } catch (e) {
+      console.error('url_short error:', e)
+    }
+    ctx.body = { url_short: url }
+  }
+
   /**
    * pid cfg
    * @param {*} ctx 
