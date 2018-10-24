@@ -114,43 +114,52 @@
                 window.location.href = '<%=cfg.home%>';
             }
             function repic() {
-                $.getJSON('/short/<%=item.itemid%><%=cfg.suffix%>', function (json) {
-                    window.url_short = json.url_short
-                    var img_src = $('.swiper-slide-active img').attr('src')
-                    if (window.img_src != img_src) {
-                        draw(function () {
-
-                        });
-                        window.img_src = img_src;
-                        var clipboard = new Clipboard('#copy-remark', {
-                            target: function () {
-                                return document.querySelector('#item-remark');
-                            }
-                        });
-                        clipboard.on('success', function (e) {
-                            $('#copy-remark').removeClass('am-btn-secondary').addClass('am-btn-success').text('复制成功');
-                            $('#copy-remark').popover({ content: '文案复制成功,长按图片即可分享给您的朋友', theme: 'success' });
-                            $('#copy-remark').popover('open');
-                            setTimeout(function () {
-                                $('#copy-remark').removeClass('am-btn-success').addClass('am-btn-secondary').text('复制文案');
-                                $('#copy-remark').popover('close');
-                            }, 3000);
-                        });
-                        clipboard.on('error', function (e) {
-                            $('#copy-remark').removeClass('am-btn-secondary').addClass('am-btn-danger').text('复制失败');
-                            $('#copy-remark').popover({ content: '文案复制失败,长按图片也可分享给您的朋友', theme: 'danger' });
-                            $('#copy-remark').popover('open');
-                            setTimeout(function () {
-                                $('#copy-remark').removeClass('am-btn-danger').addClass('am-btn-secondary').text('复制文案');
-                                $('#copy-remark').popover('close');
-                            }, 3000);
-                        });
-                    }
-                    $('#qrcode-modal').modal({
-                        relatedTarget: this,
-                        closeViaDimmer: 0
+                if (!window.url_short) {
+                    $.getJSON('/short/<%=item.itemid%><%=cfg.suffix%>', function (json) {
+                        window.url_short = json.url_short;
+                        $('#item-remark').append('<br/>【详情链】'+window.url_short);
+                        repic2();
                     });
-                })
+                } else {
+                    repic2();
+                }
+
+            }
+            function repic2() {
+                var img_src = $('.swiper-slide-active img').attr('src')
+                if (window.img_src != img_src) {
+                    draw(function () {
+
+                    });
+                    window.img_src = img_src;
+                    var clipboard = new Clipboard('#copy-remark', {
+                        target: function () {
+                            return document.querySelector('#item-remark');
+                        }
+                    });
+                    clipboard.on('success', function (e) {
+                        $('#copy-remark').removeClass('am-btn-secondary').addClass('am-btn-success').text('复制成功');
+                        $('#copy-remark').popover({ content: '文案复制成功,长按图片即可分享给您的朋友', theme: 'success' });
+                        $('#copy-remark').popover('open');
+                        setTimeout(function () {
+                            $('#copy-remark').removeClass('am-btn-success').addClass('am-btn-secondary').text('复制文案');
+                            $('#copy-remark').popover('close');
+                        }, 3000);
+                    });
+                    clipboard.on('error', function (e) {
+                        $('#copy-remark').removeClass('am-btn-secondary').addClass('am-btn-danger').text('复制失败');
+                        $('#copy-remark').popover({ content: '文案复制失败,长按图片也可分享给您的朋友', theme: 'danger' });
+                        $('#copy-remark').popover('open');
+                        setTimeout(function () {
+                            $('#copy-remark').removeClass('am-btn-danger').addClass('am-btn-secondary').text('复制文案');
+                            $('#copy-remark').popover('close');
+                        }, 3000);
+                    });
+                }
+                $('#qrcode-modal').modal({
+                    relatedTarget: this,
+                    closeViaDimmer: 0
+                });
             }
             $(".fq-searchbox").click(function () {
                 if ($(".fq-search").is(":hidden")) {
