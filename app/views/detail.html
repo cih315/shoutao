@@ -197,6 +197,7 @@
                         <!-- 如果需要导航按钮 -->
                     </div>
                     <% } else if(item.itemid) { %>
+                        <!--
                     <ul data-am-widget="gallery" class="am-gallery am-avg-sm-1 am-gallery-default am-padding-0"
                         data-am-gallery="{ pureview: true }">
                         <li class="am-padding-0">
@@ -207,6 +208,16 @@
                             </div>
                         </li>
                     </ul>
+                    -->
+                    <div class="swiper-container am-avg-sm-1 am-padding-0 am-slider">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <li>
+                                    <img class="slide-img" src="<%=item.itempic%>">
+                                </li>
+                            </div>
+                        </div>
+                    </div>
                     <% } %>
                     <!---->
                     <div class="fq-grandeur-title fq-background-white am-padding-xs">

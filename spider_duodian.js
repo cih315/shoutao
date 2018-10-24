@@ -10,13 +10,13 @@ const h5coupon = require('./h5coupon')
 const pid = 'mm_14942785_97600036_18176850324';
 const session = '7000010142156277b007a9d4746a5ea9911e21a5c13626f4e238ea754331766154d5397267987083';
 
-const date = '20181023'
+const date = '20181024'
 const prefix = date + '-1'
 const outputBase = __dirname + '/dd/' + date + '/'
 const tmpBase = __dirname + '/tmp'
 const htmlFile = outputBase + prefix + '.html'
-const mp_link = 'https://mp.weixin.qq.com/s/uMGU-WZYr4qqnH0ft9VInw'
-const len = 35
+const mp_link = 'https://mp.weixin.qq.com/s/MymE00F-Vzn01dToa4AiNA'
+const len = 30
 
 async function getMpHtml(url) {
     try {
@@ -210,7 +210,20 @@ function mkdirs(dirpath) {
                         //
                         item.uland = item.ulandResult
                         item.hashid = hashids.encode(item.GoodsId)
-                        item.go = 'https://www.xuankejia.cn/go/'+item.GoodsId
+                        //item.go = 'https://www.xuankejia.cn/go/'+item.GoodsId
+                        //item.go = 'https://www.xuankejia.cn/item/' + item.GoodsId
+                        var url = 'https://www.xuankejia.cn/item/' + item.GoodsId
+                        var api = 'http://api.weibo.com/2/short_url/shorten.json?source=2849184197&url_long=' + encodeURIComponent(url)
+                        try {
+                            var json = await got.get(api, {
+                                timeout: 5000
+                            });
+                            json = JSON.parse(json.body)
+                            url = json.urls[0].url_short
+                        } catch (e) {
+                            console.error('url_short error:', e)
+                        }
+                        item.go = url
                         dataList.push(item)
                         console.log(`${(++i)}/${size} parse item success : ${item.GoodsId}, effect:${begin_date}-${end_date}`)
                     } else {
@@ -247,7 +260,7 @@ function mkdirs(dirpath) {
         var tmp_list = [];
         var i = 1;
         do {
-            
+
             tmp_list = resultList.splice(0, len)
             let html = ejs.render(str, { list: tmp_list })
             var outFile = outputBase + date + (i++) + '.html'
