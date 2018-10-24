@@ -2,6 +2,7 @@ import ejs from 'ejs';
 import got from 'got';
 import qs from 'querystring';
 import my_cache from './cache'
+import pids from './pids'
 
 const view_path = __dirname + '/../views'
 
@@ -30,11 +31,29 @@ class Home {
     this.search_result = this.search_result.bind(this)
   }
   /**
+   * pid cfg
+   * @param {*} ctx 
+   * @param {*} next 
+   */
+  async pid(ctx, next) {
+    var pid = ctx.params.pid
+    var pid_cfg = pids.default
+    if (pid) {
+      //pid = 'mm_' + pid.replace(/-/g, '_')
+      if (pids[pid]) {
+        pid_cfg = pids[pid]
+      }
+    }
+    return pid_cfg
+  }
+
+  /**
    * home page
    * @param {*} ctx 
    * @param {*} next 
    */
   async index(ctx, next) {
+    var pid_cfg = await this.pid(ctx, next)
     var classify, p1
     var deserve, p2
     var items, p3
@@ -86,7 +105,8 @@ class Home {
         console.log('fetch api data error', e)
       }
     }
-    ejs.renderFile(view_path + '/index.html', data, { async: false, cache: true, rmWhitespace: true }, (err, html) => {
+    data.cfg = pid_cfg
+    ejs.renderFile(view_path + '/index.html', data, { async: false, cache: false, rmWhitespace: true }, (err, html) => {
       if (err) {
         console.error(err)
         ctx.body = 'server error'
@@ -105,6 +125,7 @@ class Home {
     ctx.body = 'act'
   }
   async list(ctx, next) {
+    var pid_cfg = await this.pid(ctx, next)
     let cid = ctx.params.id ? ctx.params.id : 0
     var body = {
       cid: cid,
@@ -124,7 +145,8 @@ class Home {
       console.error('cat load error:', e)
     }
     var data = { list: res, cid: cid }
-    ejs.renderFile(view_path + '/list.html', data, { async: false, cache: true, rmWhitespace: true }, (err, html) => {
+    data.cfg = pid_cfg
+    ejs.renderFile(view_path + '/list.html', data, { async: false, cache: false, rmWhitespace: true }, (err, html) => {
       if (err) {
         console.error(err)
         ctx.body = err
@@ -167,7 +189,13 @@ class Home {
   }
 
   async item(ctx, next) {
+    var pid_cfg = await this.pid(ctx, next)
     let iid = ctx.params.iid
+    if(isNaN(iid)){
+      ctx.body ='Not Found'
+      ctx.status = 404
+      return 
+    }
     var item, p1
     var likes, p2
     var p_arr = []
@@ -211,8 +239,11 @@ class Home {
         }
       } catch (e) {
         console.log('fetch item detail & likes error:', e)
+        data.item = data.item ? data.item : {}
+        data.likes = data.likes ? data.likes : {data:[]}
       }
     }
+    data.cfg = pid_cfg
     ejs.renderFile(view_path + '/detail.html', data, { async: false, cache: false, rmWhitespace: true }, (err, html) => {
       if (err) {
         console.error(err)
@@ -225,6 +256,7 @@ class Home {
   }
 
   async search(ctx, next) {
+    var pid_cfg = await this.pid(ctx, next)
     var api = api_search
     var body = {
       is_coupon: ctx.query.is_coupon ? ctx.query.is_coupon : 0,
@@ -248,6 +280,7 @@ class Home {
     } catch (e) {
       console.error(e)
     }
+    data.cfg = pid_cfg
     ejs.renderFile(view_path + '/search.html', data, { async: false }, (err, html) => {
       if (err) {
         console.error(err)
@@ -303,8 +336,15 @@ class Home {
 
   async uland(ctx, next) {
     let body = ctx.request.body
+    let pid = body.pid
+    if (!pid || !pids[pid.replace(/_/g, '-').replace('mm-', '')]) {
+      ctx.body = { "msg": '生成口令失败,非法pid', "error_code": 102 }
+      return
+    }
+    body.tklImg = body.tklImg.replace('a-li-cdn', 'alicdn')
+    body.urls = body.urls.replace('ta-oba-o.com', 'taobao.com')
     let item_id = body.item_id
-    var key_item_tkl = 'item_tkl:' + item_id
+    var key_item_tkl = 'item_tkl:' + item_id + ':' + pid
     var key_item_detail = 'item_detail:' + item_id
     var tkl = await my_cache.get(key_item_tkl)
     if (!tkl) {

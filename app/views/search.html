@@ -176,7 +176,7 @@ header .fq-close{position:absolute;top:5px;right:1rem;color:#B2B2B2;font-size:20
         <% search.data.forEach(function(item){ %>
         <li>
           <div class="goods-lists-goods">
-            <a href="/item/<%=item.itemid%>" class="data_0 js_link" data-id="<%=item.itemid%>" data-price="29.9"
+            <a href="/item/<%=item.itemid%><%=cfg.suffix%>" class="data_0 js_link" data-id="<%=item.itemid%>" data-price="29.9"
               data-tkrate="25.0">
               <div class="img-box">
                 <img class="fq-goods-img fq-left lazy" data-original="<%=item.itempic.indexOf('310x310') > 0 ?item.itempic:item.itempic+'_310x310.jpg'%>" />
@@ -265,7 +265,7 @@ header .fq-close{position:absolute;top:5px;right:1rem;color:#B2B2B2;font-size:20
         $('#fq_alert').modal();
         return false;
       }
-      var url = '/search?keyword=' + $.trim(encodeURIComponent(title));
+      var url = '/search<%=cfg.suffix%>?keyword=' + $.trim(encodeURIComponent(title));
       window.location.href = url;
       return false;
     }
@@ -331,7 +331,7 @@ header .fq-close{position:absolute;top:5px;right:1rem;color:#B2B2B2;font-size:20
               var tkrate = item.tkrates;
               var commission = item.tkmoney;
               var bc_type = item.shoptype;
-              var a_link = '/item/' + item_id
+              var a_link = '/item/' + item_id + '<%=cfg.suffix%>'
 
               result += '<li><div class="goods-lists-goods">';
 
@@ -406,7 +406,7 @@ header .fq-close{position:absolute;top:5px;right:1rem;color:#B2B2B2;font-size:20
     //筛选
     $('.fq-sort').click(function () {
       var sort = $(this).attr('data-status');
-      var url = '/search?keyword=' + encodeURI($.trim($('#itemurl').val())) + '&sort=' + sort;
+      var url = '/search<%=cfg.suffix%>?keyword=' + encodeURI($.trim($('#itemurl').val())) + '&sort=' + sort;
       window.location.href = url;
     });
 
@@ -415,7 +415,7 @@ header .fq-close{position:absolute;top:5px;right:1rem;color:#B2B2B2;font-size:20
       var is_coupon = $(this).attr('data-status');
       var is_tmall = "<%=is_tmall%>";
       var status = "<%=sort%>";
-      var url = '/search?keyword=' + encodeURI($.trim($('#itemurl').val())) + '&sort=' + status + '&is_coupon=' + is_coupon + '&is_tmall=' + is_tmall;
+      var url = '/search<%=cfg.suffix%>?keyword=' + encodeURI($.trim($('#itemurl').val())) + '&sort=' + status + '&is_coupon=' + is_coupon + '&is_tmall=' + is_tmall;
       window.location.href = url;
 
     })
@@ -424,7 +424,7 @@ header .fq-close{position:absolute;top:5px;right:1rem;color:#B2B2B2;font-size:20
       var is_coupon = "<%=is_coupon%>";
       var is_tmall = $(this).attr('data-status');
       var sort = "<%=sort%>";
-      var url = '/search?keyword=' + encodeURI($.trim($('#itemurl').val())) + '&sort=' + sort + '&is_coupon=' + is_coupon + '&is_tmall=' + is_tmall;
+      var url = '/search<%=cfg.suffix%>?keyword=' + encodeURI($.trim($('#itemurl').val())) + '&sort=' + sort + '&is_coupon=' + is_coupon + '&is_tmall=' + is_tmall;
       window.location.href = url;
     });
 

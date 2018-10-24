@@ -64,7 +64,7 @@
   <div class="index-app-fixed">
     <header class="am-padding-vertical-xs">
       <!-- 自定义图标 -->
-      <a href="/">
+      <a href="<%=cfg.home%>">
         <i class="icon-shouye2 iconfont"></i>
       </a>
       <!-- 搜索栏 -->
@@ -568,22 +568,22 @@
     <!-- index-app-menu -->
     <ul class=" am-avg-sm-4">
       <li>
-        <a href="/" class="menu-active">
+        <a href="<%=cfg.home%>" class="menu-active">
           <i class="iconfont icon-home"></i>
           <span class="am-text-center">首页</span></a>
       </li>
       <li>
-        <a href="/" class="">
+        <a href="<%=cfg.home%>" class="">
           <i class="iconfont icon-rebang"></i>
           <span class="am-text-center">热榜</span></a>
       </li>
       <li>
-        <a href="/" class="">
+        <a href="<%=cfg.home%>" class="">
           <i class="iconfont icon-remind"></i>
           <span class="am-text-center">快抢</span></a>
       </li>
       <li>
-        <a href="/" class="">
+        <a href="<%=cfg.home%>" class="">
           <i class="iconfont icon-list"></i>
           <span class="am-text-center">超级分类</span></a>
       </li>
@@ -602,7 +602,7 @@
     function search() {
       var key_value = $('#key').val();
       var key = key_value.replace("+", "%20");
-      window.location.href = "/search?keyword=" + key;
+      window.location.href = "/search<%=cfg.suffix%>?keyword=" + key;
     }
   </script>
 
@@ -623,7 +623,7 @@
         isloading = false;
 
         var min = parseInt($('#goods_list').attr('data-min'));
-        var url = '/cat/<%=cid%>/' + min;
+        var url = '/cat/list/<%=cid%>/' + min;
         $(".loading").html('<span class="am-text-sm am-text-success"><i class="am-icon-spinner am-icon-pulse am-margin-right-xs"></i>正在加载，请稍候··· </span>');
         $.ajax({
           url: url,
@@ -725,7 +725,7 @@
 
     $(document).on('click', '.tobuy', function () {
       setState();
-      var url = '/item/' + $(this).attr('data-iid');
+      var url = '/item/' + $(this).attr('data-iid') + '<%=cfg.suffix%>';
       window.location.href = url;
     });
 

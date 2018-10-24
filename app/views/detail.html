@@ -60,10 +60,10 @@
     <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_347580_beij5hnp4f17nwmi.css">
     <script type="text/javascript" src="https://lib.baomitu.com/clipboard.js/1.6.1/clipboard.min.js"></script>
     <script>
-        var pid = "mm_14942785_97600036_18176850324"
-        var session = '7000010142156277b007a9d4746a5ea9911e21a5c13626f4e238ea754331766154d5397267987083'
-        var tklImg = 'https://gw.alicdn.com/tfs/TB1c.wHdh6I8KJjy0FgXXXXzVXa-580-327.png'
-        var tklTitle = '老王粉丝福利购'
+        var pid = '<%=cfg.pid%>';
+        var session = '<%=cfg.session%>';
+        var tklImg = '<%=cfg.tklImg%>';
+        var tklTitle = '<%=cfg.tklTitle%>';
     </script>
     <script type="text/javascript" src="/assets/js/base64.js"></script>
     <style>
@@ -81,7 +81,7 @@
 
         <!-- 微信自定义接口 -->
         <div class="fq-search fq-background-white am-text-center" data-status="">
-            <form action="/search" class="am-form am-padding-vertical-xs am-inline-block am-text-center">
+            <form action="/search<%=cfg.suffix%>" class="am-form am-padding-vertical-xs am-inline-block am-text-center">
                 <input id="key" name="keyword" type="text" class="am-radius am-padding-vertical-xs am-text-center am-fl"
                     placeholder="自由选品，选你想选" value="">
                 <i class="am-icon-search am-vertical-align-middle am-fr" onclick="search();"></i>
@@ -103,11 +103,11 @@
                 if (last_page_url) {
                     window.history.back(-1);
                 } else {
-                    window.location.href = '/';
+                    window.location.href = '<%=cfg.home%>';
                 }
             }
             function rehome() {
-                window.location.href = '/';
+                window.location.href = '<%=cfg.home%>';
             }
             $(".fq-searchbox").click(function () {
                 if ($(".fq-search").is(":hidden")) {
@@ -125,8 +125,9 @@
         </script>
         <div class="fq-whole am-text-sm">
             <div class="fq-subject">
+                <% if(item.itemid){%>
                 <div>
-                    <% if(item.taobao_image){%>
+                    <% if(item.itemid && item.taobao_image){%>
                     <div class="swiper-container am-avg-sm-1 am-padding-0 am-slider">
                         <div class="swiper-wrapper">
                             <% item.taobao_image.split(',').forEach(function(img){%>
@@ -141,18 +142,7 @@
                         <div class="swiper-pagination"></div>
                         <!-- 如果需要导航按钮 -->
                     </div>
-                <!-- 
-                <div data-am-widget="slider" class="am-slider am-slider-a1 am-avg-sm-1 am-padding-0" data-am-slider='{}'>
-                    <ul class="am-slides">
-                        <% item.taobao_image.split(',').forEach(function(img){%>
-                        <li>
-                            <img src="<%=img%>_600x600.jpg">
-                        </li>
-                        <% }); %>
-                    </ul>
-                </div>
-                -->
-                    <% } else { %>
+                    <% } else if(item.itemid) { %>
                     <ul data-am-widget="gallery" class="am-gallery am-avg-sm-1 am-gallery-default am-padding-0"
                         data-am-gallery="{ pureview: true }">
                         <li class="am-padding-0">
@@ -194,6 +184,7 @@
                         </div>
                     </div>
                 </div>
+                
                 <!--商品图文详情-->
                 <div class="am-panel-group am-margin-vertical-sm" id="accordion">
                     <div class="am-panel am-padding-horizontal-xs">
@@ -213,38 +204,29 @@
                         </div>
                     </div>
                 </div>
+                <%}else{%>
+                <div class="am-panel-group am-margin-vertical-sm" id="accordion">
+                    <div class="am-panel am-padding-horizontal-xs">
+                        <div class="am-panel-hd am-padding-left-0 am-padding-right-0 am-padding-vertical-sm ">
+                            <h4 class="am-panel-title  am-text-center"
+                                data-iid="<%=item.itemid%>">
+                                商品信息不存在,给您推荐以下商品<span class="am-text-xs am-text-primary"></span>
+                            </h4>
+                        </div>
+                        <div id="product-details" class="am-panel-collapse am-collapse">
+                            <div class="am-panel-bd am-padding-0" style="border-top: 0">
+                                <div class="am-tab-panel am-fade am-in am-active" id="tab1">
+                                    <div class="am-padding-top-sm" style="width:100%;overflow:auto;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <%}%>
                 <!--商品图文详情-->
                 <!--更多商品-->
                 <div class="fq-grandeur-like am-text-sm am-text-center am-margin-vertical-xs"><i class="am-icon-heart-o am-margin-right-xs"></i>猜您喜欢</div>
-                <!--商品轮播
-                <div data-am-widget="slider" class="guess-like am-slider am-slider-a1" data-am-slider='{&quot;directionNav&quot;:false}'>
-                    <ul class="am-slides">
-                        <% likes.data.forEach(function(like,idx){ %>
-                        <% if(idx % 3 == 0){ %>
-                        <li>
-                            <ul class="am-avg-sm-3">
-                                <% } %>
-                                <li class="fq-goods fq-background-white am-text-center">
-                                    <a class="am-block" href="/item/<%=like.itemid%>">
-                                        <img class="am-thumbnail am-margin-bottom-0 am-block" src="<%=like.itempic%>_310x310.jpg" /></a>
-                                    <a class="fq-title am-block am-text-xs am-text-truncate am-padding-left-xs">
-                                        <span data-id="6972934">
-                                            <%=like.itemtitle%></span></a>
-                                    <div class="am-cf am-text-left am-padding-left-xs">
-                                        <div class="fq-price am-text-xs">
-                                            <span>券后</span>
-                                            <strong>￥
-                                                <%=like.itemendprice%></strong></div>
-                                    </div>
-                                </li>
-                                <% if( (idx+1) % 3 == 0 ){ %>
-                            </ul>
-                        </li>
-                        <% } %>
-                        <% }); %>
-                    </ul>
-                </div>
-                -->
+                <!--商品轮播-->
                 <div class="swiper-container guess-like" data-am-slider='{&quot;directionNav&quot;:false}'>
                     <div class="swiper-wrapper">
                         <% likes.data.forEach(function(like,idx){ %>
@@ -253,7 +235,7 @@
                             <ul class="am-avg-sm-3">
                                 <% } %>
                                 <li class="fq-goods fq-background-white am-text-center">
-                                    <a class="am-block" href="/item/<%=like.itemid%>">
+                                    <a class="am-block" href="/item/<%=like.itemid%><%=cfg.suffix%>">
                                         <img class="am-thumbnail am-margin-bottom-0 am-block" src="<%=like.itempic%>_310x310.jpg" /></a>
                                     <a class="fq-title am-block am-text-xs am-text-truncate am-padding-left-xs">
                                         <span data-id="6972934">
@@ -286,7 +268,7 @@
                         <li class="">
                             <ul class="am-avg-sm-2 am-padding-left-xs">
                                 <li class="am-text-center">
-                                    <a href="/" class="am-padding-vertical-sm am-block">
+                                    <a href="<%=cfg.home%>" class="am-padding-vertical-sm am-block">
                                         <i class="icon-shouye iconfont am-text-center am-vertical-align-middle"></i>
                                         <span class="fq-grandeur-index am-text-sm am-text-center am-vertical-align-middle">首页</span>
                                     </a>
@@ -303,10 +285,7 @@
                         </li>
 
                         <li>
-
-
                             <ul class="am-avg-sm-1 am-text-center button_type">
-
                                 <li class="am-hide direct_buy">
                                     <button data-aa="0" type="button" class="fq-browser fq-text-white am-btn am-padding-horizontal-xs am-text-sm"
                                         id="js_browser_link" style="color:#FFFFFF;">直接购买</button>
@@ -466,9 +445,9 @@
             var url = '';
             var s_url = 'https://detail.t-m-a-l-l.com/item.htm?id=<%=item.itemid%>';
             var coupons = '<%=item.activityid%>' || '';
-            url = 'https://u' + 'land.t' + 'aob' + 'ao.com/coupon/edetail?';
+            url = 'https://u' + 'land.t' + 'a-ob' + 'a-o.com/coupon/edetail?';
             url += (coupons == '' ? '' : 'activityId=' + coupons);
-            url += '&pname=' + pname + '&itemId=' + item_id;
+            url += '&pid=' + pname + '&itemId=' + item_id;
 
             var title = '欧丽源狐臭腋臭净味水除止汗露香体腋下喷雾液根男狐臭净女正品';
             var couponslink = 'http://uland.ta-ob-a-o.com/quan/detail?sellerId=3301614508&activityId=c45d1b697ff8457a907ce0b1c65042a4';
@@ -493,7 +472,7 @@
             } else if (type == 0) {
                 $('#fq-promotion-message').modal({ closeViaDimmer: 0 });
             }
-            window.tkl = cookie.get('item_tkl_' + item_id)
+            window.tkl = cookie.get('item_tkl_' + item_id + '_' + pid)
             if (window.tkl) {
                 window.tkl = decodeURIComponent(window.tkl)
                 $('#copy_key_ios,#copy_key_ios1,#copy_key_ios2,#copy_key_ios3,#copy_key_ios4').text(tkl);
@@ -512,14 +491,14 @@
                     var tkl = res.data[0].tkl
                     window.tkl = tkl;
                     window.ulandResult = res.data[0].ulandResult;
-                    cookie.set('item_tkl_' + item_id, encodeURIComponent(tkl), { expires: 1, path: '/' })
+                    cookie.set('item_tkl_' + item_id + '_' + pid, encodeURIComponent(tkl), { expires: 1, path: '/' })
                     $('#copy_key_ios,#copy_key_ios1,#copy_key_ios2,#copy_key_ios3,#copy_key_ios4').text(tkl);
                     $('#copy_key_android,#copy_key_android1,#copy_key_android2,#copy_key_android3,#copy_key_android4').val(tkl);
                     $('.share').attr('data-words', tkl);
                     $('#copy_key_android').attr('data-words', tkl);
                 } else {
-                    $('#copy_key_ios,#copy_key_ios1,#copy_key_ios2,#copy_key_ios3,#copy_key_ios4').text('【生成口令次数超限,请明天再试】');
-                    $('#copy_key_android,#copy_key_android1,#copy_key_android2,#copy_key_android3,#copy_key_android4').val('【生成口令次数超限,请明天再试】');
+                    $('#copy_key_ios,#copy_key_ios1,#copy_key_ios2,#copy_key_ios3,#copy_key_ios4').text(res.msg);
+                    $('#copy_key_android,#copy_key_android1,#copy_key_android2,#copy_key_android3,#copy_key_android4').val(res.msg);
                     $('.share').hide();
                 }
             }).fail(function () {
@@ -842,7 +821,7 @@
 
         function search() {
             var key = $('#key').val();
-            window.location.href = "/search?keyword=" + key;
+            window.location.href = "/search<%=cfg.suffix%>?keyword=" + key;
         }
 
     </script>
@@ -908,8 +887,8 @@
         var is_supersearch = '';
         if (is_supersearch == '') {
             var footprint = window.localStorage.getItem('BrowseItem') || null;
-            var tb_itemid = '577692013833';
-            var category = '4';
+            var tb_itemid = '<%=item.itemid%>';
+            var category = '<%=item.fqcat%>';
             if (footprint == null) {
                 var BrowseItem = tb_itemid + '.' + category;
                 localStorage.setItem('BrowseItem', BrowseItem);
@@ -983,7 +962,7 @@
         var mySwiper = new Swiper('.swiper-container.am-slider', {
             direction: 'horizontal', // 垂直切换选项
             loop: true, // 循环模式选项
-            autoplay:true,
+            autoplay: true,
             // 如果需要分页器
             pagination: {
                 el: '.swiper-pagination',
@@ -992,13 +971,23 @@
         var mySwiper2 = new Swiper('.swiper-container.guess-like', {
             direction: 'horizontal', // 垂直切换选项
             loop: true, // 循环模式选项
-            autoplay:true
+            autoplay: true
         })    
     </script>
     <style>
-        .swiper-container-horizontal>.swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction {bottom: 0px;}
-        .swiper-slide img {width: 100%;}
-        .swiper-pagination-bullet-active {background:#f54d23;}
+        .swiper-container-horizontal>.swiper-pagination-bullets,
+        .swiper-pagination-custom,
+        .swiper-pagination-fraction {
+            bottom: 0px;
+        }
+
+        .swiper-slide img {
+            width: 100%;
+        }
+
+        .swiper-pagination-bullet-active {
+            background: #f54d23;
+        }
     </style>
 </body>
 

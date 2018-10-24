@@ -16,10 +16,10 @@
     var item_id = '<%=item.itemid%>';
     var coupon_id = '<%=item.activityid%>';
     var item_title = '<%=item.itemtitle%>';
-    var pid = "mm_14942785_97600036_18176850324";
-    var session = '7000010142156277b007a9d4746a5ea9911e21a5c13626f4e238ea754331766154d5397267987083';
-    var tklImg = 'https://gw.alicdn.com/tfs/TB1c.wHdh6I8KJjy0FgXXXXzVXa-580-327.png';
-    var tklTitle = '老王粉丝福利购';
+    var pid = "<%=cfg.pid%>";
+    var session = '<%=cfg.session%>';
+    var tklImg = '<%=cfg.tklImg%>';
+    var tklTitle = '<%=cfg.tklTitle%>';
 
     var coupon_url = 'https://u' + 'land.t' + 'aob' + 'ao.com/coupon/edetail?';
     coupon_url += (coupon_id == '' ? '' : 'activityId=' + coupon_id);
@@ -49,18 +49,18 @@
         _ua = 'ios';
       }
       document.write('<link rel="stylesheet" href="/assets/css/weixin.css?v=20181019" type="text/css" media="all" /><div class="beatHeader ' + _ua + '" id="landingHeader"></div>');
-      var tkl = cookie.get('item_tkl_' + item_id);
+      var tkl = cookie.get('item_tkl_' + item_id + '_' + pid);
       if (!tkl) {
         $.ajax({
           type: 'post',
           url: "/uland",
-          data: {'item_id': item_id, 'urls': coupon_url, 'tklTitle': tklTitle, 'tklImg': tklImg, 'pid': pid, 'platform': true, 'isTkl': true, 'session': session }
+          data: { 'item_id': item_id, 'urls': coupon_url, 'tklTitle': tklTitle, 'tklImg': tklImg, 'pid': pid, 'platform': true, 'isTkl': true, 'session': session }
         }).done(function (res) {
           if (res.error_code == 0) {
             var tkl = res.data[0].tkl
             window.tkl = tkl;
             window.ulandResult = res.data[0].ulandResult;
-            cookie.set('item_tkl_' + item_id, encodeURIComponent(tkl), { expires: 1, path: '/' })
+            cookie.set('item_tkl_' + item_id + '_' + pid, encodeURIComponent(tkl), { expires: 1, path: '/' })
             html_tkl(tkl);
           } else {
             html_tkl('淘口令获取失败,请打开浏览器直接访问')
@@ -71,7 +71,7 @@
         html_tkl(tkl);
       }
     } else {
-      document.write('<a href="https://uland.taobao.com/coupon/edetail?activityId=' + coupon_id + '&pid=' + pid + '&itemId=' + item_id + '&src=xkj" rel="nofollow" id="xkj"></a>');
+      document.write('<a href="https://uland.t' + 'ao' + 'ba' + 'o.com/coupon/edetail?activityId=' + coupon_id + '&pid=' + pid + '&itemId=' + item_id + '&src=xkj" rel="nofollow" id="xkj"></a>');
       function doClick(id) {
         if (document.referrer && document.referrer.indexOf('//' + document.domain) >= 0 && window.history.replaceState) {
           window.history.replaceState(null, null, document.referrer);
@@ -90,13 +90,13 @@
   </script>
   <script>
     var _hmt = _hmt || [];
-    (function() {
-        var hm = document.createElement("script");
-        hm.src = "https://hm.baidu.com/hm.js?46019f09c2a8a83142935b3974a7a60d";
-        var s = document.getElementsByTagName("script")[0]; 
-        s.parentNode.insertBefore(hm, s);
+    (function () {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?46019f09c2a8a83142935b3974a7a60d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
     })();
-</script>
+  </script>
 </body>
 
 </html>

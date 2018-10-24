@@ -11,7 +11,6 @@
     <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_734628_0qcmhxvn2z5a.css" />
     <link rel="stylesheet" type="text/css" href="https://lib.baomitu.com/amazeui/2.7.2/css/amazeui.min.css" />
     <link rel="stylesheet" type="text/css" href="./assets/css/app.css?v=20181015" />
-    <!--from https://cdn.baomitu.com/-->
     <script type="text/javascript" src="https://lib.baomitu.com/jquery/2.2.4/jquery.min.js"></script>
     <script type="text/javascript" src="https://lib.baomitu.com/amazeui/2.7.2/js/amazeui.min.js"></script>
     <script type="text/javascript" src="https://lib.baomitu.com/clipboard.js/2.0.1/clipboard.min.js"></script>
@@ -67,7 +66,7 @@
     <div class="index-app-fixed">
         <header class="am-padding-vertical-xs">
             <!-- 首页图标 -->
-            <a href="/"><i class="icon-shouye2 iconfont"></i></a>
+            <a href="<%=cfg.home%>"><i class="icon-shouye2 iconfont"></i></a>
             <!-- 搜索栏 -->
             <form onkeydown="if(event.keyCode==13){search();return false;}" class="am-form am-text-sm">
                 <input id="key" name="key" type="text" data-tb="" placeholder='自由选品，选你想选' value="">
@@ -82,10 +81,10 @@
         <!-- 导航分类-->
         <nav>
             <div class="index-app-category">
-                <div class="category-active"><a href="/cat/0">全部</a></div>
+                <div class="category-active"><a href="/cat/0<%=cfg.suffix%>">全部</a></div>
                 <% classify.general_classify.forEach(function(cc){ %>
                 <div class="">
-                    <a href="/cat/<%=cc.cid%>">
+                    <a href="/cat/<%=cc.cid%><%=cfg.suffix%>">
                         <%=cc.main_name%></a>
                 </div>
                 <% }) %>
@@ -111,10 +110,10 @@
         </nav>
         <div class="category-details-bg">
             <ul class="category-details am-padding-vertical-sm am-avg-sm-3">
-                <li class=""><a href="/cat/0">全部</a></li>
+                <li class=""><a href="/cat/0<%=cfg.suffix%>">全部</a></li>
                 <% classify.general_classify.forEach(function(cc){ %>
                 <li class="am-padding-vertical-xs ">
-                    <a href="/cat/<%=cc.cid%>">
+                    <a href="/cat/<%=cc.cid%><%=cfg.suffix%>">
                         <%=cc.main_name%></a>
                 </li>
                 <% }) %>
@@ -172,47 +171,6 @@
         <!-- 栏目排序筛选 -->
 
         <!-- 今日值得买 -->
-        <!--
-        <div class="fq-ad">
-            <img class="fq-ad-preferred am-margin-vertical-sm am-margin-left-sm" src="http://img.fqapps.com/FgO6QQQ6Mae0R9L7nbC-Rd5d7_1z-600" />
-            <div data-am-widget="slider" class="fq-ad-slider am-slider am-slider-a1 am-margin-bottom-0"
-                data-am-flexslider="{playAfterPaused: 6000}">
-                <ul class="am-slides">
-                    <% deserve.data.forEach(function(item,idx){ %>
-                    <% if(idx % 3 == 0){ %>
-                    <li>
-                        <ul class="fq-ad-goods am-avg-sm-3">
-                            <% } %>
-                            <li class="fq-slider-goods am-margin-bottom-sm">
-                                <div class="fq-background-white">
-                                    <a class="am-block" href="/item/<%=item.itemid%>">
-                                        <img class="am-padding-xs" src="<%=item.itempic.indexOf('310x310') > 0 ?item.itempic:item.itempic+'_310x310.jpg'%>" />
-                                        <div class="fq-ad-messages am-padding-horizontal-xs am-padding-bottom-xs am-text-left">
-                                            <div class="am-text-truncate am-text-sm">
-                                                <%=item.itemtitle%>
-                                            </div>
-                                            <div class="fq-ad-person am-text-xs">
-                                                <span>原价￥
-                                                    <%=item.itemprice%></span></div>
-                                            <div class="fq-ad-price am-text-xs">
-                                                <span>券后￥
-                                                    <span class="am-text-sm" style="font-weight: bolder;">
-                                                        <%=item.itemendprice%></span></span>
-                                                <span class="fq-ad-coupon am-text-xs">券
-                                                    <%=item.couponmoney%></span></div>
-                                        </div>
-                                    </a>
-                                </div>
-                            </li>
-                            <% if( (idx+1) % 3 == 0 ){ %>
-                        </ul>
-                    </li>
-                    <% } %>
-                    <% }); %>
-                </ul>
-            </div>
-        </div>
-        -->
         <div class="fq-ad">
             <img class="fq-ad-preferred am-margin-vertical-sm am-margin-left-sm" src="http://img.fqapps.com/FgO6QQQ6Mae0R9L7nbC-Rd5d7_1z-600" />
             <div class="swiper-container fq-ad-slider am-slider am-slider-a1 am-margin-bottom-0">
@@ -224,7 +182,7 @@
                             <% } %>
                             <li class="fq-slider-goods am-margin-bottom-sm">
                                 <div class="fq-background-white">
-                                    <a class="am-block" href="/item/<%=item.itemid%>">
+                                    <a class="am-block" href="/item/<%=item.itemid%><%=cfg.suffix%>">
                                         <img class="am-padding-xs" src="<%=item.itempic.indexOf('310x310') > 0 ?item.itempic:item.itempic+'_310x310.jpg'%>" />
                                         <div class="fq-ad-messages am-padding-horizontal-xs am-padding-bottom-xs am-text-left">
                                             <div class="am-text-truncate am-text-sm">
@@ -730,22 +688,22 @@
         <!-- index-app-menu -->
         <ul class=" am-avg-sm-4">
             <li>
-                <a href="/" class="menu-active">
+                <a href="<%=cfg.home%>" class="menu-active">
                     <i class="iconfont icon-home"></i>
                     <span class="am-text-center">首页</span></a>
             </li>
             <li>
-                <a href="/" class="">
+                <a href="<%=cfg.home%>" class="">
                     <i class="iconfont icon-rebang"></i>
                     <span class="am-text-center">热榜</span></a>
             </li>
             <li>
-                <a href="/" class="">
+                <a href="<%=cfg.home%>" class="">
                     <i class="iconfont icon-remind"></i>
                     <span class="am-text-center">快抢</span></a>
             </li>
             <li>
-                <a href="/" class="">
+                <a href="<%=cfg.home%>" class="">
                     <i class="iconfont icon-list"></i>
                     <span class="am-text-center">超级分类</span></a>
             </li>
@@ -762,7 +720,7 @@
         function search() {
             var key_value = $('#key').val();
             var key = key_value.replace("+", "%20");
-            window.location.href = "/search?keyword=" + key;
+            window.location.href = "/search<%=cfg.suffix%>?keyword=" + key;
         }
     </script>
 
@@ -781,7 +739,7 @@
             if (docHeight - windowHeight - y < 100 && isloading) {
                 isloading = false;
                 var min = parseInt($('#goods_list').attr('data-min'));
-                var url = '/cat/0/' + min;
+                var url = '/cat/list/0/' + min;
                 $(".loading").html('<span class="am-text-sm am-text-success"><i class="am-icon-spinner am-icon-pulse am-margin-right-xs"></i>正在加载，请稍候··· </span>');
                 $.ajax({
                     url: url,
@@ -875,7 +833,7 @@
 
         $(document).on('click', '.tobuy', function () {
             setState();
-            var url = '/item/' + $(this).attr('data-iid');
+            var url = '/item/' + $(this).attr('data-iid') + '<%=cfg.suffix%>';
             window.location.href = url;
         });
 

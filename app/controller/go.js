@@ -2,6 +2,7 @@ import my_cache from './cache'
 import ejs from 'ejs'
 import got from 'got';
 import qs from 'querystring'
+import pids from './pids'
 
 const view_path = __dirname + '/../views'
 const api_item_detail = 'http://v2.api.haodanku.com/item_detail/apikey/lowangquan/itemid/'
@@ -15,11 +16,29 @@ class Go {
     this.item = this.item.bind(this)
   }
 
+
   async index(ctx, next) {
     ctx.redirect('/')
   }
+  /**
+   * pid cfg
+   * @param {*} ctx 
+   * @param {*} next 
+   */
+  async pid(ctx, next) {
+    var pid = ctx.params.pid
+    var pid_cfg = pids.default
+    if (pid) {
+      //pid = 'mm_' + pid.replace(/-/g, '_')
+      if (pids[pid]) {
+        pid_cfg = pids[pid]
+      }
+    }
+    return pid_cfg
+  }
 
   async item(ctx, next) {
+    var pid_cfg = await this.pid(ctx, next)
     var item_id = ctx.params.itemid
     var key_item_detail = 'item_detail:' + item_id
     var item = await my_cache.get(key_item_detail)
@@ -62,8 +81,8 @@ class Go {
             }
           }
           if (!likes) {
-             data.likes = JSON.parse(ps[index++].body)
-             await my_cache.set(key_item_likes, data.likes, ttl)
+            data.likes = JSON.parse(ps[index++].body)
+            await my_cache.set(key_item_likes, data.likes, ttl)
           }
         } catch (e) {
           console.log('fetch item detail & likes error:', e)
@@ -74,6 +93,7 @@ class Go {
       ctx.redirect('/')
       return
     }
+    data.cfg = pid_cfg
     ejs.renderFile(view_path + '/go.html', data, { async: false, cache: true, rmWhitespace: true }, (err, html) => {
       if (err) {
         console.error(err)
