@@ -30,7 +30,15 @@ const pids = {
     session: '7000010142156277b007a9d4746a5ea9911e21a5c13626f4e238ea754331766154d5397267987083',
     tklImg: 'https://gw.a-li-cdn.com/tfs/TB1c.wHdh6I8KJjy0FgXXXXzVXa-580-327.png',
     tklTitle: '选客家福利购'
-  }
+  },
+  "14942785-148850310-48299700282": { //范范
+    suffix: "/14942785-148850310-48299700282",
+    home: "/14942785-148850310-48299700282",
+    pid: "mm_14942785_148850310_48299700282",
+    session: '7000010142156277b007a9d4746a5ea9911e21a5c13626f4e238ea754331766154d5397267987083',
+    tklImg: 'https://gw.a-li-cdn.com/tfs/TB1c.wHdh6I8KJjy0FgXXXXzVXa-580-327.png',
+    tklTitle: '选客家福利购'
+  },
 }
 
 module.exports = pids
