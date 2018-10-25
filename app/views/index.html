@@ -33,12 +33,15 @@
 <div class="am-modal am-modal-no-btn" tabindex="-1" id="qrcode_large">
     <div class="am-modal-dialog">
         <div class="am-modal-hd">
-            <span class="am-text-sm">↓点击二维码长按关注↓</span>
+            <span class="am-text-sm">↓在下发粘贴您复制的商品信息↓</span>
             <a href="javascript: void(0)" class="am-close" style="top: -5px; right: 0px;" data-am-modal-close>&times;</a>
         </div>
         <div class="am-g">
-            <figure data-am-widget="figure" class="am am-figure" data-am-figure="{pureview:'true'}"></figure>
-            <div class="am-margin-bottom">建设中 敬请期待</div>
+            <textarea id="paste-remark" minlength="0" maxlength="500" rows="6" style="border-radius:5px;width:80%;"></textarea>
+        </div>
+        <div>
+            <button type="button" id="parse-remark" class="am-btn am-btn-secondary am-round am-btn-xs">解析</button>
+            <button type="button" id="desc-remark" class="am-btn am-btn-warning am-round am-btn-xs" data-am-popover="{content: '点击[解析],会根据淘口令搜索对应商品优惠券',trigger: 'hover focus',theme:'warning'}">说明</button>
         </div>
     </div>
 </div>
@@ -75,7 +78,7 @@
             <!-- 联系客服 -->
             <div class="index-app-service" data-am-modal="{target:'#qrcode_large'}">
                 <i class="icon-liaotiankefu iconfont"></i>
-                <div>客服</div>
+                <div>解析</div>
             </div>
         </header>
         <!-- 导航分类-->
@@ -885,7 +888,15 @@
             pagination: {
                 el: '.swiper-pagination',
             }
-        })        
+        });
+
+        $(document).ready(function () {
+            $('#parse-remark').click(function (e) {
+                var key_value = $('#paste-remark').val();
+                var key = key_value.replace("+", "%20");
+                window.location.href = "/parse<%=cfg.suffix%>?keyword=" + key;
+            });
+        });
     </script>
     <style>
         .swiper-container-horizontal>.swiper-pagination-bullets,

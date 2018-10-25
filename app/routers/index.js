@@ -4,8 +4,11 @@ import home from '../controller/home'
 
 router.get('/', home.index)
 router.get('/search', home.search)
-router.get('/search/:pid', home.search)
 router.get('/search/result', home.search_result)
+router.get('/search/:pid', home.search)
+
+router.get('/parse', home.parse)
+router.get('/parse/:pid', home.parse)
 
 router.get('/go', go.index)
 router.get('/go/:itemid', go.item)
@@ -23,9 +26,8 @@ router.get('/cat/list/:id/:page', home.cat)
 
 router.get('/item/:iid', home.item)
 router.get('/item/:iid/:pid', home.item)
+
 router.get('/similar/:iid', home.similar)
-
-
 
 router.post('/uland', home.uland)
 

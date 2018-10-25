@@ -3,6 +3,8 @@ import got from 'got';
 import qs from 'querystring';
 import my_cache from './cache'
 import pids from './pids'
+import h5coupon from '../lib/h5coupon'
+import querystring from 'querystring'
 
 const view_path = __dirname + '/../views'
 
@@ -29,6 +31,7 @@ class Home {
     this.cat_list = this.cat_list.bind(this);
     this.list = this.list.bind(this)
     this.search_result = this.search_result.bind(this)
+    this.parse = this.parse.bind(this)
   }
   /**
    * pid cfg
@@ -191,10 +194,10 @@ class Home {
   async item(ctx, next) {
     var pid_cfg = await this.pid(ctx, next)
     let iid = ctx.params.iid
-    if(isNaN(iid)){
-      ctx.body ='Not Found'
+    if (isNaN(iid)) {
+      ctx.body = 'Not Found'
       ctx.status = 404
-      return 
+      return
     }
     var item, p1
     var likes, p2
@@ -240,7 +243,7 @@ class Home {
       } catch (e) {
         console.log('fetch item detail & likes error:', e)
         data.item = data.item ? data.item : {}
-        data.likes = data.likes ? data.likes : {data:[]}
+        data.likes = data.likes ? data.likes : { data: [] }
       }
     }
     data.cfg = pid_cfg
@@ -253,6 +256,70 @@ class Home {
         ctx.body = html
       }
     })
+  }
+
+
+  async tklParse(tkl) {
+    let api = 'http://api.chaozhi.hk/tb/tklParse'
+    var body = querystring.stringify({
+      tkl: tkl
+    });
+    try {
+      let response = await got.post(api, {
+        body: body,
+        headers: {
+          'content-type': 'application/x-www-form-urlencoded',
+          'x-forwarded-for': '4.2.2.2,10.96.112.230'
+        },
+        timeout: 5000
+      });
+      let json = JSON.parse(response.body)
+      if (json.error_code === 0) {
+        return json.data
+      }
+    } catch (e) {
+
+    }
+    return null
+  }
+
+  async parse(ctx, next) {
+    var pid_cfg = await this.pid(ctx, next)
+    var body = {
+      is_coupon: ctx.query.is_coupon ? ctx.query.is_coupon : 0,
+      is_tmall: ctx.query.is_tmall ? ctx.query.is_tmall : 0,
+      limitrate: ctx.query.limitrate ? ctx.query.limitrate : 0,
+      min_id: ctx.query.min_id ? ctx.query.min_id : -1,
+      sort: ctx.query.sort ? ctx.query.sort : 0,
+      tb_p: ctx.query.tb_p ? ctx.query.tb_p : 1,
+      search_goal: ctx.query.search_goal ? ctx.query.search_goal : 0,
+      keyword: ctx.query.keyword ? ctx.query.keyword : ''
+    }
+    //parse tkl
+    var keyword = body.keyword
+    let regEx = /￥(.+?)￥/gi
+    let rt = keyword.match(regEx)
+    if (rt && rt.length > 0) {
+      var tkl = rt[0]
+      console.log('find tkl:' + tkl)
+      var data = await this.tklParse(tkl)
+      if (data && data.suc == true) {
+        var url = data.url + '&pid=' + pid_cfg.pid
+        rt = await h5coupon.fetch(url)
+        if (rt.data && rt.data.success) {
+          var coupon = rt.data.result
+          var item_id = coupon.item.itemId
+          if (item_id) {
+            console.log('find item:' + item_id)
+            ctx.redirect('/item/' + item_id + pid_cfg.suffix)
+            return
+          } else {
+            console.log('can not find tkl:' + tkl, rt)
+          }
+        }
+      }
+    }
+    await this.search(ctx, next)
   }
 
   async search(ctx, next) {
