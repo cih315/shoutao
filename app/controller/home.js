@@ -195,8 +195,7 @@ class Home {
     var pid_cfg = await this.pid(ctx, next)
     let iid = ctx.params.iid
     if (isNaN(iid)) {
-      ctx.body = 'Not Found'
-      ctx.status = 404
+      ctx.redirect(pid_cfg.home)
       return
     }
     var item, p1

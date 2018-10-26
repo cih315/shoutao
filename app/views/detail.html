@@ -117,7 +117,7 @@
                 if (!window.url_short) {
                     $.getJSON('/short/<%=item.itemid%><%=cfg.suffix%>', function (json) {
                         window.url_short = json.url_short;
-                        $('#item-remark').append('<br/>【详情链】'+window.url_short);
+                        $('#item-remark').append('<br/>【详情链】' + window.url_short);
                         repic2();
                     });
                 } else {
@@ -197,7 +197,7 @@
                         <!-- 如果需要导航按钮 -->
                     </div>
                     <% } else if(item.itemid) { %>
-                        <!--
+                    <!--
                     <ul data-am-widget="gallery" class="am-gallery am-avg-sm-1 am-gallery-default am-padding-0"
                         data-am-gallery="{ pureview: true }">
                         <li class="am-padding-0">
@@ -584,7 +584,9 @@
                     var tkl = res.data[0].tkl
                     window.tkl = tkl;
                     window.ulandResult = res.data[0].ulandResult;
-                    cookie.set('item_tkl_' + item_id + '_' + pid, encodeURIComponent(tkl), { expires: 1, path: '/' })
+                    if (window.tkl.indexOf('￥') >= 0) {
+                        cookie.set('item_tkl_' + item_id + '_' + pid, encodeURIComponent(tkl), { expires: 1, path: '/' })
+                    }
                     $('#copy_key_ios,#copy_key_ios1,#copy_key_ios2,#copy_key_ios3,#copy_key_ios4').text(tkl);
                     $('#copy_key_android,#copy_key_android1,#copy_key_android2,#copy_key_android3,#copy_key_android4').val(tkl);
                     $('.share').attr('data-words', tkl);
@@ -625,7 +627,7 @@
             if (isWeixin || isWeibo) {
                 $('.button_type').removeClass('am-avg-sm-1').addClass('am-avg-sm-2');
                 $('.direct_buy').removeClass('am-hide');
-                link = '/go/' + link_item_id;
+                link = '/go/' + link_item_id+'<%=cfg.suffix%>';
             } else {
                 $('.button_type').removeClass('am-avg-sm-1').addClass('am-avg-sm-2');
                 $('.direct_buy').removeClass('am-hide');
@@ -634,7 +636,29 @@
             }
 
             $('#js_browser_link').click(function () {
-                window.location.href = link;
+                if (link_item_id) {
+                    if (isWeixin || isWeibo) {
+                        window.location.href = link;
+                    } else {
+                        $.ajax({
+                            type: 'post', //TODO 改成post
+                            url: "/uland",
+                            data: { 'item_id': link_item_id, 'urls': link, 'tklTitle': tklTitle, 'tklImg': tklImg, 'pid': pid, 'platform': true, 'isTkl': true, 'session': session }
+                        }).done(function (res) {
+                            if (res.error_code == 0) {
+                                var tkl = res.data[0].tkl
+                                window.tkl = tkl;
+                                window.ulandResult = res.data[0].ulandResult;
+                                cookie.set('item_tkl_' + link_item_id + '_' + pid, encodeURIComponent(tkl), { expires: 1, path: '/' })
+                                window.location.href = ulandResult;
+                            }
+                        }).fail(function () {
+                            alert('获取连接失败')
+                        });
+                    }
+                } else {
+                    window.location.href = '<%=cfg.home%>';
+                }
             });
 
 

@@ -115,6 +115,11 @@ class Go {
       ctx.redirect('/')
       return
     }
+
+    var key_item_tkl = 'item_tkl:' + item_id + ':' + pid_cfg.pid
+    var res = await my_cache.get(key_item_tkl)
+    data.tkl = res && res.data[0] ? res.data[0].tkl : ''
+    data.ulandResult = res && res.data[0] ? res.data[0].ulandResult : ''
     data.cfg = pid_cfg
     data.iid = item_id
     ejs.renderFile(view_path + '/go.html', data, { async: false, cache: true, rmWhitespace: true }, (err, html) => {

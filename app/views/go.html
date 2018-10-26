@@ -22,9 +22,12 @@
     var tklImg = '<%=cfg.tklImg%>';
     var tklTitle = '<%=cfg.tklTitle%>';
 
-    var coupon_url = 'https://u' + 'land.t' + 'aob' + 'ao.com/coupon/edetail?';
+    var tkl = '<%=tkl%>';
+    var ulandResult = '<%=ulandResult%>';
+
+    var coupon_url = 'https://u' + 'land.t' + '-aob' + 'a-o.com/coupon/edetail?';
     coupon_url += (coupon_id == '' ? '' : 'activityId=' + coupon_id);
-    coupon_url += '&pid=' + pid + '&itemId=' + item_id;
+    coupon_url += '&pid=' + pid + '&itemId=' + iid;
 
     var ua = navigator.userAgent.toLowerCase();
     var isAndroid = ua.indexOf('android') > -1 || ua.indexOf('adr') > -1; //android终端
@@ -55,7 +58,7 @@
         _ua = 'ios';
       }
       document.write('<link rel="stylesheet" href="/assets/css/weixin.css?v=20181019" type="text/css" media="all" /><div class="beatHeader ' + _ua + '" id="landingHeader"></div>');
-      var tkl = cookie.get('item_tkl_' + item_id + '_' + pid);
+      tkl = tkl ? tkl : cookie.get('item_tkl_' + item_id + '_' + pid);
       if (item_id) {
         if (!tkl) {
           $.ajax({
@@ -74,18 +77,12 @@
             }
           });
         } else {
-          html_tkl('请按上方提示打开浏览器中购买');
+          html_tkl(decodeURIComponent(tkl));
         }
       } else {
         html_tkl('请按上方提示打开浏览器中购买');
       }
     } else {
-      //ali_trackid=2:mm_14942785_97600036_18176850324:1540358740_123_863241304
-      var link = 'https://uland.t' + 'ao' + 'ba' + 'o.com/coupon/edetail?activityId=' + coupon_id + '&pid=' + pid + '&itemId=' + item_id + '&src=xkj';
-      if (iid && !item_id) {
-        link = 'https://item.ta' + 'ob' + 'ao.com/item.htm?id=' + iid + '&ali_trackid=2:mm_14942785_97600036_18176850324:' + parseInt(new Date().valueOf() / 1000) + '_123_863241304'
-      }
-      document.write('<a href="' + link + '" rel="nofollow" id="xkj"></a>');
       function doClick(id) {
         if (document.referrer && document.referrer.indexOf('//' + document.domain) >= 0 && window.history.replaceState) {
           window.history.replaceState(null, null, document.referrer);
@@ -99,7 +96,46 @@
           comment.dispatchEvent(ev);
         }
       }
-      doClick('xkj');
+      if (!ulandResult) {
+        $.ajax({
+          type: 'post',
+          url: "/uland",
+          dataType: 'json',
+          data: { 'item_id': item_id, 'urls': coupon_url, 'tklTitle': tklTitle, 'tklImg': tklImg, 'pid': pid, 'platform': true, 'isTkl': true, 'session': session }
+        }).done(function (res) {
+          if (res.error_code == 0) {
+            var tkl = res.data[0].tkl
+            window.tkl = tkl;
+            window.ulandResult = res.data[0].ulandResult;
+            if (tkl.indexOf('￥') >= 0) {
+              cookie.set('item_tkl_' + item_id + '_' + pid, encodeURIComponent(tkl), { expires: 1, path: '/' })
+              if (window.ulandResult) {
+                document.write('<a href="' + ulandResult + '" rel="nofollow" id="xkj"></a>');
+                doClick('xkj');
+                return;
+              }
+            }
+          }
+          var link = 'https://uland.t' + 'ao' + 'ba' + 'o.com/coupon/edetail?activityId=' + coupon_id + '&pid=' + pid + '&itemId=' + item_id + '&src=xkj';
+          if (iid && !item_id) {
+            link = 'https://item.ta' + 'ob' + 'ao.com/item.htm?id=' + iid + '&ali_trackid=2:' + pid + ':' + parseInt(new Date().valueOf() / 1000) + '_123_863241304'
+          }
+          document.write('<a href="' + link + '" rel="nofollow" id="xkj"></a>');
+          doClick('xkj');
+
+        }).fail(function (error) {
+          var link = 'https://uland.t' + 'ao' + 'ba' + 'o.com/coupon/edetail?activityId=' + coupon_id + '&pid=' + pid + '&itemId=' + item_id + '&src=xkj';
+          if (iid && !item_id) {
+            link = 'https://item.ta' + 'ob' + 'ao.com/item.htm?id=' + iid + '&ali_trackid=2:' + pid + ':' + parseInt(new Date().valueOf() / 1000) + '_123_863241304'
+          }
+          document.write('<a href="' + link + '" rel="nofollow" id="xkj"></a>');
+          doClick('xkj');
+        });
+      }
+      if (window.ulandResult) {
+        document.write('<a href="' + ulandResult + '" rel="nofollow" id="xkj"></a>');
+        doClick('xkj');
+      }
     }
   </script>
   <script>
