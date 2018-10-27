@@ -10,13 +10,13 @@ const h5coupon = require('./h5coupon')
 const pid = 'mm_14942785_97600036_18176850324';
 const session = '7000010142156277b007a9d4746a5ea9911e21a5c13626f4e238ea754331766154d5397267987083';
 
-const date = '20181024'
+const date = '20181027'
 const prefix = date + '-1'
 const outputBase = __dirname + '/dd/' + date + '/'
 const tmpBase = __dirname + '/tmp'
 const htmlFile = outputBase + prefix + '.html'
-const mp_link = 'https://mp.weixin.qq.com/s/MymE00F-Vzn01dToa4AiNA'
-const len = 30
+const mp_link = 'https://mp.weixin.qq.com/s/tsg2syiY65HCTPH-HJdnew'
+const len = 35
 
 async function getMpHtml(url) {
     try {
@@ -259,12 +259,15 @@ function mkdirs(dirpath) {
 
         var tmp_list = [];
         var i = 1;
+        var total = resultList.length
+        var now = 1;
         do {
 
             tmp_list = resultList.splice(0, len)
+            now += tmp_list.length
             let html = ejs.render(str, { list: tmp_list })
             var outFile = outputBase + date + (i++) + '.html'
             fs.writeFileSync(outFile, html, "utf-8")
-        } while (tmp_list.length > 0)
+        } while (tmp_list.length > 0 && now < total)
     }
 )()
