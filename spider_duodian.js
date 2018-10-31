@@ -10,13 +10,13 @@ const h5coupon = require('./h5coupon')
 const pid = 'mm_14942785_97600036_18176850324';
 const session = '7000010142156277b007a9d4746a5ea9911e21a5c13626f4e238ea754331766154d5397267987083';
 
-const date = '20181027'
+const date = '20181031'
 const prefix = date + '-1'
 const outputBase = __dirname + '/dd/' + date + '/'
 const tmpBase = __dirname + '/tmp'
 const htmlFile = outputBase + prefix + '.html'
-const mp_link = 'https://mp.weixin.qq.com/s/tsg2syiY65HCTPH-HJdnew'
-const len = 35
+const mp_link = 'https://mp.weixin.qq.com/s/jlwHvRw90HVJZojnfYcGjQ'
+const len = 100
 
 async function getMpHtml(url) {
     try {
