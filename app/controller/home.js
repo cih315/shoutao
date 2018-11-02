@@ -24,7 +24,6 @@ const api_search = 'http://api.haodanku.com/app/get_keyword_items_new'
 class Home {
   constructor() {
     this.index = this.index.bind(this);
-    this.index = this.index.bind(this);
     this.cat = this.cat.bind(this);
     this.item = this.item.bind(this);
     this.search = this.search.bind(this);

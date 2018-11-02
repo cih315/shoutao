@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
-    <title>选客家-自由选品，选你想选</title>
+    <title>选客家-京东-自由选品，选你想选</title>
     <link rel="shortcut icon" href="/assets/img/back.png" type="image/x-icon" />
     <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_622367_a4tohrykg4n7y14i.css" />
     <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_734628_0qcmhxvn2z5a.css" />
@@ -27,6 +27,9 @@
 .fq-search span{line-height:40px}
 .fq-search:focus,.fq-search:hover{color:#fff}
 @media screen and (min-width:640px){.fq-search{margin-right:calc((100% - 640px)/ 2)}
+}
+.index-app-relative{
+    top:52px;
 }
 </style>
 <!-- 联系客服 -->
@@ -81,169 +84,17 @@
                 <div>解析</div>
             </div>
         </header>
-        <!-- 导航分类-->
-        <nav>
-            <div class="index-app-category">
-                <div class="category-active"><a href="/cat/0<%=cfg.suffix%>">全部</a></div>
-                <% classify.general_classify.forEach(function(cc){ %>
-                <div class="">
-                    <a href="/cat/<%=cc.cid%><%=cfg.suffix%>">
-                        <%=cc.main_name%></a>
-                </div>
-                <% }) %>
-                <!--
-                <div class="">
-                  <a href="/cat/13">家电</a>
-                </div>
-                <div class="">
-                  <a href="/cat/15">车品</a>
-                </div>
-                <div class="">
-                  <a href="/cat/16">文体</a>
-                </div>
-                <div class="">
-                  <a href="/cat/14">其他</a>
-                </div>
-                <div class="">
-                  <a href="/cat/-1">秒杀</a>
-                </div>           
-                -->
-            </div>
-            <i class="iconfont icon-jiantouxia"></i>
-        </nav>
-        <div class="category-details-bg">
-            <ul class="category-details am-padding-vertical-sm am-avg-sm-3">
-                <li class=""><a href="/cat/0<%=cfg.suffix%>">全部</a></li>
-                <% classify.general_classify.forEach(function(cc){ %>
-                <li class="am-padding-vertical-xs ">
-                    <a href="/cat/<%=cc.cid%><%=cfg.suffix%>">
-                        <%=cc.main_name%></a>
-                </li>
-                <% }) %>
-                <!--
-                <li class="am-padding-vertical-xs ">
-                    <a href="/cat/13">家电</a>
-                </li>
-                <li class="am-padding-vertical-xs ">
-                    <a href="/cat/16">车品</a>
-                </li>
-                <li class="am-padding-vertical-xs ">
-                    <a href="/cat/15">文体</a>
-                </li>
-                <li class="am-padding-vertical-xs ">
-                    <a href="/cat/14">其他</a>
-                </li>
-                <li class="am-padding-vertical-xs ">
-                    <a href="/cat/-1">秒杀</a>
-                </li>
-                -->
-            </ul>
-        </div>
     </div>
     <div class="index-app-relative">
-        <!-- 轮播 -->
-
-        <!-- 四大栏目 
-        <ul class="index-app-column am-avg-sm-4">
-            <li>               
-                <a class="active" href="/cat/0">
-                    <img src="./assets/img/new.png" />
-                    今日上新
-                </a>
-            </li>
-            <li>
-                <a class="" href="./index.html?cat=-1">
-                    <img src="./assets/img/miao.png" />
-                    9.9包邮
-                </a>
-            </li>
-            <li>
-                <a class="" href="./index.html?cat=-2">
-                    <img src="./assets/img/hot.png" />
-                    人气宝贝
-                </a>
-            </li>
-            <li>
-                <a class="" href="./index.html?cat=-3">
-                    <img src="./assets/img/bao.png" />
-                    品牌爆款
-                </a>
-            </li>
-        </ul> 
-        -->
-        <!-- 栏目排序筛选 -->
-
-        <!-- 今日值得买 -->
-        <div class="fq-ad">
-            <img class="fq-ad-preferred am-margin-vertical-sm am-margin-left-sm" src="http://img.fqapps.com/FgO6QQQ6Mae0R9L7nbC-Rd5d7_1z-600" />
-            <div class="swiper-container fq-ad-slider am-slider am-slider-a1 am-margin-bottom-0">
-                <div class="swiper-wrapper">
-                    <% deserve.data.forEach(function(item,idx){ %>
-                    <% if(idx % 3 == 0){ %>
-                    <li class="swiper-slide">
-                        <ul class="fq-ad-goods am-avg-sm-3">
-                            <% } %>
-                            <li class="fq-slider-goods am-margin-bottom-sm">
-                                <div class="fq-background-white">
-                                    <a class="am-block" href="/item/<%=item.itemid%><%=cfg.suffix%>">
-                                        <img class="am-padding-xs" src="<%=item.itempic.indexOf('310x310') > 0 ?item.itempic:item.itempic+'_310x310.jpg'%>" />
-                                        <div class="fq-ad-messages am-padding-horizontal-xs am-padding-bottom-xs am-text-left">
-                                            <div class="am-text-truncate am-text-sm">
-                                                <%=item.itemtitle%>
-                                            </div>
-                                            <div class="fq-ad-person am-text-xs">
-                                                <span>原价￥
-                                                    <%=item.itemprice%></span></div>
-                                            <div class="fq-ad-price am-text-xs">
-                                                <span>券后￥
-                                                    <span class="am-text-sm" style="font-weight: bolder;">
-                                                        <%=item.itemendprice%></span></span>
-                                                <span class="fq-ad-coupon am-text-xs">券
-                                                    <%=item.couponmoney%></span></div>
-                                        </div>
-                                    </a>
-                                </div>
-                            </li>
-                            <% if( (idx+1) % 3 == 0 ){ %>
-                        </ul>
-                    </li>
-                    <% } %>
-                    <% }); %>
-                </div>
-                <div class="swiper-pagination"></div>
-            </div>
-        </div>
-        <!-- 四个推荐栏目 
-        <ul class="index-app-recommend am-avg-sm-2 am-padding-vertical-xs">
-            <li>
-              <a href="/act/1">
-                <img src="http://files.fqapps.com/jhs20180705-113221.png" /></a>
-            </li>
-            <li>
-              <a href="/act/2">
-                <img src="http://files.fqapps.com/tqg20180705-113241.png" /></a>
-            </li>
-            <li>
-              <a href="/act/3">
-                <img src="http://files.fqapps.com/bkd20180705-113209.png" /></a>
-            </li>
-            <li>
-              <a href="/act/4">
-                <img src="http://files.fqapps.com/sbq20180705-113235.png" /></a>
-            </li>
-        </ul>
-        -->
-        <!-- 商品单独推荐 -->
-
         <!-- 商品列表 -->
         <div class="item_list">
             <div class="am-text-center am-text-xs am-margin-bottom-xs am-margin-top-sm">
                 <img style="width:17px;" src="http://img.fqapps.com/Fn17i7PbU0JN8SuAzUru2gdNH9Wb-600" />
-                每日上新·好券不断
+                每日上新·京东精选
             </div>
             <ul class="index-goods-lists" id="goods_list" data-min="<%=items.min_id%>">
                 <% items.data.forEach(function(item){%>
-                <li class="tobuy" data-pid="<%=item.product_id%>" data-iid="<%=item.itemid%>" data-min="<%=items.min_id%>">
+                <li class="tobuy jd" data-pid="<%=item.product_id%>" data-iid="<%=item.itemid%>" data-min="<%=items.min_id%>">
                     <div class="goods-lists-goods">
                         <div class="img-box">
                             <img class="fq-goods-img fq-left lazy" data-original="<%=item.itempic%>" /></div>
@@ -266,8 +117,10 @@
                                 <text class="fq-goods-mark">
                                     <% if(item.shoptype=='B'){ %>
                                     <img src="http://img.fqapps.com/FiOqCid39BXPRU38KTwj9oG-vyKe-600" />
-                                    <% } else { %>
+                                    <% } else if(item.shoptype=='C') { %>
                                     <img src="http://img.fqapps.com/FmwANr1_lNmPzTHdIzSen6QuuSOv-600" />
+                                    <% } else { %>
+                                    <img src="/assets/img/jd.png" />
                                     <% } %>
                                 </text>
                             </div>
@@ -691,12 +544,12 @@
         <!-- index-app-menu -->
         <ul class=" am-avg-sm-4">
             <li>
-                <a href="<%=cfg.home%>" class="menu-active">
+                <a href="<%=cfg.home%>" >
                     <i class="iconfont icon-home"></i>
                     <span class="am-text-center">首页</span></a>
             </li>
             <li>
-                <a href="/jd" class="">
+                <a href="/jd" class="menu-active">
                     <i class="iconfont icon-rebang"></i>
                     <span class="am-text-center">京东</span></a>
             </li>
@@ -836,7 +689,13 @@
 
         $(document).on('click', '.tobuy', function () {
             setState();
-            var url = '/item/' + $(this).attr('data-iid') + '<%=cfg.suffix%>';
+            var url;
+            if (!$(this).hasClass('jd')) {
+                url = '/item/' + $(this).attr('data-iid') + '<%=cfg.suffix%>';
+            }
+            else {
+                url = '/jd/' + $(this).attr('data-iid')
+            }
             window.location.href = url;
         });
 

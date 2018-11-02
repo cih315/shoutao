@@ -12,6 +12,9 @@ const my_cache = {
         }
     },
     set: async function (key, value, ttl) {
+        if (ttl == undefined) {
+            ttl = 180
+        }
         if (use_redis) {
             return await redis_client.set(key, JSON.stringify(value), 'EX', parseInt(ttl))
         } else {
