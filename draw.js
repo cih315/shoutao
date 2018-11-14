@@ -45,7 +45,9 @@ async function downloadImage(context) {
     url = 'http:' + url;
   }
   return new Promise((res, rej) => {
-    let pipe = got.stream(url).on('error', (err) => {
+    let pipe = got.stream(url, {
+      timeout: 5000
+    }).on('error', (err) => {
       console.error(err)
       rej(err)
     }).pipe(fs.createWriteStream(context.tmpPath))

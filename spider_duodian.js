@@ -3,19 +3,23 @@ const got = require('got')
 const ejs = require('ejs')
 const fs = require("fs")
 const path = require('path')
+const dateformat = require('dateformat')
 var Hashids = require('hashids');
 var hashids = new Hashids();
+
+const api_item_detail = 'http://v2.api.haodanku.com/item_detail/apikey/lowangquan/itemid/'
+
 const pic = require('./draw')
 const h5coupon = require('./h5coupon')
 const pid = 'mm_14942785_97600036_18176850324';
 const session = '7000010142156277b007a9d4746a5ea9911e21a5c13626f4e238ea754331766154d5397267987083';
 
-const date = '20181106'
+const date = '20181114'
 const prefix = date + '-1'
 const outputBase = __dirname + '/dd/' + date + '/'
 const tmpBase = __dirname + '/tmp'
 const htmlFile = outputBase + prefix + '.html'
-const mp_link = 'https://mp.weixin.qq.com/s/oeTIr26s-sOq4nfkszdtVw'
+const mp_link = 'https://mp.weixin.qq.com/s/FTKeA0Liy3REQH0vqZczmw'
 const len = 100
 
 async function getMpHtml(url) {
@@ -175,8 +179,6 @@ function mkdirs(dirpath) {
                 var act_money = 0
                 var begin_date = new Date()
                 var end_date = new Date()
-                var ly = 1
-                var post_free = 1
                 var good_price = 0
                 if (info) {
                     info = info.replace(/满/g, '').replace(/减/g, '').split('元')
@@ -185,50 +187,43 @@ function mkdirs(dirpath) {
                     act_money = parseFloat(info[1])
                 }
                 //coupon detail
-                var rt = await h5coupon.fetch(item.ulandResult + '&pid=' + pid)
-                if (rt.data && rt.data.success) {
-                    var coupon = rt.data.result
-                    act_money = parseFloat(coupon.amount)
-                    if (!isNaN(act_money)) {
-                        begin_date = coupon.effectiveStartTime
-                        end_date = coupon.effectiveEndTime
-                        ly = coupon.item.tmall == '1' ? '1' : '2'
-                        post_free = coupon.item.postFree
-                        good_price = parseFloat(coupon.item.discountPrice)
-                        item.GoodsId = item.itemId || item.ulandData.item_id
-                        item.GoodsName = tkls[i].content
-                        item.ImgUrl = tkls[i].pic_url
-                        item.GoodsLink = 'https://item.taobao.com/'
-                        item.ActLink = item.ulandData.coupon_click_url
-                        item.TjRemark = ''
-                        item.GoodsPrice = good_price
-                        item.ActMoney = act_money
-                        item.LastPrice = item.GoodsPrice - item.ActMoney
-                        item.BeginDate = begin_date
-                        item.EndDate = end_date
-                        item.ly = 1
-                        //
-                        item.uland = item.ulandResult
-                        item.hashid = hashids.encode(item.GoodsId)
-                        //item.go = 'https://www.xuankejia.cn/go/'+item.GoodsId
-                        //item.go = 'https://www.xuankejia.cn/item/' + item.GoodsId
-                        var url = 'https://www.xuankejia.cn/item/' + item.GoodsId
-                        var api = 'http://api.weibo.com/2/short_url/shorten.json?source=2849184197&url_long=' + encodeURIComponent(url)
-                        try {
-                            var json = await got.get(api, {
-                                timeout: 5000
-                            });
-                            json = JSON.parse(json.body)
-                            url = json.urls[0].url_short
-                        } catch (e) {
-                            console.error('url_short error:', e)
-                        }
-                        item.go = url
-                        dataList.push(item)
-                        console.log(`${(++i)}/${size} parse item success : ${item.GoodsId}, effect:${begin_date}-${end_date}`)
-                    } else {
-                        console.log(`${(++i)}/${size} parse item NaN : ${item.GoodsId}`, JSON.stringify([item, rt]))
+                item.GoodsId = item.itemId || item.ulandData.item_id
+                var api = api_item_detail + item.GoodsId
+                var res = await got.get(api)
+                var body = JSON.parse(res.body)
+                if (body.msg == 'SUCCESS' && body.data) {
+                    begin_date = dateformat(new Date(parseInt(body.data.couponstarttime) * 1000),'yyyy-mm-dd HH:MM:ss')
+                    end_date = dateformat(new Date(parseInt(body.data.couponendtime) * 1000),'yyyy-mm-dd HH:MM:ss')
+                    good_price = body.data.itemprice
+                    item.GoodsName = body.data.itemtitle
+                    item.ly = body.data.shoptype == "C" ? '2' : '1'
+                    item.ImgUrl = tkls[i].pic_url
+                    item.GoodsLink = 'https://item.taobao.com/'
+                    item.ActLink = item.ulandData.coupon_click_url
+                    item.TjRemark = ''
+                    item.GoodsPrice = parseFloat(good_price)
+                    item.ActMoney = parseFloat(body.data.couponmoney)
+                    item.LastPrice = item.GoodsPrice - item.ActMoney
+                    item.BeginDate = begin_date
+                    item.EndDate = end_date
+                    item.uland = item.ulandResult
+                    item.hashid = hashids.encode(item.GoodsId)
+                    //item.go = 'https://www.xuankejia.cn/go/'+item.GoodsId
+                    //item.go = 'https://www.xuankejia.cn/item/' + item.GoodsId
+                    var url = 'https://www.xuankejia.cn/item/' + item.GoodsId
+                    var api = 'http://api.weibo.com/2/short_url/shorten.json?source=2849184197&url_long=' + encodeURIComponent(url)
+                    try {
+                        var json = await got.get(api, {
+                            timeout: 5000
+                        });
+                        json = JSON.parse(json.body)
+                        url = json.urls[0].url_short
+                    } catch (e) {
+                        console.error('url_short error:', e)
                     }
+                    item.go = url
+                    dataList.push(item)
+                    console.log(`${(++i)}/${size} parse item success : ${item.GoodsId}, effect:${begin_date}-${end_date}`)
                 }
                 await sleep(50)
             } else {
@@ -248,7 +243,7 @@ function mkdirs(dirpath) {
                     resultList.push(item)
                     num++
                 } catch (e) {
-                    //console.error(e)
+                    console.error(e)
                     console.log(`${++i} draw error`)
                 }
             }
