@@ -12,14 +12,14 @@ const api_item_detail = 'http://v2.api.haodanku.com/item_detail/apikey/lowangqua
 const pic = require('./draw')
 const h5coupon = require('./h5coupon')
 const pid = 'mm_14942785_97600036_18176850324';
-const session = '7000010142156277b007a9d4746a5ea9911e21a5c13626f4e238ea754331766154d5397267987083';
+const session = '700001005490f169b6da0e8c56574d5e0fc34e4085121bf1feb6b3ade062d1ce9949887267987083';
 
-const date = '20181116'
+const date = '20181117'
 const prefix = date + '-1'
 const outputBase = __dirname + '/dd/' + date + '/'
 const tmpBase = __dirname + '/tmp'
 const htmlFile = outputBase + prefix + '.html'
-const mp_link = 'https://mp.weixin.qq.com/s/jcAuOBeJfHHm7t34Z3MRUA'
+const mp_link = 'https://mp.weixin.qq.com/s/rqw08uN-kXCo8b52t4WCpQ'
 const len = 100
 
 async function getMpHtml(url) {
