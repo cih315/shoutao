@@ -8,7 +8,7 @@ var hashids = new Hashids();
 const pic = require('./draw')
 const h5coupon = require('./h5coupon')
 const pid = 'mm_14942785_97600036_18176850324';
-const session = '7000010142156277b007a9d4746a5ea9911e21a5c13626f4e238ea754331766154d5397267987083';
+const session = '70000100d124971b34ec9ece19c8fafc3f889c12850cafea0300ac192b4dbfb78d0103d267987083';
 //all
 var api = 'http://api.xuandan.com/DataApi/index?AppKey=8ua248rlp0&page=1&cid=0';
 //9.9
