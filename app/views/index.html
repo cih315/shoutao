@@ -29,6 +29,22 @@
 @media screen and (min-width:640px){.fq-search{margin-right:calc((100% - 640px)/ 2)}
 }
 </style>
+
+<div class="am-modal am-modal-no-btn" tabindex="-1" id="qrcode_ad">
+    <div class="am-modal-dialog">
+        <div class="am-modal-hd">
+            <span class="am-text-sm"><strong>↓长按识别二维码,免费领取单车卡↓</strong></span>
+            <a href="javascript: void(0)" class="am-close" style="top: -5px; right: 0px;" data-am-modal-close>&times;</a>
+        </div>
+        <div class="am-g">
+            <img src="https://assets.xuankejia.cn/shoutao/20181221/45c8f469ee629347ca7224d5d4a7756e.png" alt="青桔单车" />
+        </div>
+        <div>
+        </div>
+    </div>
+</div>
+
+
 <!-- 联系客服 -->
 <div class="am-modal am-modal-no-btn" tabindex="-1" id="qrcode_large">
     <div class="am-modal-dialog">
@@ -896,6 +912,9 @@
                 var key = key_value.replace("+", "%20");
                 window.location.href = "/parse<%=cfg.suffix%>?keyword=" + key;
             });
+            setTimeout(() => {
+              $('#qrcode_ad').modal({});
+              }, 500);
         });
     </script>
     <style>
