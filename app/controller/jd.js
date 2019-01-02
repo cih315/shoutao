@@ -14,14 +14,14 @@ const api_coupon_detail = 'http://qwd.jd.com/api/cps/product/getSearchgoods'
 const api_sku_coupon_detail = 'http://qwd.jd.com/fcgi-bin/mid_page'
 const api_item_share = 'http://qwd.jd.com/fcgi-bin/qwd_itemshare'
 /* API LIST */
-const jingfen_cookie = '__jda=122270672.15409780495211339717263.1540978049.1540981846.1541051550.3; __jdb=122270672.4.15409780495211339717263|3.1541051550; __jdc=122270672; mba_muid=15409780495211339717263.1.1541051661361; mba_sid=1.4; pin=wayne185; jfShareSource=1_7; qwd_chn=99; qwd_schn=2; app_id=161; apptoken=AEBA0B74C22B4EA1EF004C7E87F519E2D80462A1B16F7FF3025C0C5FCC1EA00ACF5B638AE5CAE9E7DB561EED5763FE7C38D9CA34B7CE9CE96A761BFAABB57865; client_type=apple; clientid=874A6B51-F836-4BD0-880C-E60B31FA6667; jdpin=wayne185; jxjpin=wayne185; levelName=%E9%87%91%E7%89%8C%E7%94%A8%E6%88%B7; nickname=wayne185; picture_url=http://storage.360buyimg.com/i.imageUpload/7761796e6531383531343030363631343138383537_mid.jpg; pinType=1; tgt=AAFb2XcKAECNNUrg6tnLYFgpEOFE99mVsBgzAv2nAMsneed2mayAfEfqmxEyGgGqxb2vw9nPB3gS_NqmIgWVu6_oHDuQklP_; userLevel=62; wg_skey=zp7AF3C4B9907A55AAD21727FE5498E1226E777B9B90D62E5EFDD0568AD9B5706C89B44499CCB8B7B2FA91843646686499; wg_uin=5032903798; wq_skey=zp7AF3C4B9907A55AAD21727FE5498E1226E777B9B90D62E5EFDD0568AD9B5706C89B44499CCB8B7B2FA91843646686499; wq_uin=5032903798; login_mode=1; pt_key=app_openAAFb2XcMADDBebIaZ_W_zry9velnAwkAaNrewViyP9d6Lr1PrQl4RshAE5XL-VUrq5_GNlc_7s0; pt_pin=wayne185; pwdt_id=wayne185; sid=a76338800e1cbce292513fb26427164w; __jdv=122270672|direct|-|none|-|1540978049524'
+const jingfen_cookie = '__jda=122270672.1543935193223862246025.1543935193.1545717868.1546414765.12; __jdb=122270672.1.1543935193223862246025|12.1546414765; __jdc=122270672; __jdv=122270672|direct|-|none|-|1546414765027; jfShareSource=1; mba_muid=1543935193223862246025.1.1546414765031; mba_sid=1.1; app_id=161; apptoken=076162633B1DB473D0E7D4007B69311E3383A6B6A214A9DCC681986FC94F004219ACC16CA6A2052A3577B4B4961F04E192CF2721DACAA0E65E0DD64EC80CB803; client_type=apple; clientid=9A5C92C9-1EF7-4956-8CFC-74FB7DD622AC; jdpin=wayne185; jxjpin=wayne185; levelName=%E9%87%91%E7%89%8C%E7%94%A8%E6%88%B7; nickname=wayne185; picture_url=http://storage.360buyimg.com/i.imageUpload/7761796e6531383531343030363631343138383537_mid.jpg; pinType=1; tgt=AAFcBpTzAEBoQn76OVr5JsEK9sPGSikIxu3SoDnNPLBDB37s_UASgvaKT36RgQ7q7jr2shkXMEbR5jDV3PnpRyKzhKjJtH8I; userLevel=62; wg_skey=zp7AF3C4B9907A55AAD21727FE5498E1226E777B9B90D62E5EFDD0568AD9B5706C89B44499CCB8B7B2FA91843646686499; wg_uin=5032903798; wq_skey=zp7AF3C4B9907A55AAD21727FE5498E1226E777B9B90D62E5EFDD0568AD9B5706C89B44499CCB8B7B2FA91843646686499; wq_uin=5032903798; login_mode=1; qwd_chn=99; qwd_schn=2; pin=wayne185'
 const ttl_jd_skuids = 60 * 60 * 24
 
 class Jd {
   constructor() {
     this.index = this.index.bind(this)
     this.detail = this.detail.bind(this)
-    schedule.scheduleJob('0 */3 * * * *', this.fetch_coupon)
+    schedule.scheduleJob('*/10 * * * * *', this.fetch_coupon)
   }
   /**
  * pid cfg
@@ -46,19 +46,29 @@ class Jd {
     var sku_ids = ''
     console.log('start to fetch jd skuids')
     //1. get the skuid list
-    var res = await got(api_coupon_page, {
+    //
+    var url = 'https://qwd.jd.com/cps/product/searchgoodsrecommend?sourceId=2&pageindex=1&pagesize=100'
+    var res = await got(url, {
       headers: {
+        'Cookie': jingfen_cookie,
         'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 12_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/16B92 MicroMessenger/6.7.3(0x16070321) NetType/WIFI Language/zh_CN'
       },
       timeout: 5000
     })
     var html = res.body
-    var reg = /"skuIds":\[(.+?)\]/i
-    var result = html.match(reg)
+    //console.log(html)
+    //var reg = /"skuIds":\[(.+?)\]/i
+    //var result = html.match(reg)
 
-    if (result && result.length > 0) {
-      sku_ids = result[1]
-    }
+    //if (result && result.length > 0) {
+    // sku_ids = result[1]
+    //}
+    var sku_arr = JSON.parse(html).sku
+    var sku_id_arr = []
+    sku_arr.forEach(element => {
+      sku_id_arr.push(element.skuId)
+    });
+    sku_ids = sku_id_arr.join(',')
     //2. get the sku list
     var api = api_coupon_detail + '?skuid=' + sku_ids
     res = await got(api, {
