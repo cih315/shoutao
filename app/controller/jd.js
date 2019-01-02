@@ -21,7 +21,7 @@ class Jd {
   constructor() {
     this.index = this.index.bind(this)
     this.detail = this.detail.bind(this)
-    schedule.scheduleJob('*/10 * * * * *', this.fetch_coupon)
+    schedule.scheduleJob('0 */5 * * * *', this.fetch_coupon)
   }
   /**
  * pid cfg
