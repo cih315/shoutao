@@ -19,7 +19,7 @@ var hashids = new Hashids();
 const api_item_detail = 'http://v2.api.haodanku.com/item_detail/apikey/lowangquan/itemid/'
 const pic = require('./draw')
 
-const date = '20190102'
+const date = '20190103'
 const prefix = date + '-1'
 const outputBase = __dirname + '/dd/' + date + '/'
 const tmpBase = __dirname + '/tmp'
