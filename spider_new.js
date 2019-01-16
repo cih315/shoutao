@@ -1,5 +1,5 @@
 const pid = 'mm_14942785_97600036_18176850324'
-const session = '70000100d124971b34ec9ece19c8fafc3f889c12850cafea0300ac192b4dbfb78d0103d267987083'
+const session = '7000010132935629898d8a9f5aa660b090a7f49bf106aeb3ba5ecb8fb76a608aecdc3a2267987083'
 const night_url = 'http://server.dangqugame.cn/duodian/youhui/usercoupon/getNightArticle'
 const token = 'ep1z4CmBKyFMGVdRK20Z3g=='
 
@@ -19,7 +19,7 @@ var hashids = new Hashids();
 const api_item_detail = 'http://v2.api.haodanku.com/item_detail/apikey/lowangquan/itemid/'
 const pic = require('./draw')
 
-const date = '20190105'
+const date = '20190116'
 const prefix = date + '-1'
 const outputBase = __dirname + '/dd/' + date + '/'
 const tmpBase = __dirname + '/tmp'
