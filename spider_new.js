@@ -1,5 +1,5 @@
 const pid = 'mm_14942785_97600036_18176850324'
-const session = '7000010132935629898d8a9f5aa660b090a7f49bf106aeb3ba5ecb8fb76a608aecdc3a2267987083'
+const session = '7000010024474d01470ecbb2ba24757fff3e184cdb463a8b03614e6314957c665c5739c267987083'
 const night_url = 'http://server.dangqugame.cn/duodian/youhui/usercoupon/getNightArticle'
 const token = 'ep1z4CmBKyFMGVdRK20Z3g=='
 
