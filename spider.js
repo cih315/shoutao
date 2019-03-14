@@ -38,7 +38,7 @@ async function loadItem() {
     if (!fs.existsSync(tmpBase + '/data.json')) {
       console.log('item count: ' + dataList.length)
       var marketImage = 'https://img.wificoin.ml/shoutao/tkl.jpg';
-      marketImage = 'https://gw.alicdn.com/tfs/TB1c.wHdh6I8KJjy0FgXXXXzVXa-580-327.png';
+      marketImage = 'http://c.chaozhi.hk/timg.jpg';
       let tjRemark;
       for (i in dataList) {
         var item = dataList[i];

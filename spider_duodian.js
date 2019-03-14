@@ -85,7 +85,7 @@ async function sleep(time) {
 }
 
 
-async function uland(url, pid, tklTitle = '选客家粉丝福利购', tklImg = 'https://gw.alicdn.com/tfs/TB1c.wHdh6I8KJjy0FgXXXXzVXa-580-327.png') {
+async function uland(url, pid, tklTitle = '选客家粉丝福利购', tklImg = 'http://c.chaozhi.hk/timg.jpg') {
     let api = 'http://api.chaozhi.hk/tb/ulandArray'
     let body = querystring.stringify({
         urls: url,

@@ -1,5 +1,5 @@
 const pid = 'mm_14942785_97600036_18176850324'
-const session = '7000010024474d01470ecbb2ba24757fff3e184cdb463a8b03614e6314957c665c5739c267987083'
+const session = '70000101723758f944bc5cb4147c8d168ab1991df3bf81a81d52ecf8af7b615c3b7acbe267987083'
 const night_url = 'http://server.dangqugame.cn/duodian/youhui/usercoupon/getNightArticle'
 const token = 'ep1z4CmBKyFMGVdRK20Z3g=='
 
@@ -55,7 +55,7 @@ async function sleep(time) {
 
 
 
-async function uland(url, pid, tklTitle = '选客家粉丝福利购', tklImg = 'https://gw.alicdn.com/tfs/TB1c.wHdh6I8KJjy0FgXXXXzVXa-580-327.png') {
+async function uland(url, pid, tklTitle = '选客家粉丝福利购', tklImg = 'http://c.chaozhi.hk/timg.jpg') {
   let api = 'http://api.chaozhi.hk/tb/ulandArray'
   let body = querystring.stringify({
     urls: url,
@@ -229,7 +229,7 @@ async function night(url) {
       if (!fs.existsSync(outputPath)) {
         try {
           var filePath = await pic.draw({ item: item, outputPath: outputPath })
-          item.shoutao = 'https://img.wificoin.ml/shoutao/' + date + '/' + item.hashid + '.jpg'
+          item.shoutao = 'http://img.wificoin.ml/shoutao/' + date + '/' + item.hashid + '.jpg'
           resultList.push(item)
           num++
         } catch (e) {
